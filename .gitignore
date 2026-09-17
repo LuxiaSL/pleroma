@@ -1,0 +1,7 @@
+# fetched by data/fetch_calibration.sh (172MB release asset)
+data/calibration/3b/positional_means.npz
+# run products
+outputs/
+__pycache__/
+*.pyc
+.venv/

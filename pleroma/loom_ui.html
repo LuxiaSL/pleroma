@@ -1,0 +1,3117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="auto">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LOOM v0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ----
+   LOOM v0 — instrument panel
+   tokens
+   ---- */
+:root{
+  --bg:          #0a0d10;
+  --bg-panel:    #0e1216;
+  --bg-sunk:     #070a0c;
+  --bg-raise:    #141a20;
+  --hair:        #1e262d;
+  --hair-strong: #2c3740;
+  /* three text tiers, each measured >= 4.5:1 against its own surface —
+     the micro-labels on this panel are numbers you actually read */
+  --ink:         #c6d0d8;
+  --ink-dim:     #93a1ac;
+  --ink-faint:   #75828d;
+  --warp:        #5fb6c4;   /* loom / threads / cool structure   */
+  --warp-dim:    #2b5a63;
+  --weft:        #e0a94b;   /* worn / bent state — the accent    */
+  --weft-dim:    #6b4f1e;
+  --alarm:       #e06a5c;
+  --ok:          #6fbf8a;
+  /* the two 2-means camps: which basin a thread falls toward. camp A
+     reuses the structural cool; camp B needs its own hue, and it must
+     not be amber, because amber means worn and only worn. */
+  --camp-a:      #5fb6c4;
+  --camp-a-dim:  #2b5a63;
+  --camp-b:      #a793d8;
+  --camp-b-dim:  #534a78;
+
+  --z-inert:      #1a2127;
+  --z-subliminal: #14414c;
+  --z-threshold:  #4b4527;
+  --z-audible:    #6d4a17;
+  --z-overdriven: #5a2320;
+
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --r: 3px;
+  --gutter: 62px;   /* the warp gutter the thread-fan is drawn in */
+  --shadow: 0 1px 0 rgba(255,255,255,.025) inset, 0 8px 24px -12px rgba(0,0,0,.8);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:          #eceef0;
+    --bg-panel:    #f7f8f9;
+    --bg-sunk:     #e2e5e8;
+    --bg-raise:    #ffffff;
+    --hair:        #d3d8dd;
+    --hair-strong: #b4bcc4;
+    --ink:         #1d252b;
+    --ink-dim:     #4a5660;
+    --ink-faint:   #5a646e;
+    --warp:        #1f7684;
+    --warp-dim:    #9fc9d0;
+    --weft:        #97640b;
+    --weft-dim:    #e0c68e;
+    --alarm:       #b23528;
+    --ok:          #2b7a4d;
+    --camp-a:      #1f7684;
+    --camp-a-dim:  #9fc9d0;
+    --camp-b:      #5a4a91;
+    --camp-b-dim:  #c2bade;
+    --z-inert:      #dfe3e7;
+    --z-subliminal: #b9dde3;
+    --z-threshold:  #e6dcb2;
+    --z-audible:    #efd0a0;
+    --z-overdriven: #f0bdb6;
+    --shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 6px 18px -12px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#eceef0; --bg-panel:#f7f8f9; --bg-sunk:#e2e5e8; --bg-raise:#ffffff;
+  --hair:#d3d8dd; --hair-strong:#b4bcc4;
+  --ink:#1d252b; --ink-dim:#4a5660; --ink-faint:#5a646e;
+  --warp:#1f7684; --warp-dim:#9fc9d0; --weft:#97640b; --weft-dim:#e0c68e;
+  --alarm:#b23528; --ok:#2b7a4d;
+  --camp-a:#1f7684; --camp-a-dim:#9fc9d0; --camp-b:#5a4a91; --camp-b-dim:#c2bade;
+  --z-inert:#dfe3e7; --z-subliminal:#b9dde3; --z-threshold:#e6dcb2;
+  --z-audible:#efd0a0; --z-overdriven:#f0bdb6;
+  --shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 6px 18px -12px rgba(0,0,0,.35);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  display:flex; flex-direction:column; overflow:hidden;
+}
+/* faint warp threads in the backdrop */
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:repeating-linear-gradient(90deg, transparent 0 63px, color-mix(in srgb, var(--warp) 9%, transparent) 63px 64px);
+  opacity:.5;
+}
+button,input,textarea,select{ font:inherit; color:inherit; }
+:focus-visible{ outline:1px solid var(--warp); outline-offset:1px; }
+
+.mono{ font-family:var(--mono); font-variant-numeric:tabular-nums; }
+.lbl{ font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); }
+
+/* ── header rig ---- */
+.rig{
+  position:relative; z-index:2; flex:0 0 auto;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:8px 14px; background:var(--bg-panel);
+  border-bottom:1px solid var(--hair-strong);
+}
+.brand{ display:flex; align-items:baseline; gap:7px; font-family:var(--mono); font-weight:600;
+  letter-spacing:.34em; font-size:14px; }
+.brand em{ font-style:normal; color:var(--warp); }
+.brand .ver{ letter-spacing:.1em; font-size:9.5px; color:var(--ink-faint); }
+
+.prov{ display:flex; gap:2px; flex-wrap:wrap; align-items:center; flex:1 1 260px; min-width:0; }
+.prov .cell{
+  display:flex; align-items:baseline; gap:5px; padding:2px 8px;
+  border-left:1px solid var(--hair); white-space:nowrap;
+}
+.prov .cell:first-child{ border-left:0; }
+.prov .k{ font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); }
+.prov .v{ font-family:var(--mono); font-size:11px; color:var(--ink-dim); font-variant-numeric:tabular-nums; max-width:22ch; overflow:hidden; text-overflow:ellipsis; }
+.prov .v.hot{ color:var(--warp); }
+
+.rig-right{ display:flex; align-items:center; gap:6px; margin-left:auto; }
+.field{ display:flex; align-items:center; gap:6px; background:var(--bg-sunk);
+  border:1px solid var(--hair); border-radius:var(--r); padding:2px 8px; }
+.field input{ background:transparent; border:0; font-family:var(--mono); font-size:12px; width:8ch; padding:2px 0; }
+.field input:focus{ outline:none; }
+.field input[type=number]{ width:5ch; }
+
+button{
+  background:var(--bg-raise); border:1px solid var(--hair-strong); color:var(--ink);
+  border-radius:var(--r); padding:5px 11px; cursor:pointer;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+  transition:background .12s, border-color .12s, color .12s;
+}
+button:hover:not(:disabled){ border-color:var(--warp); color:var(--warp); }
+button:disabled{ opacity:.35; cursor:not-allowed; }
+button.primary{ border-color:var(--warp-dim); color:var(--warp); background:color-mix(in srgb, var(--warp) 10%, var(--bg-raise)); }
+button.primary:hover:not(:disabled){ background:color-mix(in srgb, var(--warp) 20%, var(--bg-raise)); }
+button.weft{ border-color:var(--weft-dim); color:var(--weft); background:color-mix(in srgb, var(--weft) 10%, var(--bg-raise)); }
+button.weft:hover:not(:disabled){ background:color-mix(in srgb, var(--weft) 22%, var(--bg-raise)); border-color:var(--weft); color:var(--weft); }
+button.danger:hover:not(:disabled){ border-color:var(--alarm); color:var(--alarm); }
+button.armed{ border-color:var(--alarm); color:var(--alarm); background:color-mix(in srgb, var(--alarm) 14%, var(--bg-raise)); }
+button.tiny{ padding:3px 7px; font-size:9px; }
+
+/* ── worn bar ---- */
+.wearbar{
+  position:relative; z-index:2; flex:0 0 auto;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:6px 14px; border-bottom:1px solid var(--hair);
+  background:var(--bg-sunk); min-height:35px;
+  font-family:var(--mono); font-size:11px;
+}
+.wearbar.on{
+  background:linear-gradient(90deg, color-mix(in srgb, var(--weft) 16%, var(--bg-sunk)), var(--bg-sunk) 70%);
+  border-bottom-color:var(--weft-dim);
+}
+.lamp{ width:7px; height:7px; border-radius:50%; background:var(--ink-faint); flex:0 0 auto;
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--ink) 18%, transparent); }
+.wearbar.on .lamp{ background:var(--weft); box-shadow:0 0 9px var(--weft), 0 0 0 1px var(--weft-dim); animation:pulse 2.6s ease-in-out infinite; }
+@keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.45} }
+.wearbar .txt{ color:var(--ink-dim); }
+.wearbar.on .txt{ color:var(--ink); }
+.wearbar .big{ color:var(--weft); font-weight:600; font-size:12px; }
+.sitebars{ display:flex; gap:8px; align-items:flex-end; margin-left:auto; }
+.sitebar{ display:flex; flex-direction:column; align-items:center; gap:3px; width:34px; }
+.sitebar .bar{ width:100%; height:12px; background:var(--bg-panel); border:1px solid var(--hair); position:relative; overflow:hidden; }
+.sitebar .bar i{ position:absolute; left:0; top:0; bottom:0; background:var(--weft); opacity:.85; }
+.sitebar .bar i.ghost{ opacity:.2; }   /* the norm at α=1, behind the dosed norm */
+.sitebar .n{ font-size:8.5px; color:var(--ink-faint); letter-spacing:.06em; }
+
+/* ── main grid ---- */
+main{ position:relative; z-index:1; flex:1 1 auto; min-height:0; display:grid;
+  grid-template-columns:minmax(360px, 1.05fr) minmax(360px, .95fr); }
+.col{ min-width:0; min-height:0; display:flex; flex-direction:column; }
+.col.deck{ border-left:1px solid var(--hair-strong); background:var(--bg-panel); }
+
+.colhead{
+  flex:0 0 auto; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  padding:6px 12px; border-bottom:1px solid var(--hair); background:var(--bg-panel);
+  min-height:36px;
+}
+.seg{ display:flex; border:1px solid var(--hair-strong); border-radius:var(--r); overflow:hidden; }
+.seg button{ border:0; border-radius:0; border-right:1px solid var(--hair-strong); background:transparent; padding:4px 11px; }
+.seg button:last-child{ border-right:0; }
+.seg button[aria-pressed="true"]{ background:color-mix(in srgb, var(--warp) 16%, transparent); color:var(--warp); }
+.seg button:hover:not(:disabled){ color:var(--warp); }
+.chk{ display:flex; align-items:center; gap:5px; cursor:pointer; user-select:none; }
+.chk input{ accent-color:var(--warp); margin:0; }
+
+/* ── transcript ---- */
+.panes{ flex:1 1 auto; min-height:0; display:flex; }
+.pane{ flex:1 1 0; min-width:0; display:flex; flex-direction:column; border-right:1px solid var(--hair); }
+.pane:last-child{ border-right:0; }
+.pane[hidden]{ display:none; }
+.pane-tag{
+  flex:0 0 auto; padding:3px 12px; background:var(--bg-sunk); border-bottom:1px solid var(--hair);
+  font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint);
+  display:flex; gap:8px; align-items:center;
+}
+.pane[data-branch="loom"] .pane-tag{ color:var(--warp); box-shadow:inset 2px 0 0 var(--warp-dim); }
+.pane[data-branch="base"] .pane-tag{ box-shadow:inset 2px 0 0 var(--hair-strong); }
+.scroll{ flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; padding:12px; scrollbar-width:thin; }
+.scroll::-webkit-scrollbar{ width:9px; height:9px; }
+.scroll::-webkit-scrollbar-thumb{ background:var(--hair-strong); border-radius:9px; }
+.scroll::-webkit-scrollbar-track{ background:transparent; }
+
+.msg{ margin:0 0 14px; display:flex; flex-direction:column; gap:3px; }
+.msg .who{ font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint); }
+.msg .body{ white-space:pre-wrap; word-wrap:break-word; overflow-wrap:anywhere; }
+.msg.user .body{
+  border-left:2px solid var(--hair-strong); padding:2px 0 2px 10px; color:var(--ink-dim);
+}
+.msg.bot .body{ border-left:2px solid var(--warp-dim); padding:2px 0 2px 10px; }
+.msg.bot.bent .body{ border-left-color:var(--weft); }
+.msg.bot.bent .who{ color:var(--weft); }
+.msg .meta{ display:flex; gap:10px; flex-wrap:wrap; padding-left:12px;
+  font-family:var(--mono); font-size:9.5px; color:var(--ink-faint); }
+.msg .meta .warn{ color:var(--alarm); }
+.msg .meta .bent{ color:var(--weft); }
+/* per-exchange verbs: quiet until you reach for them, always keyboard-reachable */
+.msg .acts{ display:flex; gap:5px; padding-left:12px; margin-top:2px;
+  opacity:0; transition:opacity .12s; }
+.msg:hover .acts, .msg:focus-within .acts, .msg .acts:focus-within{ opacity:1; }
+.msg .acts button{ padding:1px 7px; font-size:8.5px; letter-spacing:.12em;
+  background:transparent; border-color:var(--hair); }
+.msg .acts button:hover:not(:disabled){ background:var(--bg-raise); }
+.msg .acts button.warn:hover:not(:disabled){ border-color:var(--alarm); color:var(--alarm); }
+.msg.target .body{ border-left-color:var(--weft) !important;
+  background:color-mix(in srgb, var(--weft) 8%, transparent); }
+
+/* the reply a reroll displaced, kept for exactly one step */
+.prevtake{ margin:4px 0 0 12px; border-left:2px dotted var(--hair-strong); padding-left:10px; }
+.prevtake summary{ cursor:pointer; font-family:var(--mono); font-size:9px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint); list-style:none; }
+.prevtake summary::-webkit-details-marker{ display:none; }
+.prevtake summary::before{ content:"▸ "; }
+.prevtake[open] summary::before{ content:"▾ "; }
+.prevtake .old{ margin-top:4px; white-space:pre-wrap; overflow-wrap:anywhere;
+  font-size:12px; color:var(--ink-faint); }
+
+.msg.err .body{ border-left-color:var(--alarm); color:var(--alarm); font-family:var(--mono); font-size:12px; }
+.msg.sys .body{ border-left:2px dashed var(--hair-strong); color:var(--ink-faint);
+  font-family:var(--mono); font-size:10.5px; padding:2px 0 2px 10px; }
+.empty{ color:var(--ink-faint); font-family:var(--mono); font-size:10.5px; letter-spacing:.06em;
+  padding:22px 4px; line-height:1.9; }
+
+.thinking{ display:flex; align-items:center; gap:8px; font-family:var(--mono); font-size:10px;
+  color:var(--warp); letter-spacing:.12em; text-transform:uppercase; padding-left:12px; }
+.thinking .dots i{ display:inline-block; width:4px; height:4px; margin-right:3px; border-radius:50%;
+  background:var(--warp); animation:blink 1.1s infinite; }
+.thinking .dots i:nth-child(2){ animation-delay:.18s } .thinking .dots i:nth-child(3){ animation-delay:.36s }
+@keyframes blink{ 0%,100%{opacity:.2} 50%{opacity:1} }
+
+/* ── composer ---- */
+.composer{ flex:0 0 auto; border-top:1px solid var(--hair-strong); background:var(--bg-panel); padding:10px 12px 11px; }
+.composer textarea{
+  width:100%; min-height:62px; max-height:34vh; resize:vertical;
+  background:var(--bg-sunk); border:1px solid var(--hair); border-radius:var(--r);
+  padding:9px 10px; line-height:1.5; color:var(--ink);
+}
+.composer textarea:focus{ outline:none; border-color:var(--warp-dim); box-shadow:0 0 0 1px var(--warp-dim); }
+.composer-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:8px; }
+
+/* editing an existing turn, and the undo that must never lose your words */
+.editbar, .undobar{
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:8px;
+  padding:6px 9px; border-radius:var(--r); font-family:var(--mono); font-size:10px;
+}
+.editbar[hidden], .undobar[hidden]{ display:none; }
+.editbar{ border:1px solid var(--weft); border-left-width:3px;
+  background:color-mix(in srgb, var(--weft) 12%, var(--bg-sunk)); }
+.editbar.destructive{ border-color:var(--alarm);
+  background:color-mix(in srgb, var(--alarm) 13%, var(--bg-sunk)); }
+.editbar .what{ color:var(--ink); }
+.editbar .warn{ flex:1 1 100%; color:var(--alarm); line-height:1.45; }
+.undobar{ border:1px dashed var(--hair-strong); background:var(--bg-sunk); color:var(--ink-dim); }
+.undobar .t{ flex:1 1 220px; min-width:0; color:var(--ink);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.hint{ font-family:var(--mono); font-size:9px; color:var(--ink-faint); letter-spacing:.06em; }
+.spacer{ flex:1 1 auto; }
+
+/* ── deck / futures ---- */
+.deckbody{ flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; position:relative; padding:10px 12px 14px 0; scrollbar-width:thin; }
+.deckbody::-webkit-scrollbar{ width:9px } .deckbody::-webkit-scrollbar-thumb{ background:var(--hair-strong); border-radius:9px }
+.fan{ position:absolute; left:0; top:0; width:var(--gutter); pointer-events:none; overflow:visible; }
+.cards{ margin-left:var(--gutter); display:flex; flex-direction:column; gap:9px; }
+
+.contemplated{
+  margin:0 0 10px var(--gutter); padding:7px 10px; border:1px dashed var(--hair-strong);
+  border-radius:var(--r); background:var(--bg-sunk);
+}
+.contemplated .lbl{ display:block; margin-bottom:3px; }
+.contemplated .t{ font-size:12.5px; color:var(--ink-dim); white-space:pre-wrap; overflow-wrap:anywhere;
+  max-height:5.2em; overflow:auto; }
+.contemplated.stale{ border-color:var(--alarm); }
+.contemplated .flag{ display:block; margin-top:5px; font-family:var(--mono); font-size:9.5px; color:var(--alarm); }
+
+.underwear{
+  margin:0 0 10px var(--gutter); padding:6px 10px; border-left:2px solid var(--weft);
+  background:color-mix(in srgb, var(--weft) 12%, transparent);
+  font-family:var(--mono); font-size:10.5px; color:var(--weft); border-radius:0 var(--r) var(--r) 0;
+}
+
+.card{
+  position:relative; border:1px solid var(--hair); border-radius:var(--r);
+  background:var(--bg-raise); box-shadow:var(--shadow);
+  cursor:pointer; transition:border-color .12s, transform .12s, background .12s;
+}
+.card:hover:not(.dead){ border-color:var(--warp-dim); transform:translateX(2px); }
+.card.sel{ border-color:var(--warp); background:color-mix(in srgb, var(--warp) 7%, var(--bg-raise)); }
+.card.sel.worn{ border-color:var(--weft); background:color-mix(in srgb, var(--weft) 9%, var(--bg-raise)); }
+.card.worn:not(.sel){ border-color:var(--weft-dim); }
+.card.dead{ cursor:not-allowed; opacity:.55; border-style:dashed; }
+.card-head{ display:flex; align-items:center; gap:9px; padding:6px 9px; border-bottom:1px solid var(--hair);
+  font-family:var(--mono); font-size:10px; letter-spacing:.06em; }
+.card .ix{ font-weight:600; font-size:12px; color:var(--warp); min-width:2.6ch; }
+.card.sel .ix{ color:var(--warp); } .card.worn .ix{ color:var(--weft); }
+.card .tok{ color:var(--ink-faint); }
+.card .tag{ margin-left:auto; padding:1px 6px; border:1px solid var(--hair-strong); border-radius:2px;
+  font-size:8.5px; letter-spacing:.14em; color:var(--ink-faint); }
+.card .tag.ok{ color:var(--ok); border-color:color-mix(in srgb, var(--ok) 45%, transparent); }
+.card .tag.bad{ color:var(--alarm); border-color:color-mix(in srgb, var(--alarm) 45%, transparent); }
+.card .tag.wornt{ color:var(--weft); border-color:var(--weft); }
+.card-body{ padding:8px 10px; font-size:12.5px; line-height:1.55; white-space:pre-wrap;
+  overflow-wrap:anywhere; max-height:8.5em; overflow:hidden; position:relative; color:var(--ink-dim); }
+.card.sel .card-body{ max-height:none; color:var(--ink); }
+.card-body::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:2.2em;
+  background:linear-gradient(transparent, var(--bg-raise)); pointer-events:none; }
+.card.sel .card-body::after{ display:none; }
+.card .note{ padding:6px 10px; border-top:1px dashed var(--hair-strong);
+  font-family:var(--mono); font-size:10px; color:var(--alarm); overflow-wrap:anywhere; }
+
+/* ── per-thread scores ---- */
+.card[data-camp="0"]{ box-shadow: inset 2px 0 0 var(--camp-a-dim), var(--shadow); }
+.card[data-camp="1"]{ box-shadow: inset 2px 0 0 var(--camp-b-dim), var(--shadow); }
+.card .camp{ padding:1px 6px; border-radius:2px; font-size:8.5px; letter-spacing:.14em;
+  border:1px solid currentColor; }
+.card .camp.a{ color:var(--camp-a); } .card .camp.b{ color:var(--camp-b); }
+
+.scores{ display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:5px 10px; border-bottom:1px solid var(--hair); background:var(--bg-sunk);
+  font-family:var(--mono); font-size:9.5px; font-variant-numeric:tabular-nums; }
+.scores .sc{ display:flex; align-items:center; gap:5px; color:var(--ink-faint); white-space:nowrap; }
+.scores .sc b{ font-weight:600; color:var(--ink-dim); }
+.scores .sc.primary b{ font-size:12px; color:var(--ink); }
+.scores .meter{ width:46px; height:4px; background:var(--bg-panel); border:1px solid var(--hair);
+  border-radius:2px; position:relative; overflow:hidden; }
+.scores .meter i{ position:absolute; top:0; bottom:0; background:var(--warp); opacity:.8; }
+.card.worn .scores .meter i{ background:var(--weft); }
+.scores .meter.signed{ width:52px; }
+.scores .meter.signed::before{ content:""; position:absolute; left:50%; top:0; bottom:0; width:1px;
+  background:var(--hair-strong); }
+.scores .none{ color:var(--ink-faint); font-style:italic; }
+
+/* ---- the code fingerprint: 8 anonymous axes, bank-normalised ---- */
+.fp{ display:block; overflow:visible; }
+.fp rect{ shape-rendering:crispEdges; }
+.sc.fpwrap{ gap:7px; }
+.sc.fpwrap .cap{ color:var(--ink-faint); }
+
+/* ---- constellation: the fan as points in code space ---- */
+.constellation{
+  flex:0 0 auto; border-bottom:1px solid var(--hair); background:var(--bg-sunk);
+  padding:7px 12px 9px;
+}
+.constellation[hidden]{ display:none; }
+.constel-head{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:5px;
+  font-family:var(--mono); font-size:9.5px; color:var(--ink-faint); }
+.constel-head select{ background:var(--bg-panel); border:1px solid var(--hair);
+  border-radius:2px; font-family:var(--mono); font-size:10px; padding:1px 4px; color:var(--ink); }
+.constel-head .key{ display:inline-flex; align-items:center; gap:4px; }
+.constel-head .key i{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+.constelbox{ position:relative; width:100%; height:190px; border:1px solid var(--hair);
+  border-radius:2px; background:var(--bg-panel); overflow:hidden; }
+.constelbox svg{ display:block; width:100%; height:100%; }
+.constel.stale .constelbox{ opacity:.38; }
+.constellation .prov1{ display:block; margin-top:5px; font-family:var(--mono); font-size:9px;
+  color:var(--ink-faint); line-height:1.5; }
+.cpt{ cursor:pointer; }
+.cpt:hover{ stroke:var(--ink); stroke-width:1; }
+@keyframes flare2{ 0%{ r:11; opacity:1 } 100%{ r:4.5; opacity:0 } }
+.cflash{ animation:flare2 1.1s ease-out 2; }
+
+/* ── fan-level spread readout ---- */
+.spread{
+  flex:0 0 auto; padding:6px 12px; border-bottom:1px solid var(--hair);
+  background:var(--bg-sunk); font-family:var(--mono); font-size:10px;
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap; min-height:30px;
+}
+.spread .name{ font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint); }
+.spread .grp{ display:flex; align-items:center; gap:6px; color:var(--ink-faint); white-space:nowrap; }
+.spread .grp b{ font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums; }
+.spread .meter{ width:74px; height:5px; background:var(--bg-panel); border:1px solid var(--hair);
+  border-radius:2px; position:relative; overflow:hidden; }
+.spread .meter i{ position:absolute; top:0; bottom:0; left:0; background:var(--warp); opacity:.8; }
+.spread .campbar{ display:flex; width:74px; height:7px; border:1px solid var(--hair); border-radius:2px; overflow:hidden; }
+.spread .campbar b{ display:block; }
+.spread .campbar .a{ background:var(--camp-a); opacity:.75; }
+.spread .campbar .b{ background:var(--camp-b); opacity:.75; }
+.spread .caption{ flex:1 1 100%; color:var(--ink-faint); font-size:9.5px; line-height:1.45; }
+.spread.quiet{ color:var(--ink-faint); }
+
+/* ── auto-wear ---- */
+.autorow{
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-top:8px;
+  padding:6px 9px; border:1px dashed var(--hair-strong); border-radius:var(--r);
+  background:var(--bg-sunk);
+}
+.autorow.armed{ border:1px solid var(--weft); border-left-width:3px;
+  background:color-mix(in srgb, var(--weft) 12%, var(--bg-sunk)); }
+.autorow select{
+  background:var(--bg-panel); border:1px solid var(--hair); border-radius:var(--r);
+  font-family:var(--mono); font-size:11px; padding:3px 6px; color:var(--ink);
+}
+.autorow select:disabled{ opacity:.5; }
+.autorow .why{ flex:1 1 100%; font-family:var(--mono); font-size:9.5px; color:var(--ink-faint); line-height:1.45; }
+/* the armed STATE is carried by the border, tint and button; this is the
+   prose that explains it, so it stays maximally readable rather than amber */
+.autorow.armed .why{ color:var(--ink); }
+.autorow .dose{ font-family:var(--mono); font-size:10px; color:var(--ink-dim); white-space:nowrap; }
+.autorow.armed .dose b{ color:var(--weft); }
+.autorow .blocked{ color:var(--alarm) !important; }
+
+.autobanner{
+  margin:0 0 10px var(--gutter); padding:8px 11px;
+  border:1px solid var(--weft); border-left-width:3px; border-radius:var(--r);
+  background:color-mix(in srgb, var(--weft) 16%, transparent);
+  font-family:var(--mono); font-size:11px; color:var(--weft);
+  animation:flare .5s ease-out;
+}
+.autobanner .hd{ display:block; font-weight:600; letter-spacing:.06em; margin-bottom:3px; }
+.autobanner .sub{ display:block; color:var(--ink-dim); font-size:9.5px; }
+.autobanner .sub.fallback{ color:var(--alarm); margin-bottom:3px; }
+.spread .perdraw{ padding:0 5px; border:1px dashed var(--hair-strong); border-radius:2px;
+  font-size:8px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); }
+@keyframes flare{ from{ background:color-mix(in srgb, var(--weft) 55%, transparent) } to{} }
+
+/* loom progress */
+.shuttle-wrap{ margin-left:var(--gutter); border:1px solid var(--warp-dim); border-radius:var(--r);
+  background:var(--bg-sunk); padding:12px; }
+.shuttle{ position:relative; height:26px; overflow:hidden; border-top:1px solid var(--hair);
+  border-bottom:1px solid var(--hair);
+  background:repeating-linear-gradient(90deg, transparent 0 9px, color-mix(in srgb, var(--warp) 20%, transparent) 9px 10px); }
+.shuttle i{ position:absolute; top:0; bottom:0; width:46px; left:0;
+  background:linear-gradient(90deg, transparent, var(--warp), transparent); opacity:.8;
+  animation:sh 1.65s cubic-bezier(.45,0,.55,1) infinite alternate; }
+@keyframes sh{ from{ transform:translateX(0) } to{ transform:translateX(var(--run,260px)) } }
+/* once the server reports counts, the shuttle gives way to a real fill */
+.shuttle b.fill{ position:absolute; left:0; top:0; bottom:0; width:0;
+  background:var(--warp); opacity:.45; transition:width .35s ease-out; }
+.shuttle.determinate i{ display:none; }
+.shuttle-meta{ display:flex; justify-content:space-between; gap:10px; margin-top:8px;
+  font-family:var(--mono); font-size:10px; color:var(--ink-dim); }
+.stages{ display:flex; align-items:center; gap:7px; margin-bottom:7px;
+  font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; }
+.stages .stage{ padding:1px 7px; border:1px solid var(--hair-strong); border-radius:2px;
+  color:var(--ink-faint); }
+.stages .stage.on{ border-color:var(--warp); color:var(--warp);
+  background:color-mix(in srgb, var(--warp) 14%, transparent); }
+.stages .stage.done{ border-color:var(--ok); color:var(--ok); }
+.stages .arr{ color:var(--ink-faint); }
+.shuttle-wrap.foreign{ border-color:var(--weft-dim); }
+.shuttle-wrap .foreignnote{ display:block; margin-bottom:7px; font-family:var(--mono);
+  font-size:10px; color:var(--weft); }
+
+.timing{ margin:0 0 10px var(--gutter); }
+.timing .bar{ display:flex; height:6px; border:1px solid var(--hair); border-radius:2px; overflow:hidden; background:var(--bg-sunk); }
+.timing .bar b{ display:block; }
+.timing .bar .gen{ background:var(--warp); opacity:.7 }
+.timing .bar .har{ background:var(--weft); opacity:.7 }
+.timing .leg{ display:flex; gap:12px; margin-top:4px; font-family:var(--mono); font-size:9.5px; color:var(--ink-faint); }
+.timing .leg i{ display:inline-block; width:7px; height:7px; margin-right:4px; border-radius:1px; vertical-align:-1px; }
+
+/* ── the dose gauge ---- */
+.gauge{ flex:0 0 auto; border-top:1px solid var(--hair-strong); background:var(--bg-panel); padding:9px 12px 11px; }
+.gauge-head{ display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; margin-bottom:7px; }
+.gauge-head .name{ font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); }
+.gauge-head .readout{ font-family:var(--mono); font-size:21px; font-weight:600; line-height:1;
+  font-variant-numeric:tabular-nums; color:var(--ink); }
+.gauge-head .readout.hot{ color:var(--weft); }
+.gauge-head .zone{ font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; }
+.gauge-head .hintline{ flex:1 1 100%; font-size:11px; color:var(--ink-faint); font-family:var(--mono); }
+.zone-inert{ color:var(--ink-faint) } .zone-subliminal{ color:var(--warp) }
+.zone-threshold{ color:#c6b268 } .zone-audible{ color:var(--weft) } .zone-overdriven{ color:var(--alarm) }
+
+.track{ position:relative; height:42px; border:1px solid var(--hair-strong); border-radius:2px;
+  background:var(--bg-sunk); overflow:hidden; }
+.track .band{ position:absolute; top:0; bottom:0; border-right:1px solid var(--bg-sunk); }
+.track .band span{ position:absolute; left:4px; bottom:3px; font-family:var(--mono); font-size:8px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--ink-dim); white-space:nowrap; opacity:.95; }
+.track .tick{ position:absolute; top:0; width:1px; background:var(--hair-strong); height:9px; }
+.track .tick.major{ height:100%; background:color-mix(in srgb, var(--ink) 26%, transparent); }
+.track .tick em{ position:absolute; top:10px; left:3px; font-style:normal; font-family:var(--mono);
+  font-size:8.5px; color:var(--ink-dim); white-space:nowrap; }
+.track .wornmark{ position:absolute; top:0; bottom:0; width:2px; background:var(--weft); opacity:.85;
+  box-shadow:0 0 7px var(--weft); }
+.track .wornmark::after{ content:"WORN"; position:absolute; top:2px; left:4px; font-family:var(--mono);
+  font-size:7.5px; letter-spacing:.12em; color:var(--weft); }
+.track input[type=range]{
+  position:absolute; inset:0; width:100%; height:100%; margin:0; padding:0;
+  -webkit-appearance:none; appearance:none; background:transparent; cursor:ew-resize;
+}
+.track input[type=range]::-webkit-slider-runnable-track{ height:40px; background:transparent; }
+.track input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none; width:3px; height:40px; border-radius:1px; border:0;
+  background:var(--ink); box-shadow:0 0 0 1px var(--bg-sunk), 0 0 10px color-mix(in srgb, var(--ink) 60%, transparent);
+  cursor:ew-resize;
+}
+.track input[type=range]::-moz-range-track{ height:40px; background:transparent; border:0; }
+.track input[type=range]::-moz-range-thumb{
+  width:3px; height:40px; border-radius:1px; border:0; background:var(--ink);
+  box-shadow:0 0 0 1px var(--bg-sunk); cursor:ew-resize;
+}
+.track input[type=range]:focus-visible{ outline:1px solid var(--warp); outline-offset:2px; }
+.gauge-actions{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:9px; }
+.gauge-actions .why{ font-family:var(--mono); font-size:9.5px; color:var(--ink-faint); }
+
+/* ── toasts ---- */
+.toasts{ position:fixed; right:12px; bottom:12px; z-index:50; display:flex; flex-direction:column;
+  gap:7px; max-width:min(440px, 92vw); }
+.toast{ background:var(--bg-raise); border:1px solid var(--alarm); border-left-width:3px;
+  border-radius:var(--r); padding:8px 11px; box-shadow:0 10px 30px -10px rgba(0,0,0,.7);
+  font-family:var(--mono); font-size:11px; color:var(--ink); overflow-wrap:anywhere;
+  animation:slide .18s ease-out; }
+.toast .t{ display:block; font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--alarm); margin-bottom:3px; }
+.toast.info{ border-color:var(--warp-dim); } .toast.info .t{ color:var(--warp); }
+@keyframes slide{ from{ opacity:0; transform:translateY(6px) } to{ opacity:1; transform:none } }
+
+/* ── narrow ---- */
+@media (max-width: 900px){
+  body{ overflow:auto; height:auto; min-height:100%; }
+  main{ grid-template-columns:1fr; }
+  .col{ min-height:0; }
+  .col.deck{ border-left:0; border-top:1px solid var(--hair-strong); }
+  .scroll{ max-height:52vh; }
+  .deckbody{ max-height:62vh; }
+  .panes{ flex-direction:column; }
+  .pane{ border-right:0; border-bottom:1px solid var(--hair); }
+  .rig{ padding:8px 12px; }
+  .rig-right{ margin-left:0; width:100%; }
+  .prov{ order:3; flex-basis:100%; }
+  .gauge{ position:sticky; bottom:0; }
+}
+@media (max-width: 520px){
+  :root{ --gutter:34px; }
+  .deckbody{ padding-right:10px; }
+  .sitebars{ margin-left:0; }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<header class="rig">
+  <div class="brand"><em>LOOM</em><span class="ver">v0</span></div>
+
+  <div class="prov" id="prov" aria-label="instrument provenance">
+    <div class="cell"><span class="k">info</span><span class="v">…</span></div>
+  </div>
+
+  <div class="rig-right">
+    <label class="field" title="session key sent with every request">
+      <span class="lbl">sess</span>
+      <input id="session" value="luxia" spellcheck="false" autocomplete="off" aria-label="session name">
+    </label>
+    <button id="themeBtn" class="tiny" title="cycle theme: auto / dark / light">auto</button>
+    <button id="resetBtn" class="danger tiny" title="clear server-side session state">reset</button>
+  </div>
+</header>
+
+<div class="wearbar" id="wearbar" aria-live="polite">
+  <span class="lamp" aria-hidden="true"></span>
+  <span class="txt mono" id="wearText">NO CODE WORN — conversation running straight</span>
+  <button id="unwearTop" class="tiny" disabled>unwear</button>
+  <div class="sitebars" id="siteBars"></div>
+</div>
+
+<main>
+  <!-- ══ conversation column ==== -->
+  <section class="col convo" aria-label="conversation">
+    <div class="colhead">
+      <span class="lbl">branch</span>
+      <div class="seg" role="group" aria-label="branch view">
+        <button id="tabLoom" aria-pressed="true">loom</button>
+        <button id="tabBase" aria-pressed="false">base</button>
+        <button id="tabBoth" aria-pressed="false">split</button>
+      </div>
+      <label class="chk lbl" title="also post the same message to the unbent control branch">
+        <input type="checkbox" id="mirror"> mirror&nbsp;to&nbsp;base
+      </label>
+      <span class="spacer"></span>
+      <span class="lbl" id="turnCount">turns —</span>
+    </div>
+
+    <div class="panes">
+      <div class="pane" data-branch="loom">
+        <div class="pane-tag"><span>loom</span><span style="color:var(--ink-faint)">the branch that bends</span></div>
+        <div class="scroll" id="scrollLoom" role="log" aria-label="loom transcript"></div>
+      </div>
+      <div class="pane" data-branch="base" hidden>
+        <div class="pane-tag"><span>base</span><span style="color:var(--ink-faint)">unbent control · separate history</span></div>
+        <div class="scroll" id="scrollBase" role="log" aria-label="base transcript"></div>
+      </div>
+    </div>
+
+    <div class="composer">
+      <div class="undobar" id="undoBar" hidden>
+        <span class="lbl">undone</span>
+        <span class="t" id="undoText"></span>
+        <button id="undoRestore" class="tiny">restore to composer</button>
+        <button id="undoDismiss" class="tiny">dismiss</button>
+      </div>
+      <div class="editbar" id="editBar" hidden>
+        <span class="lbl">editing</span>
+        <span class="what" id="editWhat"></span>
+        <span class="spacer"></span>
+        <button id="editConfirm" class="tiny weft" hidden>discard &amp; edit</button>
+        <button id="editCancel" class="tiny">cancel</button>
+        <span class="warn" id="editWarn"></span>
+      </div>
+      <textarea id="composer" placeholder="Type the next thing you might say. SEND commits it. LOOM only contemplates it — K futures are drawn, none of them spoken." aria-label="message"></textarea>
+      <div class="composer-row">
+        <button id="sendBtn" class="primary" disabled>send</button>
+        <button id="loomBtn" class="weft" disabled>loom ↯</button>
+        <label class="field" title="number of futures to draw">
+          <span class="lbl">k</span><input id="kIn" type="number" min="1" max="16" step="1" value="6">
+        </label>
+        <label class="field" title="tokens of future to generate per thread">
+          <span class="lbl">horizon</span><input id="hIn" type="number" min="16" max="1024" step="16" value="192">
+        </label>
+        <span class="spacer"></span>
+        <span class="hint" id="kbdHint">⌘/ctrl+↵ send · ⌘/ctrl+⇧+↵ loom</span>
+      </div>
+
+      <!-- AUTO-WEAR: loom draws AND wears, server-side, by policy -->
+      <div class="autorow" id="autoRow">
+        <label class="chk lbl" title="when armed, LOOM draws the fan and the server immediately wears the thread the policy picks">
+          <input type="checkbox" id="autoArm"> auto&#8209;wear
+        </label>
+        <span class="lbl">policy</span>
+        <select id="autoPolicy" aria-label="auto-wear policy" disabled></select>
+        <span class="dose" id="autoDose">α from the dose knob → <b>0.500</b></span>
+        <span class="spacer"></span>
+        <span class="why" id="autoWhy">disarmed — LOOM only draws; you choose the thread and press WEAR.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ loom deck ==== -->
+  <section class="col deck" aria-label="loom deck">
+    <div class="colhead">
+      <span class="lbl">loom deck</span>
+      <span class="lbl" id="deckStat">idle · no futures drawn</span>
+      <span class="spacer"></span>
+      <button id="constelBtn" class="tiny" aria-pressed="false"
+        title="plot the fan as points in the rank-8 code space">constellation</button>
+      <button id="clearDeck" class="tiny" disabled>clear</button>
+    </div>
+
+    <div class="spread" id="spreadStrip" aria-label="fan spread"></div>
+
+    <!-- the second percept: not what the futures say, but how they compute -->
+    <div class="constellation constel" id="constel" hidden>
+      <div class="constel-head">
+        <span>axes</span>
+        <select id="axX" aria-label="horizontal axis"></select>
+        <span>×</span>
+        <select id="axY" aria-label="vertical axis"></select>
+        <span class="spacer"></span>
+        <span class="key"><i style="background:var(--camp-a)"></i>camp a</span>
+        <span class="key"><i style="background:var(--camp-b)"></i>camp b</span>
+        <span class="key"><i style="background:var(--weft)"></i>worn</span>
+        <label class="chk key" title="colour the bank field by the atlas's class labels">
+          <input type="checkbox" id="classCol"> class colour
+        </label>
+        <span class="key" id="bankKey"></span>
+      </div>
+      <div class="constelbox"><svg id="constelSvg" preserveAspectRatio="none"></svg></div>
+      <span class="prov1" id="codeProv"></span>
+    </div>
+
+    <div class="deckbody" id="deckBody">
+      <svg class="fan" id="fan" aria-hidden="true" focusable="false"></svg>
+      <div id="deckContent"></div>
+    </div>
+
+    <!-- THE DOSE KNOB -->
+    <div class="gauge">
+      <div class="gauge-head">
+        <span class="name">dose α</span>
+        <span class="readout mono" id="alphaOut">0.500</span>
+        <span class="zone zone-subliminal" id="zoneOut">subliminal</span>
+        <span class="hintline" id="zoneHint">mechanically active, conversationally invisible</span>
+      </div>
+      <div class="track" id="track">
+        <!-- bands + ticks injected -->
+        <input type="range" id="alpha" min="0" max="1.5" step="0.005" value="0.5"
+               aria-label="dose alpha" aria-valuemin="0" aria-valuemax="1.5">
+      </div>
+      <div class="gauge-actions">
+        <button id="wearBtn" class="weft" disabled>wear</button>
+        <button id="unwearBtn" disabled>unwear</button>
+        <span class="why mono" id="wearWhy">select a harvested future to arm the dose</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toasts" id="toasts" aria-live="assertive"></div>
+
+<script>
+"use strict";
+(function(){
+
+/* ==== constants ==== */
+const ALPHA_MAX = 1.5;
+const ZONES = [
+  { lo:0.000, hi:0.125, key:"inert",      label:"inert",
+    hint:"below the floor — no measurable effect" },
+  // the measured subliminal band is CLOSED at both ends: [0.125, 0.5]
+  { lo:0.125, hi:0.500, hiInclusive:true, key:"subliminal", label:"subliminal",
+    hint:"SUBLIMINAL BAND — mechanically active, conversationally invisible" },
+  { lo:0.500, hi:0.875, key:"threshold",  label:"threshold",
+    hint:"≈0.75 is the psychometric threshold — the first detectable tilt" },
+  { lo:0.875, hi:1.200, key:"audible",    label:"audible",
+    hint:"1.00 reads at 86% — the disposition's register is plainly present" },
+  { lo:1.200, hi:1.501, key:"overdriven", label:"overdriven",
+    hint:"OVERDRIVEN — approaching 1.50 the text takes word-salad damage" },
+];
+const TICKS = [
+  { v:0.125, label:"0.125", major:true  },
+  { v:0.500, label:"0.50",  major:true  },
+  { v:0.750, label:"0.75 ψ", major:true },
+  { v:1.000, label:"1.00 · 86%", major:true },
+  { v:1.200, label:"1.20",  major:false },
+];
+const LOOM_TIMEOUT_MS = 420000;  // /loom is documented at 30–120s; be generous
+const CHAT_TIMEOUT_MS = 180000;
+
+// distinct is a mean cosine DISTANCE, so it lives on ~[0,2]
+const DISTINCT_MAX = 2;
+
+/* Human copy for the policy keys we know about. The LIVE list — and which
+   keys need a worn code — comes from /info.auto_policies; this table only
+   supplies labels and rationale, and an unadvertised key still renders. */
+const POLICIES = [
+  { key:"distinct", label:"most distinct", needsWorn:false,
+    hint:"picks the thread furthest from the rest of the fan — the highest mean cosine distance in signature space." },
+  { key:"loudest",  label:"loudest",       needsWorn:false,
+    hint:"picks the largest raw map output norm before norm-matching. loudness is advisory, not quality." },
+  { key:"minority", label:"minority camp", needsWorn:false,
+    hint:"picks from the smaller of the two 2-means camps — the road less travelled. falls back to DISTINCT below 3 scored threads." },
+  { key:"stay",     label:"stay",          needsWorn:true,
+    hint:"picks the thread most similar to the code already worn — deepens the bend you are already in." },
+  { key:"swerve",   label:"swerve",        needsWorn:true,
+    hint:"picks the thread least similar to the code already worn — leaves the bend you are already in." },
+];
+function unknownPolicy(k){
+  return { key:String(k), label:String(k), needsWorn:false,
+           hint:"policy advertised by the server; no local description for it." };
+}
+/* the selector is built from what the server advertises, not from the table */
+function activePolicies(){
+  const adv = (state.info && Array.isArray(state.info.auto_policies)) ? state.info.auto_policies : null;
+  if (!adv || !adv.length) return POLICIES.slice();
+  return adv.filter(p => p && p.key).map(p => {
+    const known = POLICIES.find(x => x.key === p.key);
+    return { key: p.key,
+             label: known ? known.label : String(p.key),
+             needsWorn: !!p.needs_wear,
+             hint: known ? known.hint : unknownPolicy(p.key).hint };
+  });
+}
+function policyByKey(k){
+  return activePolicies().find(p => p.key === k)
+      || POLICIES.find(p => p.key === k)
+      || unknownPolicy(k);
+}
+
+/* ==== state ==== */
+const state = {
+  session: "luxia",
+  view: "loom",                    // "loom" | "base" | "both"
+  history: { loom: [], base: [] }, // local mirror; server holds the truth
+  futures: [],                     // last /loom futures
+  loomText: null,                  // the contemplated message they were drawn for
+  loomMeta: null,                  // {k, horizon, timing_s, drawn_under_wear}
+  loomId: null,                    // the draw /wear must be scoped to
+  spread: null,                    // fan-level forkedness from /loom
+  autoSelected: null,              // {policy, effective_policy, index, alpha, scores}
+  auto: { armed: false, policy: "distinct" },
+  spent: false,                    // contemplated message has since been committed
+  loomContextChanged: null,        // a verb changed the branch the fan was drawn from
+  editing: null,                   // {branch, mode, phase, turn, total, discards, text}
+  undone: null,                    // the exchange /undo popped, offered back
+  selected: null,                  // index of selected future
+  alpha: 0.5,
+  worn: null,                      // {index, alpha, loom_id, norms, sites, via, policy}
+  wornVerified: true,              // false only when /state could not be read
+  info: null,
+  atlas: null,                     // the bank constellation report, or null on 404
+  constelOn: false,                // the code-space plot is opt-in
+  classColour: false,              // colour the bank field by its class labels
+  busy: false,                     // any /chat or /wear in flight
+  looming: false,
+  loomAbort: null,
+  progress: null,                  // {stage, done, total} from /loom/progress
+  progressTimer: null,
+  foreignLoom: false,              // a /loom this tab did not start is running
+};
+
+/* ==== tiny dom helpers ==== */
+const $ = (id) => document.getElementById(id);
+function el(tag, props, kids){
+  const n = document.createElement(tag);
+  if (props) for (const k in props){
+    const v = props[k];
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k === "text") n.textContent = v;
+    else if (k === "html") n.innerHTML = v;
+    else if (k === "style" && typeof v === "object") Object.assign(n.style, v);
+    else if (k.slice(0,2) === "on" && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : String(v));
+  }
+  if (kids) for (const c of [].concat(kids)){
+    if (c === null || c === undefined || c === false) continue;
+    n.appendChild(typeof c === "object" ? c : document.createTextNode(String(c)));
+  }
+  return n;
+}
+function clear(node){ while (node.firstChild) node.removeChild(node.firstChild); }
+function fmt(x, d){
+  if (x === null || x === undefined) return "—";
+  const n = Number(x);
+  return Number.isFinite(n) ? n.toFixed(d === undefined ? 2 : d) : "—";
+}
+function clampNum(v, lo, hi, dflt){
+  const n = Number(v);
+  if (!Number.isFinite(n)) return dflt;
+  return Math.min(hi, Math.max(lo, n));
+}
+
+/* ==== toasts ==== */
+function toast(title, msg, kind){
+  const box = $("toasts");
+  const t = el("div", { class: "toast" + (kind === "info" ? " info" : "") }, [
+    el("span", { class:"t", text: title }),
+    el("span", { text: String(msg) }),
+  ]);
+  box.appendChild(t);
+  const kill = () => { if (t.parentNode) t.parentNode.removeChild(t); };
+  t.addEventListener("click", kill);
+  setTimeout(kill, kind === "info" ? 6000 : 12000);
+  while (box.children.length > 4) box.removeChild(box.firstChild);
+}
+
+/* ==== api layer — every call funnels through here ==== */
+class ApiError extends Error {
+  constructor(msg, status){ super(msg); this.name = "ApiError"; this.status = status || 0; }
+}
+function errText(data, res, raw){
+  if (data && typeof data === "object"){
+    if (typeof data.error === "string") return data.error;
+    if (typeof data.detail === "string") return data.detail;
+    if (data.detail) { try { return JSON.stringify(data.detail); } catch(_){} }
+    if (data.error) { try { return JSON.stringify(data.error); } catch(_){} }
+  }
+  const tail = raw ? " · " + raw.slice(0, 180) : "";
+  return "HTTP " + (res ? res.status : "?") + tail;
+}
+async function request(path, opts){
+  const o = opts || {};
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort("timeout"), o.timeout || 60000);
+  if (o.exposeAbort) o.exposeAbort(ctrl);
+  let res;
+  try {
+    res = await fetch(path, {
+      method: o.body === undefined ? "GET" : "POST",
+      headers: o.body === undefined ? undefined : { "Content-Type": "application/json" },
+      body: o.body === undefined ? undefined : JSON.stringify(o.body),
+      signal: ctrl.signal,
+      cache: "no-store",
+    });
+  } catch (e){
+    clearTimeout(timer);
+    if (ctrl.signal.aborted) throw new ApiError("request aborted — timed out or cancelled");
+    throw new ApiError("network unreachable — is the loom server up on this port? (" + (e && e.message || e) + ")");
+  }
+  clearTimeout(timer);
+
+  let raw = "";
+  try { raw = await res.text(); } catch(_){ raw = ""; }
+  let data = null;
+  if (raw){ try { data = JSON.parse(raw); } catch(_){ data = null; } }
+
+  if (!res.ok) throw new ApiError(errText(data, res, raw), res.status);
+  if (data === null || typeof data !== "object"){
+    throw new ApiError("malformed response from " + path + (raw ? " · " + raw.slice(0,120) : " · empty body"));
+  }
+  return data;
+}
+const post = (path, body, opts) => request(path, Object.assign({ body: body }, opts || {}));
+const get  = (path, opts)       => request(path, opts || {});
+
+/* ==== /info — provenance strip ==== */
+function shortMap(s){
+  if (!s) return "—";
+  const str = String(s);
+  const parts = str.split("/").filter(Boolean);
+  return parts.length ? parts[parts.length - 1] : str;
+}
+function renderProv(info, err){
+  const p = $("prov");
+  clear(p);
+  const cell = (k, v, hot, title) => p.appendChild(
+    el("div", { class:"cell", title: title || (k + ": " + v) }, [
+      el("span", { class:"k", text:k }),
+      el("span", { class:"v" + (hot ? " hot" : ""), text:String(v) }),
+    ])
+  );
+  if (err){ cell("info", "unavailable", false, err); return; }
+  if (!info){ cell("info", "…"); return; }
+
+  cell("map", shortMap(info.map), true, String(info.map || ""));
+
+  const meta = info.map_meta && typeof info.map_meta === "object" ? info.map_meta : {};
+  // rank first if present, then any other scalar keys (bounded)
+  const keys = Object.keys(meta);
+  const ordered = keys.filter(k => /rank/i.test(k)).concat(keys.filter(k => !/rank/i.test(k)));
+  let shown = 0;
+  for (const k of ordered){
+    if (shown >= 4) break;
+    const v = meta[k];
+    if (v === null || typeof v === "object") continue;
+    cell(k, typeof v === "number" ? (Number.isInteger(v) ? v : fmt(v, 3)) : String(v), /rank/i.test(k));
+    shown++;
+  }
+  if (Array.isArray(info.sites)) cell("sites", info.sites.join("·"));
+  if (info.default_k !== undefined) cell("k₀", info.default_k);
+  if (info.future_tokens !== undefined) cell("horizon₀", info.future_tokens);
+  if (Number.isFinite(Number(info.loudness_ref))) cell("‖raw‖ ref", fmt(info.loudness_ref, 2));
+  if (state.atlas){
+    const e = inSpaceEnergy();
+    cell("code rank", nAxes(), true, "the map is rank-" + nAxes() +
+      ": a future's whole transferable content is " + nAxes() + " numbers");
+    if (Number.isFinite(Number(state.atlas.n_groups))) cell("bank", state.atlas.n_groups + " grp");
+    if (e !== null) cell("in-space", fmt(e, 2),
+      false, "the code is a narrow channel — about " + Math.round(e * 100) +
+      "% of a true disposition is what actually transfers");
+  }
+  if (info.n_sessions !== undefined) cell("sessions", info.n_sessions);
+}
+
+function buildAxisSelects(){
+  for (const id of ["axX", "axY"]){
+    const sel = $(id);
+    if (!sel) continue;
+    const want = sel.value;
+    clear(sel);
+    for (let i = 0; i < nAxes(); i++) sel.appendChild(el("option", { value:i, text:"axis " + i }));
+    sel.value = (want !== "" && Number(want) < nAxes()) ? want : (id === "axX" ? "0" : "1");
+  }
+}
+
+/* the policy selector is rebuilt from whatever /info advertises */
+function buildPolicySelect(){
+  const sel = $("autoPolicy");
+  const want = state.auto.policy;
+  clear(sel);
+  const list = activePolicies();
+  for (const p of list) sel.appendChild(el("option", { value:p.key, title:p.hint, text:p.label }));
+  if (!list.some(p => p.key === want)){
+    state.auto.policy = list.length ? list[0].key : want;
+  }
+  sel.value = state.auto.policy;
+}
+/* the atlas is an enrichment, not a dependency: a 404 costs us the bank
+   scale and the background field, and is never mentioned to the user. */
+async function loadAtlas(){
+  try {
+    const a = await get("/atlas", { timeout: 20000 });
+    if (a && Array.isArray(a.axes) && a.axes.length) state.atlas = a;
+    state._classes = null;
+  } catch (e){
+    state.atlas = null;   // 404 or otherwise — degrade quietly
+  }
+  buildAxisSelects();
+  renderProv(state.info);
+  renderCodeProv();
+  renderDeck();
+}
+
+async function loadInfo(){
+  try {
+    const info = await get("/info", { timeout: 15000 });
+    state.info = info;
+    renderProv(info);
+    // seed defaults from the instrument itself, if the user hasn't touched them
+    if (!$("kIn").dataset.touched && Number.isFinite(Number(info.default_k))){
+      $("kIn").value = clampNum(info.default_k, 1, 16, 6);
+    }
+    if (!$("hIn").dataset.touched && Number.isFinite(Number(info.future_tokens))){
+      $("hIn").value = clampNum(info.future_tokens, 16, 1024, 192);
+    }
+    buildPolicySelect();     // the live policy list, not our hardcoded table
+    syncComposerButtons();
+  } catch (e){
+    renderProv(null, e.message);
+    toast("info", "/info failed — " + e.message);
+  }
+}
+
+/* ==== /state — hydrate from the server ====
+
+   The server holds the truth for both branches, the worn code, the last
+   draw and whether a loom is running. We read it at boot and on every
+   session switch, so the panel never has to guess and never shows a
+   stale lamp. This is also what lets a reload resume mid-conversation.
+   ==== */
+function normaliseFuture(f, i){
+  return {
+    index: (f && f.index !== undefined) ? f.index : i,
+    n_tokens: f ? f.n_tokens : null,
+    text: f ? f.text : "",
+    harvested: !!(f && f.harvested),
+    note: f ? f.note : null,
+    scores: (f && f.scores && typeof f.scores === "object") ? f.scores : null,
+    code: (f && Array.isArray(f.code) && f.code.length) ? f.code.map(Number) : null,
+  };
+}
+
+function restoreHistory(branch, rows, quiet){
+  const out = [];
+  if (Array.isArray(rows) && rows.length){
+    if (!quiet) out.push({ kind:"sys", text:"— " + rows.length + " message" + (rows.length === 1 ? "" : "s") +
+      " restored from the server; per-turn timings are not replayed —" });
+    for (const m of rows){
+      if (!m || typeof m !== "object") continue;
+      const role = String(m.role || "").toLowerCase();
+      out.push({
+        role: role === "user" ? "user" : "bot",
+        text: typeof m.content === "string" ? m.content : JSON.stringify(m.content),
+        restored: true,
+      });
+    }
+  }
+  state.history[branch] = out;
+}
+
+async function hydrate(why, opts){
+  const session = state.session;
+  const quiet = !!(opts && opts.quiet);   // re-reads after a verb say nothing
+  try {
+    const s = await get("/state?session=" + encodeURIComponent(session), { timeout: 20000 });
+    if (state.session !== session) return;   // the user moved on mid-flight
+
+    // A message can be in flight: its user bubble is on screen optimistically
+    // but the server has not acked it yet. Overwriting the transcript now
+    // would erase what the person just typed and strand the reply that is
+    // about to arrive — so leave the histories alone until the send settles.
+    // (The verbs re-hydrate too, but they never set `pending`.)
+    const chatInFlight = !!(state.pending && (state.pending.loom || state.pending.base));
+    if (!chatInFlight){
+      restoreHistory("loom", s.histories && s.histories.loom, quiet);
+      restoreHistory("base", s.histories && s.histories.base, quiet);
+    }
+
+    adoptWorn(s.worn);
+    state.wornVerified = true;
+    state.loomId = (s.loom_id !== undefined) ? s.loom_id : null;
+
+    if (Array.isArray(s.futures) && s.futures.length){
+      state.futures = s.futures.map(normaliseFuture);
+      if (state.selected === null){
+        const first = state.futures.findIndex(f => f.harvested);
+        if (first >= 0) state.selected = first;
+      }
+      if (!state.loomMeta) state.loomMeta = { k: state.futures.length, horizon: null };
+    }
+
+    // a loom may already be running — from another tab, or from before a reload
+    if (s.loom_in_progress && !state.looming){
+      state.foreignLoom = true;
+      state.progress = s.loom_in_progress;
+      startProgressPoll();
+    }
+
+    renderAll(); renderWorn(); renderDeck();
+    if (why) toast("state", "read server state " + why +
+      " · " + (s.n_looms || 0) + " loom" + (s.n_looms === 1 ? "" : "s") +
+      " on record for '" + session + "'", "info");
+    return s;
+  } catch (e){
+    if (state.session !== session) return;
+    state.wornVerified = false;
+    renderWorn();
+    toast("/state failed", e.message + " — the panel cannot confirm this session's wear");
+    return null;
+  }
+}
+
+/* ==== /loom/progress — a determinate wait ==== */
+function startProgressPoll(){
+  stopProgressPoll();
+  const tick = async () => {
+    if (!state.looming && !state.foreignLoom){ stopProgressPoll(); return; }
+    try {
+      const r = await get("/loom/progress?session=" + encodeURIComponent(state.session), { timeout: 10000 });
+      const p = r && r.progress;
+      if (p && typeof p === "object"){
+        state.progress = { stage: p.stage, done: Number(p.done), total: Number(p.total) };
+        renderProgress();
+      } else if (state.foreignLoom){
+        // somebody else's loom finished — pick up its futures
+        state.foreignLoom = false;
+        state.progress = null;
+        stopProgressPoll();
+        hydrate("after a loom finished elsewhere");
+        return;
+      }
+    } catch (e){
+      // progress is a nicety; a failed poll must never break the loom itself
+      state.progress = null;
+      renderProgress();
+    }
+  };
+  tick();
+  state.progressTimer = setInterval(tick, 1000);
+}
+function stopProgressPoll(){
+  if (state.progressTimer !== null){ clearInterval(state.progressTimer); state.progressTimer = null; }
+}
+
+/* ==== the code space ====
+
+   The map is rank-8, so a future's entire transferable content is eight
+   numbers. The axes are SVD directions and are ANONYMOUS: they are named
+   "axis 0".."axis 7" and nothing else, ever. The atlas gives us the bank's
+   distribution per axis, which is what a coordinate is read against — a
+   future should look extreme relative to the BANK, not to its siblings.
+   No atlas (404) means no fingerprint scale and no bank field; the panel
+   drops them and says nothing about it.
+   ==== */
+const CODE_RANK = 8;
+
+function atlasAxis(i){
+  const a = state.atlas && Array.isArray(state.atlas.axes) ? state.atlas.axes[i] : null;
+  return (a && typeof a === "object") ? a : null;
+}
+function atlasQuantiles(i){
+  const a = atlasAxis(i);
+  const q = a && Array.isArray(a.quantiles) ? a.quantiles.map(Number) : null;
+  return (q && q.length === 5 && q.every(Number.isFinite)) ? q : null;
+}
+/* map a coordinate onto [-1,1] using the bank's own 5th–95th percentile span */
+function axisNorm(v, i){
+  const n = Number(v);
+  if (!Number.isFinite(n)) return 0;
+  const q = atlasQuantiles(i);
+  const span = q ? Math.max(Math.abs(q[0]), Math.abs(q[4])) : 1;
+  return Math.max(-1, Math.min(1, n / (span > 1e-9 ? span : 1)));
+}
+function nAxes(){
+  const r = state.atlas && Number(state.atlas.rank);
+  return Number.isFinite(r) && r > 0 ? r : CODE_RANK;
+}
+function codeOf(f){
+  const c = f && f.code;
+  return (Array.isArray(c) && c.length) ? c : null;
+}
+/* "if5|orig(in)" is a bank bookkeeping id; only the group stem is shown */
+function cleanGroup(g){ return String(g).split("|")[0]; }
+
+/* the bank's own 138 groups, when the atlas publishes their coordinates */
+function atlasGroups(){
+  const g = state.atlas && state.atlas.groups;
+  return (Array.isArray(g) && g.length) ? g : null;
+}
+/* stable class ordering so a class keeps its hue between draws */
+function atlasClasses(){
+  if (state._classes) return state._classes;
+  const seen = [];
+  for (const g of atlasGroups() || []){
+    const c = g && g.class;
+    if (c !== undefined && c !== null && seen.indexOf(String(c)) < 0) seen.push(String(c));
+  }
+  seen.sort();
+  state._classes = seen;
+  return seen;
+}
+const CLASS_HUES = ["#5fb6c4", "#a793d8", "#7fc08a", "#d3a05f", "#c98a9b", "#8fa2d0"];
+function classHue(cls){
+  const i = atlasClasses().indexOf(String(cls));
+  return CLASS_HUES[(i < 0 ? 0 : i) % CLASS_HUES.length];
+}
+
+/* in_space_energy's shape is not pinned, so read it defensively */
+function inSpaceEnergy(){
+  const e = state.atlas && state.atlas.in_space_energy;
+  if (e === null || e === undefined) return null;
+  if (Number.isFinite(Number(e))) return Number(e);
+  if (typeof e === "object"){
+    for (const k of ["mean", "median", "value", "ratio", "overall", "in_space"]){
+      if (Number.isFinite(Number(e[k]))) return Number(e[k]);
+    }
+    const nums = Object.keys(e).map(k => Number(e[k])).filter(Number.isFinite);
+    if (nums.length) return nums[0];
+  }
+  return null;
+}
+function twinRange(){
+  const ax = (state.atlas && state.atlas.axes) || [];
+  const rs = ax.map(a => Number(a && a.twin_consistency_r)).filter(Number.isFinite);
+  if (!rs.length) return null;
+  return { lo: Math.min.apply(null, rs), hi: Math.max.apply(null, rs) };
+}
+
+function axisTip(i, v, ghostV){
+  const ax = atlasAxis(i);
+  let t = "axis " + i + " · " + fmt(v, 3);
+  if (Number.isFinite(Number(ghostV))){
+    t += "   worn " + fmt(ghostV, 3) + " · Δ " + fmt(Number(v) - Number(ghostV), 3);
+  }
+  const q = atlasQuantiles(i);
+  if (q) t += "\nbank q05–q95: " + fmt(q[0], 2) + " … " + fmt(q[4], 2) + " (median " + fmt(q[2], 2) + ")";
+  if (ax){
+    const pole = Number(v) >= 0 ? ax.high_extreme : ax.low_extreme;
+    if (Array.isArray(pole) && pole.length){
+      t += "\ngroups at this pole: " + pole.slice(0, 3).map(cleanGroup).join(", ");
+    }
+    if (Number.isFinite(Number(ax.twin_consistency_r))) t += "\ntwin consistency r " + fmt(ax.twin_consistency_r, 2);
+  }
+  return t;
+}
+
+/* the 8-bar glyph. the worn code sits ghosted behind it, so the delta —
+   what would actually change if you wore this — is the thing you see. */
+const FP_W = 9, FP_H = 26, FP_MID = 13, FP_AMP = 11;
+function fingerprintNode(code, ghost, hue){
+  if (!Array.isArray(code) || !code.length) return null;
+  const n = Math.min(code.length, nAxes());
+  const svg = el2("svg", { class:"fp", width: n * FP_W, height: FP_H,
+    viewBox: "0 0 " + (n * FP_W) + " " + FP_H, role:"img",
+    "aria-label": "code fingerprint over " + n + " anonymous axes" });
+  svg.appendChild(el2("line", { x1:0, y1:FP_MID, x2:n * FP_W, y2:FP_MID,
+    stroke:"var(--hair-strong)", "stroke-width":1 }));
+  const hasGhost = Array.isArray(ghost) && ghost.length;
+  for (let i = 0; i < n; i++){
+    const x = i * FP_W + 1;
+    if (hasGhost && Number.isFinite(Number(ghost[i]))){
+      const g = axisNorm(ghost[i], i) * FP_AMP;
+      svg.appendChild(el2("rect", { x: x, y: g >= 0 ? FP_MID - g : FP_MID,
+        width: FP_W - 2, height: Math.max(1, Math.abs(g)),
+        fill:"var(--weft)", opacity:.3 }));
+    }
+    const v = Number(code[i]);
+    const h = axisNorm(v, i) * FP_AMP;
+    const r = el2("rect", { class:"cpt", x: x + 1.5, y: h >= 0 ? FP_MID - h : FP_MID,
+      width: FP_W - 5, height: Math.max(1, Math.abs(h)), fill: hue, opacity:.92 });
+    r.appendChild(el2("title", {}, axisTip(i, v, hasGhost ? ghost[i] : null)));
+    svg.appendChild(r);
+  }
+  return svg;
+}
+
+/* ==== transcript ====
+
+   The editing verbs work on EXCHANGES — a user turn and the assistant
+   reply that answered it — so the panel pairs them up explicitly. sys
+   and err lines are scaffolding this UI wrote; they are never turns,
+   and they never shift the indices the server counts in.
+   ==== */
+function exchangesOf(branch){
+  const hist = state.history[branch] || [];
+  const ex = [];
+  for (let i = 0; i < hist.length; i++){
+    const m = hist[i];
+    if (m.kind) continue;
+    if (m.role === "user") ex.push({ user: i, bot: null });
+    else if (m.role === "bot" && ex.length && ex[ex.length - 1].bot === null) ex[ex.length - 1].bot = i;
+  }
+  return ex;
+}
+/* the verbs need a branch whose last exchange is a completed user+assistant pair */
+function verbTarget(branch){
+  const ex = exchangesOf(branch);
+  if (!ex.length) return null;
+  const last = ex[ex.length - 1];
+  return last.bot === null ? null : { ex: ex, turn: ex.length - 1, last: last };
+}
+function verbsBlocked(){
+  return state.busy || state.looming || !!state.editing;
+}
+/* a reroll's displaced reply survives exactly one further action */
+function clearPrevTakes(branch){
+  for (const m of state.history[branch] || []) if (m.previousTake) delete m.previousTake;
+}
+
+function pushMsg(branch, m){ state.history[branch].push(m); renderBranch(branch); }
+
+function renderBranch(branch){
+  const box = $(branch === "loom" ? "scrollLoom" : "scrollBase");
+  const stick = box.scrollHeight - box.scrollTop - box.clientHeight < 90;
+  clear(box);
+  const hist = state.history[branch];
+
+  if (!hist.length){
+    box.appendChild(el("div", { class:"empty" }, [
+      branch === "loom"
+        ? "loom branch · empty\nthis is the thread that bends when a code is worn.\ntype below, then SEND to commit — or LOOM to see where it goes first."
+        : "base branch · empty\nan unbent control with its own separate history.\nmirror a message here to compare like with like."
+    ]));
+  }
+
+  const ex = exchangesOf(branch);
+  const turnOf = new Map();
+  ex.forEach((e, t) => { turnOf.set(e.user, t); if (e.bot !== null) turnOf.set(e.bot, t); });
+  const lastEx = ex.length ? ex[ex.length - 1] : null;
+  const canVerb = !!lastEx && lastEx.bot !== null;
+  const editing = state.editing;
+
+  for (let i = 0; i < hist.length; i++){
+    const m = hist[i];
+    if (m.kind === "sys"){
+      box.appendChild(el("div", { class:"msg sys" }, [ el("div", { class:"body", text:m.text }) ]));
+      continue;
+    }
+    if (m.kind === "err"){
+      box.appendChild(el("div", { class:"msg err" }, [
+        el("div", { class:"who", text:"fault" }),
+        el("div", { class:"body", text:m.text }),
+      ]));
+      continue;
+    }
+    const bent = m.role === "bot" && m.worn;
+    const turn = turnOf.has(i) ? turnOf.get(i) : null;
+    const isTarget = !!editing && editing.branch === branch && editing.turn === turn;
+    const node = el("div", { class:"msg " + (m.role === "user" ? "user" : "bot") +
+      (bent ? " bent" : "") + (isTarget ? " target" : "") });
+    node.appendChild(el("div", { class:"who", text:
+      m.role === "user" ? "you" : (bent ? "model · bent" : "model") }));
+    node.appendChild(el("div", { class:"body", text:m.text }));
+
+    if (m.role === "bot"){
+      const meta = el("div", { class:"meta mono" });
+      if (m.n_turns !== undefined && m.n_turns !== null) meta.appendChild(el("span", { text:"turns " + m.n_turns }));
+      if (m.elapsed_s !== undefined && m.elapsed_s !== null) meta.appendChild(el("span", { text:fmt(m.elapsed_s, 2) + "s" }));
+      if (bent) meta.appendChild(el("span", { class:"bent", text:"worn #" + m.worn.index + " @ α " + fmt(m.worn.alpha, 3) }));
+      if (m.rerollN) meta.appendChild(el("span", { text:"redraw ×" + m.rerollN }));
+      if (m.edited) meta.appendChild(el("span", { text:"edited" }));
+      if (m.dropped) meta.appendChild(el("span", { class:"warn", text:"context dropped " + m.dropped + " msg" + (m.dropped === 1 ? "" : "s") }));
+      if (meta.childNodes.length) node.appendChild(meta);
+
+      // the take a reroll displaced, recoverable until the next action
+      if (m.previousTake){
+        node.appendChild(el("details", { class:"prevtake" }, [
+          el("summary", { text:"previous take (kept until your next action)" }),
+          el("div", { class:"old", text:m.previousTake }),
+        ]));
+      }
+
+      // verbs live on the last completed exchange of this branch
+      if (canVerb && i === lastEx.bot){
+        const acts = el("div", { class:"acts" });
+        acts.appendChild(el("button", { type:"button", title:"redraw this reply — same message, fresh seed, current wear",
+          disabled: verbsBlocked(), onclick: () => doReroll(branch), text:"reroll" }));
+        acts.appendChild(el("button", { type:"button", title:"lift your message back into the composer and replace this exchange",
+          disabled: verbsBlocked(), onclick: () => startEditLast(branch), text:"edit" }));
+        acts.appendChild(el("button", { type:"button", class:"warn",
+          title:"remove this exchange — your message comes back so nothing is lost",
+          disabled: verbsBlocked(), onclick: () => doUndo(branch), text:"undo" }));
+        node.appendChild(acts);
+      }
+    } else if (m.role === "user" && turn !== null && turn < ex.length - 1){
+      // deep edit: earlier turns, with the cost stated before anything happens
+      const acts = el("div", { class:"acts" });
+      acts.appendChild(el("button", { type:"button", class:"warn",
+        title:"edit this earlier turn — the exchanges after it are discarded",
+        disabled: verbsBlocked(), onclick: () => startEditDeep(branch, turn), text:"edit turn " + (turn + 1) }));
+      node.appendChild(acts);
+    }
+    box.appendChild(node);
+  }
+
+  if (state.pending && state.pending[branch]){
+    box.appendChild(el("div", { class:"thinking" }, [
+      el("span", { text:"weaving" }),
+      el("span", { class:"dots", html:"<i></i><i></i><i></i>" }),
+    ]));
+  }
+  if (stick) box.scrollTop = box.scrollHeight;
+}
+function renderTurns(){
+  const l = state.history.loom.filter(m => m.role === "bot").length;
+  const b = state.history.base.filter(m => m.role === "bot").length;
+  $("turnCount").textContent = "loom " + l + " · base " + b;
+}
+function renderAll(){
+  renderBranch("loom"); renderBranch("base"); renderTurns();
+  renderEditBar(); renderUndoBar();
+}
+
+/* ==== worn indicator ====
+
+   The server is authoritative about wear, and it now speaks ONE worn
+   shape everywhere — /state, /chat, /loom and /wear all return
+   {index, alpha, loom_id, per_site_norms_at_alpha1}. So we never have
+   to reconstruct it: the norms ride along with the report, and the
+   site bars stay populated even when the server chose the code itself.
+   ==== */
+function adoptWorn(w, opts){
+  const o = opts || {};
+  state.wornVerified = true;   // only ever called with an authoritative report
+  const prev = state.worn;
+  if (w && typeof w === "object" && w.index !== undefined && w.index !== null){
+    const alpha = Number(w.alpha);
+    const same = !!prev && prev.index === w.index &&
+                 Number.isFinite(alpha) && Math.abs(prev.alpha - alpha) < 1e-6;
+    const norms = Array.isArray(w.per_site_norms_at_alpha1)
+      ? w.per_site_norms_at_alpha1
+      : (same ? prev.norms : null);
+    state.worn = {
+      index: w.index,
+      alpha: Number.isFinite(alpha) ? alpha : (prev ? prev.alpha : 0),
+      loom_id: (w.loom_id !== undefined && w.loom_id !== null)
+        ? w.loom_id : (same ? prev.loom_id : null),
+      code: Array.isArray(w.code) && w.code.length ? w.code.map(Number)
+            : (same && prev ? prev.code : null),
+      norms: norms,
+      sites: o.sites || (prev && prev.sites) || (state.info && state.info.sites) || null,
+      via:    o.via    || (same ? prev.via : null),
+      policy: o.policy || (same ? prev.policy : null),
+    };
+    return true;
+  }
+  state.worn = null;
+  return false;
+}
+
+function renderWorn(){
+  const bar = $("wearbar"), txt = $("wearText"), bars = $("siteBars");
+  clear(bars);
+  const w = state.worn;
+  bar.classList.toggle("on", !!w);
+  $("unwearTop").disabled = state.busy;
+
+  if (!w){
+    txt.innerHTML = "";
+    txt.appendChild(el("span", { text:"NO CODE WORN — conversation running straight" }));
+    if (!state.wornVerified){
+      txt.appendChild(el("span", { style:{ color:"var(--alarm)", marginLeft:"10px" },
+        text:"· /state could not be read, so this reading is UNCONFIRMED — press UNWEAR to force a known state" }));
+    }
+    return;
+  }
+  clear(txt);
+  txt.appendChild(el("span", { text:"WEARING " }));
+  txt.appendChild(el("span", { class:"big", text:"member code #" + w.index }));
+  txt.appendChild(el("span", { text:"  ·  dose α " }));
+  txt.appendChild(el("span", { class:"big", text:fmt(w.alpha, 3) }));
+  const z = zoneFor(w.alpha);
+  txt.appendChild(el("span", { class:"zone-" + z.key, style:{ marginLeft:"8px", letterSpacing:".16em" },
+    text:"[" + z.label.toUpperCase() + "]" }));
+  if (w.via === "auto"){
+    txt.appendChild(el("span", { style:{ marginLeft:"10px", letterSpacing:".14em" },
+      title:"this code was chosen and worn by the server during /loom, not by hand",
+      text:"◂ VIA AUTO · policy " + String(w.policy || "?").toUpperCase() }));
+  }
+
+  if (Array.isArray(w.norms) && w.norms.length){
+    const sites = Array.isArray(w.sites) && w.sites.length === w.norms.length
+      ? w.sites : w.norms.map((_, i) => "s" + i);
+    const max = Math.max.apply(null, w.norms.map(n => Math.abs(Number(n) || 0))) || 1;
+    const dose = Math.min(1, Math.max(0, w.alpha / ALPHA_MAX));
+    bars.appendChild(el("span", { class:"lbl", style:{ alignSelf:"center" },
+      title:"per-site injected norm: faint bar is ‖Δ‖ at α=1, solid bar is what this dose actually writes",
+      text:"‖Δ‖ @α1 ×" + fmt(w.alpha, 2) }));
+    w.norms.forEach((n, i) => {
+      const val = Math.abs(Number(n) || 0);
+      const full = (val / max) * 100;
+      bars.appendChild(el("div", { class:"sitebar",
+        title:"site " + sites[i] + " · ‖Δ‖@α=1 = " + fmt(n, 4) + " · at α " + fmt(w.alpha, 3) + " ≈ " + fmt(val * w.alpha, 4) }, [
+        el("div", { class:"bar" }, [
+          el("i", { class:"ghost", style:{ width: full + "%" } }),
+          el("i", { style:{ width: Math.max(1.5, full * dose) + "%" } }),
+        ]),
+        el("div", { class:"n mono", text:String(sites[i]) }),
+      ]));
+    });
+  }
+}
+
+/* ==== the dose gauge ==== */
+function zoneFor(a){
+  const v = Number(a) || 0;
+  // first match wins, so a closed upper bound keeps its own band (α=0.5 is subliminal)
+  for (const z of ZONES){
+    if (v < z.lo) continue;
+    if (z.hiInclusive ? v <= z.hi : v < z.hi) return z;
+  }
+  return ZONES[v < 0 ? 0 : ZONES.length - 1];
+}
+function pct(v){ return (v / ALPHA_MAX) * 100; }
+
+function buildTrack(){
+  const track = $("track");
+  const range = $("alpha");
+  // bands behind the input
+  for (const z of ZONES){
+    const hi = Math.min(z.hi, ALPHA_MAX);
+    const band = el("div", { class:"band", style:{
+      left: pct(z.lo) + "%", width: (pct(hi) - pct(z.lo)) + "%",
+      background: "var(--z-" + z.key + ")",
+    }, title: z.label + " · " + z.hint }, [
+      el("span", { text:z.label })
+    ]);
+    track.insertBefore(band, range);
+  }
+  for (const t of TICKS){
+    const tick = el("div", { class:"tick" + (t.major ? " major" : ""), style:{ left: pct(t.v) + "%" } },
+      t.label ? [ el("em", { text:t.label }) ] : null);
+    track.insertBefore(tick, range);
+  }
+  track.insertBefore(el("div", { class:"wornmark", id:"wornMark", style:{ display:"none" } }), range);
+}
+
+function renderGauge(){
+  const a = state.alpha;
+  const z = zoneFor(a);
+  $("alphaOut").textContent = fmt(a, 3);
+  $("alphaOut").classList.toggle("hot", !!state.worn && Math.abs(state.worn.alpha - a) < 1e-6);
+  const zo = $("zoneOut");
+  zo.textContent = z.label;
+  zo.className = "zone zone-" + z.key;
+  $("zoneHint").textContent = z.hint;
+  $("alpha").setAttribute("aria-valuetext", fmt(a, 3) + " — " + z.label);
+
+  const mark = $("wornMark");
+  if (mark){
+    if (state.worn){ mark.style.display = ""; mark.style.left = "calc(" + pct(state.worn.alpha) + "% - 1px)"; }
+    else mark.style.display = "none";
+  }
+
+  // wear button state machine
+  const sel = state.selected;
+  const f   = (sel !== null) ? state.futures[sel] : null;
+  const armed = !!f && f.harvested === true;
+  const wearBtn = $("wearBtn");
+  const sameIdx = state.worn && sel !== null && state.worn.index === f?.index;
+  const sameDose = sameIdx && Math.abs(state.worn.alpha - a) < 1e-6;
+
+  wearBtn.disabled = !armed || state.busy || state.looming || sameDose;
+  wearBtn.textContent = sameIdx ? "re-dose" : "wear";
+  $("unwearBtn").disabled = !state.worn || state.busy || state.looming;
+  $("unwearTop").disabled = $("unwearBtn").disabled;
+
+  let why;
+  if (!state.futures.length)      why = "no futures drawn — LOOM a message first";
+  else if (sel === null)          why = "select a thread to arm the dose";
+  else if (!armed)                why = "thread #" + f.index + " has no harvested code";
+  else if (sameDose)              why = "thread #" + f.index + " already worn at this dose";
+  else if (sameIdx)               why = "re-dose thread #" + f.index + " → α " + fmt(a, 3);
+  else                            why = "wear thread #" + f.index + " → α " + fmt(a, 3) + " (" + z.label + ")";
+  $("wearWhy").textContent = why;
+
+  renderAuto();   // the auto row quotes this same knob
+}
+
+/* ==== deck / futures ==== */
+function renderDeck(){
+  const body = $("deckContent");
+  clear(body);
+  $("clearDeck").disabled = state.looming || (!state.futures.length && !state.loomMeta);
+
+  if (state.looming || state.foreignLoom){
+    $("deckStat").textContent = state.foreignLoom && !state.looming
+      ? "a loom is running for this session…"
+      : (state.auto.armed
+          ? "drawing futures · auto-wear armed (" + policyByKey(state.auto.policy).label + ")…"
+          : "drawing futures…");
+    body.appendChild(loomProgressNode());
+    drawFan([]);
+    renderSpread();
+    renderConstellation();
+    renderGauge();
+    return;
+  }
+
+  // the automatic wear is the loudest thing that can happen in this panel,
+  // so it announces itself above everything else on the deck
+  if (state.autoSelected){
+    const a = state.autoSelected;
+    const s = a.scores && typeof a.scores === "object" ? a.scores : {};
+    const bits = [];
+    if (Number.isFinite(Number(s.distinct)))    bits.push("distinct " + fmt(s.distinct, 3));
+    if (campOfScores(s) !== null)               bits.push("camp " + (s.camp === 0 ? "A" : "B") + " (this draw)");
+    if (Number.isFinite(Number(s.loudness)))    bits.push("‖raw‖ " + loudnessText(s.loudness));
+    if (Number.isFinite(Number(s.cos_to_worn))) bits.push("cos→worn " + fmt(s.cos_to_worn, 3));
+
+    // announce what ACTUALLY fired, and say so when it was not what was asked
+    const asked = String(a.policy || "?").toUpperCase();
+    const fired = String(a.effective_policy || a.policy || "?").toUpperCase();
+    const fellBack = fired !== asked;
+    const node = el("div", { class:"autobanner", role:"status" }, [
+      el("span", { class:"hd", text:"↯ AUTO-WORE thread #" + a.index +
+        " — policy " + fired + " at α " + fmt(a.alpha, 3) }),
+    ]);
+    if (fellBack){
+      node.appendChild(el("span", { class:"sub fallback",
+        text:"⚠ " + asked + " → " + fired + " — " + fallbackReason(asked) }));
+    }
+    node.appendChild(el("span", { class:"sub", text: bits.length
+      ? bits.join("  ·  ")
+      : "the server reported no scores for the thread it picked" }));
+    body.appendChild(node);
+  }
+
+  if (state.loomMeta && state.loomMeta.drawn_under_wear){
+    const d = state.loomMeta.drawn_under_wear;
+    body.appendChild(el("div", { class:"underwear" }, [
+      "↯ these futures were drawn FROM INSIDE A BEND — code #" +
+      (d.index !== undefined ? d.index : "?") + " @ α " + fmt(d.alpha, 3) +
+      ". they are counterfactuals of the bent conversation, not of the straight one."
+    ]));
+  }
+
+  if (state.loomText !== null){
+    const stale = $("composer").value.trim() !== state.loomText.trim();
+    const dead = stale || state.spent || !!state.loomContextChanged;
+    const node = el("div", { class:"contemplated" + (dead ? " stale" : "") }, [
+      el("span", { class:"lbl", text:"contemplated message · not committed" }),
+      el("div", { class:"t", text:state.loomText }),
+    ]);
+    // every way a fan can stop belonging to the conversation it was drawn from
+    if (state.loomContextChanged){
+      node.appendChild(el("span", { class:"flag",
+        text:"⚠ " + state.loomContextChanged + " — these futures were drawn from a conversation that no longer exists" }));
+    }
+    if (state.spent) node.appendChild(el("span", { class:"flag", text:"⚠ this message has since been SENT — these futures are of a past turn" }));
+    else if (stale)  node.appendChild(el("span", { class:"flag", text:"⚠ composer has changed — these futures belong to a different message" }));
+    body.appendChild(node);
+  }
+
+  if (state.loomMeta && state.loomMeta.timing_s){
+    const t = state.loomMeta.timing_s;
+    const g = Math.max(0, Number(t.generate) || 0), h = Math.max(0, Number(t.harvest) || 0);
+    const tot = (g + h) || 1;
+    body.appendChild(el("div", { class:"timing" }, [
+      el("div", { class:"bar" }, [
+        el("b", { class:"gen", style:{ width:(g / tot * 100) + "%" } }),
+        el("b", { class:"har", style:{ width:(h / tot * 100) + "%" } }),
+      ]),
+      el("div", { class:"leg mono" }, [
+        el("span", { html:'<i style="background:var(--warp)"></i>generate ' + fmt(g, 2) + "s" }),
+        el("span", { html:'<i style="background:var(--weft)"></i>harvest ' + fmt(h, 2) + "s" }),
+        el("span", { text:"total " + fmt(g + h, 2) + "s" }),
+      ]),
+    ]));
+  }
+
+  const cards = el("div", { class:"cards", id:"cards" });
+  if (!state.futures.length){
+    $("deckStat").textContent = "idle · no futures drawn";
+    cards.appendChild(el("div", { class:"empty" }, [
+      "loom deck · empty\n\nthe loom draws K possible continuations of a message you have\nnot yet said, harvests each future's member code from its own\ninternal signature, and lets you WEAR one before you speak.\n\ntype a message, then press LOOM ↯  (30–120s)"
+    ]));
+  } else {
+    const ok = state.futures.filter(f => f.harvested).length;
+    $("deckStat").textContent = state.futures.length + " futures · " + ok + " harvested · horizon " +
+      (state.loomMeta && state.loomMeta.horizon !== undefined ? state.loomMeta.horizon : "—");
+    state.futures.forEach((f, i) => cards.appendChild(futureCard(f, i)));
+  }
+  body.appendChild(cards);
+
+  scheduleFan();
+  renderSpread();
+  renderConstellation();
+  renderGauge();
+}
+
+function campOfScores(s){
+  const c = s ? s.camp : undefined;
+  return (c === 0 || c === 1) ? c : null;
+}
+
+/* 2-means labels are assigned per draw. "camp A" in this fan has nothing
+   to do with "camp A" in the last one, so every camp affordance carries
+   the caveat and the copy always says "this draw". */
+const CAMP_CAVEAT_FALLBACK =
+  "camp labels are assigned per draw — camp A here is not camp A in any other loom";
+function campCaveat(){
+  const c = state.spread && state.spread.camp_labels;
+  return (typeof c === "string" && c.trim()) ? c.trim() : CAMP_CAVEAT_FALLBACK;
+}
+
+/* loudness is a raw norm; it only becomes a reading against the bank median */
+function loudnessRef(){
+  const a = state.spread ? Number(state.spread.loudness_ref) : NaN;
+  if (Number.isFinite(a) && a > 0) return a;
+  const b = state.info ? Number(state.info.loudness_ref) : NaN;
+  return (Number.isFinite(b) && b > 0) ? b : null;
+}
+function loudnessText(v){
+  const n = Number(v);
+  if (!Number.isFinite(n)) return "—";
+  const ref = loudnessRef();
+  return ref ? fmt(n, 2) + " (" + fmt(n / ref, 2) + "× ref)" : fmt(n, 2);
+}
+function fallbackReason(asked){
+  if (String(asked).toUpperCase() === "MINORITY") return "fan too small to camp";
+  return "the server substituted a policy it could actually run";
+}
+
+/* the per-thread readout strip. distinct is the primary number; loudness
+   and cos-to-worn are micro secondaries. absent keys simply do not render. */
+function scoresStrip(f){
+  const s = (f && f.scores && typeof f.scores === "object") ? f.scores : null;
+  const row = el("div", { class:"scores" });
+  let any = false;
+
+  // the fingerprint leads: it is the only readout that shows the transfer itself
+  const code = codeOf(f);
+  if (code){
+    const camp = campOfScores(s);
+    const isWorn = state.worn && state.worn.index === f.index;
+    const ghost = (state.worn && Array.isArray(state.worn.code) && !isWorn) ? state.worn.code : null;
+    const hue = isWorn ? "var(--weft)" : (camp === 1 ? "var(--camp-b)" : "var(--camp-a)");
+    row.appendChild(el("div", { class:"sc fpwrap", title:
+      "this future's code across " + nAxes() + " anonymous axes, scaled by the bank's q05–q95" +
+      (ghost ? ". the code you are wearing is ghosted behind it — the gap is what would change."
+             : ".") }, [
+      el("span", { class:"cap", text:"code" }),
+      fingerprintNode(code, ghost, hue),
+    ]));
+  }
+
+  if (s && Number.isFinite(Number(s.distinct))){
+    any = true;
+    const v = Number(s.distinct);
+    row.appendChild(el("div", { class:"sc primary",
+      title:"mean cosine DISTANCE from this thread's signature to the others in the fan. higher = more its own path. range ~0–2." }, [
+      el("span", { text:"distinct" }),
+      el("b", { text:fmt(v, 3) }),
+      el("span", { class:"meter" }, [
+        el("i", { style:{ width: Math.max(2, Math.min(100, (v / DISTINCT_MAX) * 100)) + "%" } })
+      ]),
+    ]));
+  }
+  if (s && Number.isFinite(Number(s.loudness))){
+    any = true;
+    const v = Number(s.loudness), ref = loudnessRef();
+    const kids = [ el("span", { text:"‖raw‖" }), el("b", { text:loudnessText(v) }) ];
+    if (ref){
+      // a norm against its reference: half the meter is 1x, so >ref reads long
+      kids.push(el("span", { class:"meter" }, [
+        el("i", { style:{ width: Math.max(2, Math.min(100, (v / (ref * 2)) * 100)) + "%" } })
+      ]));
+    }
+    row.appendChild(el("div", { class:"sc",
+      title: ref
+        ? "the map's raw output norm before norm-matching, against the bank-median reference of " +
+          fmt(ref, 2) + ". advisory only — loud is not the same as good."
+        : "the map's raw output norm before norm-matching. no reference reported, so this is a bare magnitude." }, kids));
+  }
+  if (s && Number.isFinite(Number(s.cos_to_worn))){
+    any = true;
+    const c = Math.max(-1, Math.min(1, Number(s.cos_to_worn)));
+    const half = Math.abs(c) * 50;
+    row.appendChild(el("div", { class:"sc",
+      title:"lever cosine similarity to the code currently worn. +1 = the same bend, −1 = its opposite." }, [
+      el("span", { text:"cos→worn" }),
+      el("b", { text:(c >= 0 ? "+" : "−") + fmt(Math.abs(c), 3) }),
+      el("span", { class:"meter signed" }, [
+        el("i", { style:{ left: (c >= 0 ? "50%" : (50 - half) + "%"), width: Math.max(1.5, half) + "%" } })
+      ]),
+    ]));
+  }
+  if (!any){
+    // a fingerprint is not a score: an unscored thread still says so
+    if (f && f.harvested) row.appendChild(el("span", { class:"none", text:"no scores reported for this thread" }));
+    else if (!code) return null;
+  }
+  return row;
+}
+
+function futureCard(f, i){
+  const dead = f.harvested !== true;
+  const isWorn = state.worn && state.worn.index === f.index;
+  const camp = campOfScores(f.scores);
+  const autoPick = state.autoSelected && state.autoSelected.index === f.index;
+  const cls = "card" + (state.selected === i ? " sel" : "") + (dead ? " dead" : "") + (isWorn ? " worn" : "");
+  const head = el("div", { class:"card-head" }, [
+    el("span", { class:"ix", text:"#" + f.index }),
+    el("span", { class:"tok", text:(f.n_tokens !== undefined && f.n_tokens !== null ? f.n_tokens : "?") + " tok" }),
+    camp !== null ? el("span", { class:"camp " + (camp === 0 ? "a" : "b"),
+      title:"2-means camp " + (camp === 0 ? "A" : "B") + " of THIS draw — which of the two basins this " +
+            "thread falls toward. " + campCaveat(),
+      text:"camp " + (camp === 0 ? "a" : "b") }) : null,
+    autoPick ? el("span", { class:"tag wornt",
+      title:"the server's auto-select picked this thread",
+      text:"auto · " + String(state.autoSelected.policy || "?") }) : null,
+    isWorn ? el("span", { class:"tag wornt", text:"worn α" + fmt(state.worn.alpha, 2) }) : null,
+    el("span", { class:"tag " + (dead ? "bad" : "ok"), text: dead ? "no code" : "harvested" }),
+  ]);
+  const card = el("div", {
+    class: cls, role:"button", tabindex: dead ? -1 : 0,
+    "data-camp": camp === null ? null : String(camp),
+    "aria-pressed": state.selected === i ? "true" : "false",
+    "aria-disabled": dead ? "true" : "false",
+    title: dead ? "harvest failed — this thread cannot be worn" : "click to select thread #" + f.index,
+  }, [
+    head,
+    scoresStrip(f),
+    el("div", { class:"card-body", text: (f.text && String(f.text).length) ? String(f.text) : "(empty continuation)" }),
+    (dead && f.note) ? el("div", { class:"note", text:"harvest note · " + f.note }) : null,
+  ]);
+  const pick = () => selectFuture(i);
+  card.addEventListener("click", () => { if (!dead) pick(); else toast("thread " + f.index, f.note || "harvest failed for this thread", "info"); });
+  card.addEventListener("keydown", (e) => {
+    if (dead) return;
+    if (e.key === "Enter" || e.key === " "){ e.preventDefault(); pick(); }
+  });
+  return card;
+}
+
+/* ==== fan spread — how forked this fan is, overall. ====
+
+   grounding for the copy: WITHIN-FAN cosine distance is the original
+   B0 control — the spread of paths drawn from one prefix. That is a
+   real reading. It is NOT cosine-to-a-contrast-vector, which this
+   project measured and dethroned as a quality bar; the label says so
+   out loud so the number is never mistaken for that one.
+   ==== */
+function renderSpread(){
+  const box = $("spreadStrip");
+  clear(box);
+  box.classList.remove("quiet");
+
+  const harvested = state.futures.filter(f => f.harvested).length;
+  const sp = state.spread;
+
+  const caption = (t) => box.appendChild(el("span", { class:"caption", text:t }));
+
+  if (state.looming){
+    box.classList.add("quiet");
+    box.appendChild(el("span", { class:"name", text:"fan spread" }));
+    box.appendChild(el("span", { text:"measuring after harvest…" }));
+    return;
+  }
+  if (!state.futures.length){
+    box.classList.add("quiet");
+    box.appendChild(el("span", { class:"name", text:"fan spread" }));
+    box.appendChild(el("span", { text:"no fan drawn" }));
+    return;
+  }
+  if (!sp || typeof sp !== "object"){
+    box.classList.add("quiet");
+    box.appendChild(el("span", { class:"name", text:"fan spread" }));
+    box.appendChild(el("span", { text: harvested < 3
+      ? "fan too small to camp — " + harvested + " harvested, needs 3"
+      : "no spread reported for this draw" }));
+    return;
+  }
+
+  box.appendChild(el("span", { class:"name", text:"fan spread" }));
+
+  const mpd = Number(sp.mean_pairwise_distance);
+  if (Number.isFinite(mpd)){
+    box.appendChild(el("div", { class:"grp",
+      title:"mean pairwise cosine distance between the harvested signatures in this fan. higher = the futures genuinely fork." }, [
+      el("span", { text:"mean pairwise" }),
+      el("b", { text:fmt(mpd, 3) }),
+      el("span", { class:"meter" }, [
+        el("i", { style:{ width: Math.max(2, Math.min(100, (mpd / DISTINCT_MAX) * 100)) + "%" } })
+      ]),
+    ]));
+  }
+  if (Number.isFinite(Number(sp.n_scored))){
+    box.appendChild(el("div", { class:"grp", title:"how many threads carried a scoreable signature" }, [
+      el("span", { text:"scored" }), el("b", { text:String(sp.n_scored) }),
+    ]));
+  }
+
+  const camps = Array.isArray(sp.camps) ? sp.camps.map(Number).filter(Number.isFinite) : null;
+  if (camps && camps.length === 2 && (camps[0] + camps[1]) > 0){
+    const tot = camps[0] + camps[1];
+    box.appendChild(el("div", { class:"grp",
+      title:"2-means split over this fan: camp A / camp B. " + campCaveat() }, [
+      el("span", { text:"camps" }),
+      el("b", { text:camps[0] + "│" + camps[1] }),
+      el("span", { class:"campbar" }, [
+        el("b", { class:"a", style:{ width:(camps[0] / tot * 100) + "%" } }),
+        el("b", { class:"b", style:{ width:(camps[1] / tot * 100) + "%" } }),
+      ]),
+      el("span", { class:"perdraw", title:campCaveat(), text:"this draw only" }),
+    ]));
+  } else {
+    box.appendChild(el("div", { class:"grp" }, [
+      el("span", { text: harvested < 3 ? "fan too small to camp (needs 3 harvested)" : "no camps reported" }),
+    ]));
+  }
+  if (Number.isFinite(Number(sp.separation))){
+    box.appendChild(el("div", { class:"grp",
+      title:"distance between the two camp centroids — how cleanly the fan splits in two" }, [
+      el("span", { text:"separation" }), el("b", { text:fmt(sp.separation, 3) }),
+    ]));
+  }
+  const ref = loudnessRef();
+  if (ref){
+    box.appendChild(el("div", { class:"grp",
+      title:"bank-median norm. every ‖raw‖ on the cards is quoted against this, so loudness is a reading rather than a bare number." }, [
+      el("span", { text:"‖raw‖ ref" }), el("b", { text:fmt(ref, 2) }),
+    ]));
+  }
+
+  caption("within-fan cosine distance — the B0 control: how far these paths diverge from one shared prefix. " +
+          "not cosine-to-a-contrast-vector, which this project measured and dethroned.");
+  if (camps && camps.length === 2) caption("camps: " + campCaveat() + ".");
+}
+
+/* ==== constellation ====
+
+   The fan plotted as points in two of the eight code axes. The bank field
+   behind it is the atlas's own distribution — a quantile envelope and the
+   class means — drawn as ± PAIRS, because the bank's signs are a recorded
+   gauge convention and a disposition axis is fundamentally unsigned. The
+   atlas does not publish per-group coordinates, so no landmark is invented.
+   ==== */
+const CV = { w: 300, h: 190, pad: 16 };
+
+function fanIsStale(){
+  return !!state.loomContextChanged || state.spent ||
+         (state.loomText !== null && $("composer").value.trim() !== state.loomText.trim());
+}
+
+function renderConstellation(){
+  const wrap = $("constel");
+  if (!state.constelOn){ wrap.hidden = true; return; }
+  wrap.hidden = false;
+  wrap.classList.toggle("stale", fanIsStale());
+
+  const ax = clampNum($("axX").value, 0, nAxes() - 1, 0);
+  const ay = clampNum($("axY").value, 0, nAxes() - 1, 1);
+  const svg = $("constelSvg");
+  clear(svg);
+  svg.setAttribute("viewBox", "0 0 " + CV.w + " " + CV.h);
+
+  const X = (nx) => CV.pad + ((nx + 1) / 2) * (CV.w - 2 * CV.pad);
+  const Y = (ny) => CV.h - CV.pad - ((ny + 1) / 2) * (CV.h - 2 * CV.pad);
+  const px = (v) => X(axisNorm(v, ax));
+  const py = (v) => Y(axisNorm(v, ay));
+
+  // --- bank field (only what the atlas actually reports) ---
+  const qx = atlasQuantiles(ax), qy = atlasQuantiles(ay);
+  if (qx && qy){
+    const band = (lo, hi, op) => svg.appendChild(el2("rect", {
+      x: Math.min(px(qx[lo]), px(qx[hi])), y: Math.min(py(qy[hi]), py(qy[lo])),
+      width: Math.abs(px(qx[hi]) - px(qx[lo])), height: Math.abs(py(qy[lo]) - py(qy[hi])),
+      fill:"var(--warp)", opacity: op, stroke:"none" }));
+    // the envelopes stay, but quieter now that the real groups are plotted:
+    // a scatter shows where the bank IS, the boxes still name q05/q25/q75/q95
+    band(0, 4, 0.035);  // q05–q95
+    band(1, 3, 0.05);   // q25–q75
+    svg.appendChild(el2("line", { x1:px(qx[2]), y1:CV.pad, x2:px(qx[2]), y2:CV.h - CV.pad,
+      stroke:"var(--hair-strong)", "stroke-dasharray":"2 3", "stroke-width":1 }));
+    svg.appendChild(el2("line", { x1:CV.pad, y1:py(qy[2]), x2:CV.w - CV.pad, y2:py(qy[2]),
+      stroke:"var(--hair-strong)", "stroke-dasharray":"2 3", "stroke-width":1 }));
+  }
+  // The bank field itself, as ± PAIRS. Both signs are drawn identically and
+  // at the same weight: a disposition axis is unsigned, and the bank's stored
+  // sign is only a recorded gauge convention, so neither twin is "the real one".
+  const groups = atlasGroups();
+  const byClass = !!state.classColour;
+  let landmarks = 0, keyText = "";
+  const field = el2("g", { class:"bankfield" });
+
+  if (groups){
+    for (const gr of groups){
+      const c = gr && Array.isArray(gr.coords) ? gr.coords : null;
+      if (!c || !Number.isFinite(Number(c[ax])) || !Number.isFinite(Number(c[ay]))) continue;
+      const hue = byClass ? classHue(gr.class) : "var(--ink-faint)";
+      for (const sgn of [1, -1]){
+        const m = el2("circle", { class:"lmk", cx: px(c[ax] * sgn), cy: py(c[ay] * sgn),
+          r:1.6, fill: hue, stroke:"none", opacity:.34 });
+        m.appendChild(el2("title", {}, String(gr.id) +
+          (gr.class ? " · class " + gr.class : "") +
+          (sgn < 0 ? "\n(mirrored: the bank's sign is a recorded gauge convention, not meaning)" : "") +
+          "\naxis " + ax + " " + fmt(c[ax] * sgn, 3) + " · axis " + ay + " " + fmt(c[ay] * sgn, 3)));
+        field.appendChild(m);
+        landmarks++;
+      }
+    }
+    keyText = "bank field: " + groups.length + " groups as ± pairs (" + landmarks + " points)" +
+              (byClass ? ", by class" : "") + " + quantile envelope";
+  } else {
+    // older atlas without coordinates: fall back to the per-axis class means
+    const cmX = (atlasAxis(ax) || {}).class_means, cmY = (atlasAxis(ay) || {}).class_means;
+    if (cmX && cmY && typeof cmX === "object" && typeof cmY === "object"){
+      for (const k of Object.keys(cmX)){
+        const vx = Number(cmX[k]), vy = Number(cmY[k]);
+        if (!Number.isFinite(vx) || !Number.isFinite(vy)) continue;
+        for (const sgn of [1, -1]){
+          const m = el2("circle", { class:"lmk", cx: px(vx * sgn), cy: py(vy * sgn), r:2.2,
+            fill:"none", stroke: byClass ? classHue(k) : "var(--ink-faint)",
+            "stroke-width":0.8, opacity:.55 });
+          m.appendChild(el2("title", {}, "bank class “" + k + "” mean" +
+            (sgn < 0 ? " (mirrored: bank sign is a gauge convention)" : "") +
+            "\naxis " + ax + " " + fmt(vx * sgn, 3) + " · axis " + ay + " " + fmt(vy * sgn, 3)));
+          field.appendChild(m);
+          landmarks++;
+        }
+      }
+      keyText = "bank field: quantile envelope + " + (landmarks / 2) + " class means (± pairs)";
+    }
+  }
+  svg.appendChild(field);   // behind the fan
+  $("bankKey").textContent = keyText ||
+    (state.atlas ? "bank field: quantile envelope" : "no atlas — fan only");
+
+  // --- the fan ---
+  const autoIdx = state.autoSelected ? state.autoSelected.index : null;
+  state.futures.forEach((f, i) => {
+    const c = codeOf(f);
+    if (!c) return;
+    const camp = campOfScores(f.scores);
+    const isWorn = state.worn && state.worn.index === f.index;
+    const sel = state.selected === i;
+    const hue = isWorn ? "var(--weft)" : (camp === 1 ? "var(--camp-b)" : "var(--camp-a)");
+    const cx = px(c[ax]), cy = py(c[ay]);
+    if (autoIdx !== null && f.index === autoIdx){
+      svg.appendChild(el2("circle", { class:"cflash", cx:cx, cy:cy, r:4.5,
+        fill:"none", stroke:"var(--weft)", "stroke-width":1.5 }));
+    }
+    const dot = el2("circle", { class:"cpt", cx:cx, cy:cy, r: sel ? 5 : 3.4,
+      fill: hue, opacity: f.harvested ? .95 : .4,
+      stroke: sel || isWorn ? "var(--ink)" : "none", "stroke-width": sel || isWorn ? 1 : 0,
+      onclick: () => selectFuture(i) });
+    dot.appendChild(el2("title", {}, "thread #" + f.index +
+      (camp !== null ? " · camp " + (camp === 0 ? "A" : "B") + " (this draw)" : "") +
+      (isWorn ? " · WORN" : "") +
+      "\naxis " + ax + " " + fmt(c[ax], 3) + " · axis " + ay + " " + fmt(c[ay], 3) +
+      "\nclick to select this thread"));
+    svg.appendChild(dot);
+    svg.appendChild(el2("text", { x:cx + 6, y:cy + 3, "font-size":"8",
+      "font-family":"var(--mono)", fill:"var(--ink-faint)" }, "#" + f.index));
+  });
+
+  // the worn code itself, even if its thread is not in this fan
+  const wc = state.worn && Array.isArray(state.worn.code) ? state.worn.code : null;
+  if (wc){
+    const wx = px(wc[ax]), wy = py(wc[ay]);
+    const d = el2("path", { d:"M " + wx + " " + (wy - 5.5) + " L " + (wx + 5.5) + " " + wy +
+      " L " + wx + " " + (wy + 5.5) + " L " + (wx - 5.5) + " " + wy + " Z",
+      fill:"none", stroke:"var(--weft)", "stroke-width":1.4 });
+    d.appendChild(el2("title", {}, "the code you are wearing · #" + state.worn.index +
+      " @ α " + fmt(state.worn.alpha, 3) +
+      "\naxis " + ax + " " + fmt(wc[ax], 3) + " · axis " + ay + " " + fmt(wc[ay], 3)));
+    svg.appendChild(d);
+  }
+
+  // axis labels carry the atlas's pole context, never a name
+  const lab = (i, attrs) => {
+    const a = atlasAxis(i);
+    const t = el2("text", Object.assign({ "font-size":"8.5", "font-family":"var(--mono)",
+      fill:"var(--ink-faint)" }, attrs), "axis " + i);
+    let tip = "axis " + i + " — an anonymous SVD direction; it has no name";
+    if (a){
+      if (Array.isArray(a.high_extreme) && a.high_extreme.length)
+        tip += "\nhigh pole groups: " + a.high_extreme.slice(0,3).map(cleanGroup).join(", ");
+      if (Array.isArray(a.low_extreme) && a.low_extreme.length)
+        tip += "\nlow pole groups: " + a.low_extreme.slice(0,3).map(cleanGroup).join(", ");
+      if (Number.isFinite(Number(a.class_eta2))) tip += "\nclass η² " + fmt(a.class_eta2, 3);
+    }
+    t.appendChild(el2("title", {}, tip));
+    return t;
+  };
+  svg.appendChild(lab(ax, { x: CV.w - CV.pad, y: CV.h - 4, "text-anchor":"end" }));
+  svg.appendChild(lab(ay, { x: 3, y: CV.pad - 5 }));
+
+  renderCodeProv();
+}
+
+/* one quiet line of provenance — what these eight numbers are and are not */
+function renderCodeProv(){
+  const n = $("codeProv");
+  if (!n) return;
+  const bits = [nAxes() + " anonymous directions"];
+  const tr = twinRange();
+  if (tr) bits.push("twin-consistent r " + fmt(tr.lo, 2).replace("0.", ".") +
+                    "–" + fmt(tr.hi, 2).replace("0.", "."));
+  const e = inSpaceEnergy();
+  if (e !== null) bits.push("in-space energy " + fmt(e, 2) +
+    " — the code is a narrow channel; these " + nAxes() + " numbers are what actually transfers");
+  bits.push("the code carries disposition, not content");
+  n.textContent = bits.join(" · ");
+  n.title = "axes are SVD directions of the rank-" + nAxes() + " map and are deliberately unnamed. " +
+    "bank landmark signs are a recorded gauge convention, so they are drawn as ± pairs.";
+}
+
+function selectFuture(i){
+  const f = state.futures[i];
+  if (!f || f.harvested !== true) return;
+  state.selected = (state.selected === i) ? null : i;
+  renderDeck();
+}
+
+/* the fan: threads splaying off a single warp beam down to each card.
+   it is decoration over live layout, so it is scheduled defensively:
+   rAF for the common case, a timer because rAF is throttled in background
+   tabs, and a ResizeObserver for everything else that moves the cards. */
+let fanRaf = null, fanTimer = null, fanBusy = false;
+function scheduleFan(){
+  if (fanRaf !== null) cancelAnimationFrame(fanRaf);
+  fanRaf = requestAnimationFrame(() => { fanRaf = null; drawFanNow(); });
+  clearTimeout(fanTimer);
+  fanTimer = setTimeout(drawFanNow, 150);
+}
+function drawFanNow(){
+  if (fanBusy) return;
+  fanBusy = true;
+  try { drawFan(Array.from(document.querySelectorAll("#cards .card"))); }
+  catch (e){ /* never let the ornament take the instrument down */ }
+  finally { fanBusy = false; }
+}
+function drawFan(cards){
+  const svg = $("fan");
+  const host = $("deckBody");
+  clear(svg);
+  if (!cards || !cards.length){ svg.setAttribute("height", 0); return; }
+  const W = svg.clientWidth || 54;
+  const hostTop = host.getBoundingClientRect().top - host.scrollTop;
+  let maxY = 0;
+  const rows = cards.map((c) => {
+    const r = c.getBoundingClientRect();
+    return { y: r.top - hostTop + Math.min(26, r.height / 2), c: c };
+  });
+  rows.forEach(r => { if (r.y > maxY) maxY = r.y; });
+  svg.setAttribute("height", Math.ceil(maxY + 20));
+  svg.setAttribute("viewBox", "0 0 " + W + " " + Math.ceil(maxY + 20));
+
+  // geometry: threads leave a take-off point on the beam, splay into their own
+  // lane inside a short shed, run the lane, then hook out to their card. a
+  // single bezier over 1500px of deck would just look like a straight line.
+  //
+  // when the fan has been camped, the warp opens into TWO sheds — which is
+  // what a camp is: which of two basins the thread falls toward. uncamped
+  // threads (no harvest, no score) hang in the middle, belonging to neither.
+  const n     = rows.length;
+  const beamY = 5.5;
+  const shed  = Math.max(14, Math.min(34, (rows[0].y - beamY) * 0.55));
+  const hook  = 15;
+
+  const campAt = (i) => campOfScores(state.futures[i] && state.futures[i].scores);
+  const camps  = rows.map((_, i) => campAt(i));
+  const twoSheds = camps.some(c => c !== null);
+  const SHED_X = [W * 0.20, W * 0.80];   // where each shed leaves the beam
+
+  const lanes = new Array(n), origins = new Array(n);
+  if (twoSheds){
+    const groups = { a: [], b: [], none: [] };
+    camps.forEach((c, i) => groups[c === 0 ? "a" : (c === 1 ? "b" : "none")].push(i));
+    const place = (idxs, lo, hi) => {
+      const span = Math.max(1, hi - lo);
+      idxs.forEach((idx, j) => { lanes[idx] = lo + (j + 0.5) * (span / idxs.length); });
+    };
+    if (groups.a.length) place(groups.a, 3.5, W * 0.44);
+    if (groups.b.length) place(groups.b, W * 0.56, W - 4.5);
+    groups.none.forEach((idx, j, arr) => { lanes[idx] = W * 0.5 + (j - (arr.length - 1) / 2) * 3; });
+    camps.forEach((c, i) => { origins[i] = c === null ? W * 0.5 : SHED_X[c]; });
+  } else {
+    rows.forEach((_, i) => { lanes[i] = 4 + (i + 0.5) * ((W - 9) / n); origins[i] = W / 2; });
+  }
+
+  // the warp beam itself
+  svg.appendChild(el2("line", { x1:3, y1:beamY, x2:W - 3, y2:beamY,
+    stroke:"var(--hair-strong)", "stroke-width":1 }));
+
+  rows.forEach((r, i) => {
+    const lx   = lanes[i];
+    const ox   = origins[i];
+    const f    = state.futures[i];
+    const sel  = state.selected === i;
+    const worn = state.worn && f && state.worn.index === f.index;
+    const dead = f && f.harvested !== true;
+    const campHue = camps[i] === 1
+      ? (sel ? "var(--camp-b)" : "var(--camp-b-dim)")
+      : (sel ? "var(--camp-a)" : "var(--camp-a-dim)");
+    const stroke = worn ? "var(--weft)" : (dead ? "var(--hair-strong)" : campHue);
+
+    const peel = Math.max(shed + 2, r.y - hook);
+    let d = "M " + ox + " " + beamY +
+            " C " + ox + " " + (beamY + (shed - beamY) * 0.5) +
+            ", " + lx + " " + (beamY + (shed - beamY) * 0.6) +
+            ", " + lx + " " + shed;
+    d += " L " + lx + " " + peel;
+    d += " C " + lx + " " + (r.y - 4) + ", " + (W - 13) + " " + r.y + ", " + W + " " + r.y;
+
+    svg.appendChild(el2("path", {
+      d: d, fill:"none", stroke: stroke,
+      "stroke-width": (sel || worn) ? 1.8 : 1,
+      "stroke-dasharray": dead ? "2 3" : null,
+      "stroke-linecap": "round",
+      opacity: (sel || worn) ? 1 : (dead ? 0.5 : 0.78),
+    }));
+    svg.appendChild(el2("circle", { cx: W - 1.5, cy: r.y, r: (sel || worn) ? 2.7 : 1.7, fill: stroke }));
+  });
+
+  // one take-off point per shed
+  const takeoffs = twoSheds
+    ? [[SHED_X[0], "var(--camp-a)", "var(--camp-a-dim)"], [SHED_X[1], "var(--camp-b)", "var(--camp-b-dim)"]]
+        .filter((_, gi) => camps.some(c => c === gi))
+    : [[W / 2, "var(--warp)", "var(--warp-dim)"]];
+  for (const [ox, fill, ring] of takeoffs){
+    svg.appendChild(el2("circle", { cx: ox, cy: beamY, r: 2.6, fill: fill }));
+    svg.appendChild(el2("circle", { cx: ox, cy: beamY, r: 5.5, fill:"none",
+      stroke: ring, "stroke-width":1 }));
+  }
+}
+function el2(tag, attrs, text){
+  const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const k in attrs){
+    const v = attrs[k];
+    if (v === null || v === undefined) continue;
+    if (k.slice(0,2) === "on" && typeof v === "function"){ n.addEventListener(k.slice(2), v); continue; }
+    n.setAttribute(k, String(v));
+  }
+  if (text !== null && text !== undefined) n.textContent = String(text);
+  return n;
+}
+
+function loomProgressNode(){
+  const started = state.loomStarted || Date.now();
+  const foreign = state.foreignLoom && !state.looming;
+  // a draw we did not start has no start time we can honestly quote
+  const elapsed = el("span", { class:"mono", id:"progElapsed",
+    title: foreign ? "this draw was not started in this tab, so its start time is unknown" : null,
+    text: foreign ? "elapsed unknown" : "0.0s" });
+  const kShown = (state.loomMeta && state.loomMeta.k !== undefined && state.loomMeta.k !== null)
+    ? state.loomMeta.k : $("kIn").value;
+  const hShown = (state.loomMeta && state.loomMeta.horizon !== undefined && state.loomMeta.horizon !== null)
+    ? state.loomMeta.horizon : $("hIn").value;
+
+  const wrap = el("div", { class:"shuttle-wrap" + (foreign ? " foreign" : "") }, [
+    foreign ? el("span", { class:"foreignnote",
+      text:"↯ a loom is already running for this session — started somewhere other than this tab" }) : null,
+    el("div", { class:"lbl", style:{ marginBottom:"7px" },
+      text: foreign ? "waiting on the running draw" : ("drawing " + kShown + " futures · horizon " + hShown) }),
+    el("div", { class:"stages", id:"progStages" }, [
+      el("span", { class:"stage", "data-s":"generate", text:"generate" }),
+      el("span", { class:"arr", text:"→" }),
+      el("span", { class:"stage", "data-s":"harvest", text:"harvest" }),
+    ]),
+    el("div", { class:"shuttle", id:"progTrack" }, [ el("i"), el("b", { class:"fill" }) ]),
+    el("div", { class:"shuttle-meta" }, [
+      el("span", { id:"progText", text:"waiting for the first progress report · typically 30–120s" }),
+      elapsed,
+    ]),
+    foreign ? null : el("div", { style:{ marginTop:"10px" } }, [
+      el("button", { class:"tiny danger", onclick: cancelLoom, text:"cancel" })
+    ]),
+  ]);
+
+  const tick = foreign ? null : setInterval(() => {
+    if (!state.looming || !elapsed.isConnected){ clearInterval(tick); return; }
+    elapsed.textContent = ((Date.now() - started) / 1000).toFixed(1) + "s";
+  }, 100);
+  requestAnimationFrame(() => {
+    const sh = wrap.querySelector(".shuttle");
+    if (sh) sh.style.setProperty("--run", Math.max(40, sh.clientWidth - 46) + "px");
+    renderProgress();
+  });
+  return wrap;
+}
+
+/* paints /loom/progress into the node without rebuilding the deck */
+function renderProgress(){
+  const track = $("progTrack");
+  if (!track) return;
+  const fill = track.querySelector("b.fill");
+  const text = $("progText");
+  const stages = $("progStages");
+  const p = state.progress;
+
+  if (!p || !Number.isFinite(p.total) || p.total <= 0){
+    track.classList.remove("determinate");
+    if (fill) fill.style.width = "0%";
+    if (text) text.textContent = "waiting for the first progress report · typically 30–120s";
+    if (stages) for (const s of stages.querySelectorAll(".stage")) s.className = "stage";
+    return;
+  }
+  const done = Math.max(0, Math.min(p.total, Number(p.done) || 0));
+  track.classList.add("determinate");
+  if (fill) fill.style.width = ((done / p.total) * 100).toFixed(1) + "%";
+  if (text){
+    text.textContent = String(p.stage || "?") + " · " + done + " of " + p.total +
+      (p.stage === "generate" ? " futures" : " passes");
+  }
+  if (stages){
+    for (const s of stages.querySelectorAll(".stage")){
+      const key = s.getAttribute("data-s");
+      s.className = "stage" +
+        (key === p.stage ? " on" : (key === "generate" && p.stage === "harvest" ? " done" : ""));
+    }
+  }
+}
+
+/* ==== actions ==== */
+function targetBranch(){ return state.view === "base" ? "base" : "loom"; }
+function composerText(){ return $("composer").value.trim(); }
+
+function setBusy(v){
+  state.busy = v;
+  syncComposerButtons();
+  renderGauge();
+  $("resetBtn").disabled = v || state.looming;
+}
+/* returns null when auto is fine to send, or a human reason why it is not */
+function autoBlockedReason(){
+  if (!state.auto.armed) return null;
+  const p = policyByKey(state.auto.policy);
+  if (p.needsWorn && !state.worn){
+    return "policy " + p.key.toUpperCase() + " needs a code already worn — the server refuses it otherwise";
+  }
+  return null;
+}
+
+function renderAuto(){
+  const row = $("autoRow"), sel = $("autoPolicy"), why = $("autoWhy"), dose = $("autoDose");
+  const armed = state.auto.armed;
+  row.classList.toggle("armed", armed);
+  sel.disabled = !armed || state.looming || state.busy;
+  $("autoArm").disabled = state.looming || state.busy;
+
+  // policies needing a worn code are offered but refused, with the reason on them
+  for (const opt of sel.options){
+    const p = policyByKey(opt.value);
+    const blocked = p.needsWorn && !state.worn;
+    opt.disabled = blocked;
+    opt.textContent = p.label + (blocked ? "  (needs a worn code)" : "");
+  }
+
+  dose.innerHTML = "";
+  dose.appendChild(el("span", { text:"α from the dose knob → " }));
+  dose.appendChild(el("b", { text:fmt(state.alpha, 3) }));
+
+  const blocked = autoBlockedReason();
+  why.classList.toggle("blocked", !!blocked);
+  if (blocked){
+    why.textContent = "✕ " + blocked + ". pick another policy, or wear something first.";
+  } else if (armed){
+    const p = policyByKey(state.auto.policy);
+    why.textContent = "ARMED — LOOM will draw the fan AND immediately wear its pick at α " +
+      fmt(state.alpha, 3) + " (" + zoneFor(state.alpha).label + "). " + p.hint;
+  } else {
+    why.textContent = "disarmed — LOOM only draws; you choose the thread and press WEAR.";
+  }
+}
+
+function syncComposerButtons(){
+  const has = composerText().length > 0;
+  const blocked = autoBlockedReason();
+  const e = state.editing;
+  const pendingConfirm = !!e && e.phase === "confirm";
+
+  $("sendBtn").disabled = !has || state.busy || state.looming || pendingConfirm;
+  $("sendBtn").textContent = e
+    ? (e.mode === "last" ? "replace turn " + (e.turn + 1) : "rewrite turn " + (e.turn + 1))
+    : "send → " + targetBranch();
+
+  // looming contemplates a NEXT message; while replacing an existing turn
+  // there is no coherent "next", so the draw is withheld with a reason
+  $("loomBtn").disabled = !has || state.busy || state.looming || !!blocked || !!e;
+  $("loomBtn").textContent = state.looming
+    ? "looming…"
+    : (state.auto.armed ? "loom + auto-wear ↯" : "loom ↯");
+  $("loomBtn").title = e
+    ? "finish or cancel the edit first — looming previews the NEXT message, not a replacement for an existing one"
+    : (blocked ? blocked
+      : (state.auto.armed
+          ? "draw " + $("kIn").value + " futures and let the server wear the " + policyByKey(state.auto.policy).label + " pick"
+          : "draw futures of this message without committing it"));
+  $("mirror").disabled = !!e;   // an edit targets exactly one branch
+  renderAuto();
+}
+
+async function doChat(){
+  const text = composerText();
+  if (!text || state.busy || state.looming) return;
+
+  // an edit in flight replaces a turn rather than appending one
+  if (state.editing){
+    if (state.editing.phase === "confirm") return;   // must be confirmed first
+    if (state.editing.mode === "last") return doEdit(text);
+    return doDeepChat(text);                          // already truncated
+  }
+
+  const primary = targetBranch();
+  const mirror = $("mirror").checked;
+  const branches = mirror ? (primary === "loom" ? ["loom", "base"] : ["base", "loom"]) : [primary];
+
+  $("composer").value = "";
+  syncComposerButtons();
+  if (state.loomText !== null && state.loomText.trim() === text.trim()) state.spent = true;
+  setBusy(true);
+  state.pending = {};
+
+  for (const br of branches){
+    pushMsg(br, { role:"user", text:text });
+    state.pending[br] = true; renderBranch(br);
+    try {
+      const r = await post("/chat", { session: state.session, branch: br, text: text }, { timeout: CHAT_TIMEOUT_MS });
+      state.pending[br] = false;
+      pushMsg(br, applyReply({ role:"bot" }, r, br, null));
+      // the server is authoritative about wear; reconcile
+      if (br === "loom"){
+        const had = !!state.worn;
+        const now = adoptWorn(r.worn);
+        if (had && !now) toast("wear", "server reports no code worn — indicator reconciled", "info");
+        renderWorn();
+      }
+    } catch (e){
+      state.pending[br] = false;
+      pushMsg(br, { kind:"err", text:"/chat (" + br + ") — " + e.message });
+      toast("/chat failed", e.message);
+      break;
+    }
+  }
+  state.pending = null;
+  setBusy(false);
+  renderAll();
+  renderDeck();
+}
+
+/* replace the last exchange in place: /edit swaps the user turn and regenerates */
+async function doEdit(text){
+  const e = state.editing;
+  const branch = e.branch;
+  setBusy(true);
+  state.pending = {}; state.pending[branch] = true; renderBranch(branch);
+  try {
+    const r = await post("/edit", { session: state.session, branch: branch, text: text },
+      { timeout: CHAT_TIMEOUT_MS });
+    const t = verbTarget(branch);
+    clearPrevTakes(branch);
+    if (t){
+      const hist = state.history[branch];
+      hist[t.last.user].text = text;
+      applyReply(hist[t.last.bot], r, branch, { edited: true, rerollN: null });
+    }
+    reconcileWear(branch, r);
+    invalidateLoomContext(branch, "the last message was edited");
+    state.editing = null;
+    $("composer").value = "";
+  } catch (err){
+    pushMsg(branch, { kind:"err", text:"/edit (" + branch + ") — " + err.message });
+    toast("/edit failed", err.message);
+  } finally {
+    state.pending = null;
+    setBusy(false);
+    refresh();
+  }
+}
+
+/* after a truncate the branch is already cut back, so this is a plain /chat */
+async function doDeepChat(text){
+  const e = state.editing;
+  const branch = e.branch;
+  state.editing = null;
+  $("composer").value = "";
+  renderEditBar();
+  setBusy(true);
+  state.pending = {}; state.pending[branch] = true;
+  pushMsg(branch, { role:"user", text:text });
+  renderBranch(branch);
+  try {
+    const r = await post("/chat", { session: state.session, branch: branch, text: text },
+      { timeout: CHAT_TIMEOUT_MS });
+    state.pending[branch] = false;
+    pushMsg(branch, applyReply({ role:"bot" }, r, branch, { edited: true }));
+    reconcileWear(branch, r);
+    invalidateLoomContext(branch, "an earlier turn was rewritten");
+  } catch (err){
+    state.pending[branch] = false;
+    pushMsg(branch, { kind:"err", text:"/chat (" + branch + ", rewrite) — " + err.message });
+    toast("/chat failed", err.message);
+  } finally {
+    state.pending = null;
+    setBusy(false);
+    refresh();
+  }
+}
+
+async function doLoom(){
+  const text = composerText();
+  if (!text || state.busy || state.looming) return;
+
+  const blocked = autoBlockedReason();
+  if (blocked){ toast("auto-wear", blocked); return; }
+
+  const k = clampNum($("kIn").value, 1, 16, 6);
+  const horizon = clampNum($("hIn").value, 16, 1024, 192);
+  $("kIn").value = k; $("hIn").value = horizon;
+
+  const autoReq = state.auto.armed
+    ? { policy: state.auto.policy, alpha: state.alpha }
+    : null;
+
+  state.looming = true;
+  state.loomStarted = Date.now();
+  state.futures = [];
+  state.selected = null;
+  state.loomText = text;
+  state.spent = false;
+  state.loomMeta = { k: k, horizon: horizon };
+  state.spread = null;
+  state.autoSelected = null;
+  state.loomId = null;
+  state.progress = null;
+  state.loomContextChanged = null;
+  state.cancelled = false;
+  syncComposerButtons();
+  $("resetBtn").disabled = true;
+  renderDeck();
+  startProgressPoll();   // determinate bar for the 30–120s wait
+
+  try {
+    const body = { session: state.session, text: text, k: Math.round(k), horizon: Math.round(horizon) };
+    if (autoReq) body.auto = autoReq;
+    const r = await post("/loom", body,
+      { timeout: LOOM_TIMEOUT_MS, exposeAbort: (c) => { state.loomAbort = c; } }
+    );
+    state.futures = Array.isArray(r.futures) ? r.futures.map(normaliseFuture) : [];
+    state.loomMeta = {
+      k: k, horizon: (r.horizon !== undefined ? r.horizon : horizon),
+      timing_s: r.timing_s || null,
+      drawn_under_wear: r.drawn_under_wear || null,
+    };
+    state.loomId = (r.loom_id !== undefined && r.loom_id !== null) ? r.loom_id : null;
+    state.spread = (r.spread && typeof r.spread === "object") ? r.spread : null;
+
+    if (r.n_futures !== undefined && r.n_futures !== state.futures.length){
+      toast("loom", "n_futures=" + r.n_futures + " but " + state.futures.length + " thread objects returned", "info");
+    }
+    const ok = state.futures.filter(f => f.harvested).length;
+    if (!state.futures.length) toast("loom", "returned no futures", "info");
+    else if (!ok) toast("loom", "no thread harvested a code — nothing can be worn from this draw");
+
+    // /loom always reports post-loom wear, norms included
+    if (Object.prototype.hasOwnProperty.call(r, "worn")) adoptWorn(r.worn);
+
+    // did the server pick and wear something for us?
+    const a = r.auto_selected;
+    if (a && typeof a === "object" && a.index !== undefined && a.index !== null){
+      const asked = a.policy || (autoReq && autoReq.policy) || "?";
+      state.autoSelected = {
+        policy: asked,
+        effective_policy: a.effective_policy || asked,
+        index: a.index,
+        alpha: Number(a.alpha !== undefined ? a.alpha : (autoReq ? autoReq.alpha : state.alpha)),
+        scores: a.scores || null,
+      };
+      const fired = String(state.autoSelected.effective_policy).toUpperCase();
+      const askedUp = String(asked).toUpperCase();
+      const fellBack = fired !== askedUp;
+
+      // the indicator must name the policy that ACTUALLY ran, not the one asked for
+      if (state.worn && state.worn.index === state.autoSelected.index){
+        state.worn.via = "auto";
+        state.worn.policy = state.autoSelected.effective_policy;
+      }
+      const pick = state.futures.findIndex(f => f.index === state.autoSelected.index);
+      if (pick >= 0) state.selected = pick;
+      const z = zoneFor(state.autoSelected.alpha);
+      pushMsg("loom", { kind:"sys", text:"↯ AUTO-WORE member code #" + state.autoSelected.index +
+        " — policy " + fired + (fellBack ? " (asked for " + askedUp + "; " + fallbackReason(askedUp) + ")" : "") +
+        " at α " + fmt(state.autoSelected.alpha, 3) + " — " + z.label + ". " + z.hint });
+      toast("auto-wore #" + state.autoSelected.index,
+        (fellBack ? askedUp + " → " + fired + " (" + fallbackReason(askedUp) + ") at α "
+                  : "policy " + fired + " at α ") +
+        fmt(state.autoSelected.alpha, 3) + " (" + z.label + ")", "info");
+    } else {
+      if (autoReq) toast("auto-wear", "armed, but the server reported no auto_selected — nothing was worn automatically", "info");
+      if (ok && state.selected === null){
+        // auto-select the first harvested thread; cheap and almost always what you want
+        const first = state.futures.findIndex(f => f.harvested);
+        if (first >= 0) state.selected = first;
+      }
+    }
+
+    if (r.drawn_under_wear){
+      toast("drawn under wear", "futures were drawn from inside code #" +
+        r.drawn_under_wear.index + " @ α " + fmt(r.drawn_under_wear.alpha, 3), "info");
+    }
+    renderWorn();
+  } catch (e){
+    if (state.cancelled){
+      toast("loom", "cancelled locally — the server may still be generating", "info");
+      state.loomText = null; state.loomMeta = null;
+    } else {
+      toast("/loom failed", e.message);
+      state.loomMeta = null;
+    }
+  } finally {
+    state.looming = false;
+    state.loomAbort = null;
+    state.cancelled = false;
+    state.progress = null;
+    stopProgressPoll();
+    $("resetBtn").disabled = state.busy;
+    syncComposerButtons();
+    renderDeck();
+  }
+}
+function cancelLoom(){
+  if (!state.looming || !state.loomAbort) return;
+  state.cancelled = true;
+  try { state.loomAbort.abort("cancelled"); } catch(_){}
+}
+
+async function doWear(){
+  const i = state.selected;
+  const f = (i !== null) ? state.futures[i] : null;
+  if (!f || f.harvested !== true || state.busy || state.looming) return;
+  const alpha = state.alpha;
+  setBusy(true);
+  try {
+    // scope the wear to the draw we actually rendered — the server 400s if
+    // this is not the session's latest, which is exactly the guard we want
+    const body = { session: state.session, index: f.index, alpha: alpha };
+    if (state.loomId) body.loom_id = state.loomId;
+    const r = await post("/wear", body, { timeout: 60000 });
+    adoptWorn(r.worn, {
+      via: "manual",
+      sites: Array.isArray(r.sites) ? r.sites : null,
+    });
+    state.wornVerified = true;
+    state.autoSelected = null;   // a hand-wear supersedes the server's pick
+    if (!state.worn){
+      toast("/wear", "server accepted the wear but reported nothing worn", "info");
+    } else {
+      const z = zoneFor(state.worn.alpha);
+      pushMsg("loom", { kind:"sys", text:"↯ wore member code #" + state.worn.index + " at α " +
+        fmt(state.worn.alpha, 3) + " — " + z.label + ". " + z.hint });
+    }
+    renderWorn();
+  } catch (e){
+    toast("/wear failed", e.message);
+    // a stale loom_id is the most likely 400 here; say so and re-read state
+    if (e.status === 400 && state.loomId){
+      toast("/wear", "this draw may no longer be the session's latest — re-reading server state", "info");
+      hydrate("after a rejected wear");
+    }
+  } finally {
+    setBusy(false);
+    renderDeck();
+    renderAll();
+  }
+}
+
+async function doUnwear(){
+  if (state.busy || state.looming) return;
+  setBusy(true);
+  try {
+    const r = await post("/unwear", { session: state.session }, { timeout: 30000 });
+    if (r.worn) toast("unwear", "server still reports a worn code — check the session key", "info");
+    const had = state.worn;
+    state.worn = null;
+    state.wornVerified = true;
+    state.autoSelected = null;
+    if (had) pushMsg("loom", { kind:"sys", text:"↯ unwore code #" + had.index + " — conversation running straight again" });
+    renderWorn();
+  } catch (e){
+    toast("/unwear failed", e.message);
+  } finally {
+    setBusy(false);
+    renderDeck();
+    renderAll();
+  }
+}
+
+/* ==== conversation verbs ====
+
+   reroll / edit / undo / truncate, each per BRANCH. They never touch
+   wear — but on the loom branch they run UNDER it, so a redraw carries
+   the worn chip and reads as bent. They DO change the context a fan was
+   drawn from, so each one marks the deck stale by the same machinery
+   that catches an edited composer.
+   ==== */
+/* the four verbs all end the same way: repaint everything that can have moved */
+function refresh(){ renderEditBar(); renderUndoBar(); syncComposerButtons(); renderAll(); renderDeck(); }
+
+/* /chat, /reroll and /edit share a reply envelope; write it onto a message */
+function applyReply(bot, r, branch, extra){
+  bot.text = typeof r.reply === "string" ? r.reply : JSON.stringify(r.reply);
+  bot.n_turns = r.n_turns;
+  bot.elapsed_s = r.elapsed_s;
+  bot.dropped = r.dropped_messages || 0;
+  bot.worn = (branch === "loom" && r.worn) ? r.worn : null;   // redraws run under wear
+  if (extra) Object.assign(bot, extra);
+  return bot;
+}
+/* the loom branch's reply is also the authoritative word on what is worn */
+function reconcileWear(branch, r){
+  if (branch !== "loom") return;
+  if (!Object.prototype.hasOwnProperty.call(r, "worn")) return;
+  adoptWorn(r.worn);
+  renderWorn();
+}
+
+function invalidateLoomContext(branch, why){
+  if (branch !== "loom") return;          // the fan belongs to the loom branch alone
+  if (state.loomText === null) return;
+  state.loomContextChanged = why;
+  renderDeck();
+}
+
+function renderEditBar(){
+  const bar = $("editBar"), e = state.editing;
+  if (!e){ bar.hidden = true; bar.classList.remove("destructive"); return; }
+  bar.hidden = false;
+  const pending = e.phase === "confirm";
+  bar.classList.toggle("destructive", pending || e.mode === "deep");
+  $("editWhat").textContent = "turn " + (e.turn + 1) + " of " + e.total + " on " + e.branch;
+  $("editConfirm").hidden = !pending;
+  $("editWarn").textContent = pending
+    ? "⚠ this replaces turn " + (e.turn + 1) + " and DISCARDS the " + e.discards +
+      " exchange" + (e.discards === 1 ? "" : "s") + " after it on " + e.branch +
+      ". nothing is sent until you confirm."
+    : (e.mode === "deep"
+        ? "the later exchanges are already discarded — send to write the new turn " + (e.turn + 1) + "."
+        : "send replaces this exchange in place; cancel leaves it untouched.");
+}
+
+function startEditLast(branch){
+  if (verbsBlocked()) return;
+  const t = verbTarget(branch);
+  if (!t) return;
+  const userMsg = state.history[branch][t.last.user];
+  state.editing = { branch: branch, mode:"last", phase:"active",
+                    turn: t.turn, total: t.ex.length, discards: 0 };
+  $("composer").value = userMsg ? userMsg.text : "";
+  $("composer").focus();
+  renderEditBar(); syncComposerButtons(); renderAll();
+}
+
+function startEditDeep(branch, turn){
+  if (verbsBlocked()) return;
+  const ex = exchangesOf(branch);
+  if (turn < 0 || turn >= ex.length) return;
+  state.editing = {
+    branch: branch, mode:"deep", phase:"confirm",
+    turn: turn, total: ex.length,
+    discards: ex.length - 1 - turn,
+    text: state.history[branch][ex[turn].user].text,
+  };
+  renderEditBar(); syncComposerButtons(); renderAll();
+}
+
+async function confirmEditDeep(){
+  const e = state.editing;
+  if (!e || e.phase !== "confirm" || state.busy || state.looming) return;
+  setBusy(true);
+  try {
+    // keep_turns is the number of exchanges retained, so editing turn t keeps t of them
+    const r = await post("/truncate",
+      { session: state.session, branch: e.branch, keep_turns: e.turn }, { timeout: 60000 });
+    clearPrevTakes(e.branch);
+    invalidateLoomContext(e.branch, "the branch was truncated back to turn " + (e.turn + 1));
+    e.phase = "active";
+    $("composer").value = e.text || "";
+    toast("truncate", "dropped " + (r.dropped_messages !== undefined ? r.dropped_messages : "?") +
+      " message(s) · " + e.branch + " now holds " + r.n_turns + " turn(s)", "info");
+    await hydrate(null, { quiet:true });
+    $("composer").focus();
+  } catch (err){
+    toast("/truncate failed", err.message);
+    state.editing = null;
+  } finally {
+    setBusy(false);
+    refresh();
+  }
+}
+
+function cancelEdit(){
+  state.editing = null;
+  $("composer").value = "";
+  renderEditBar(); syncComposerButtons(); renderAll();
+}
+
+async function doReroll(branch){
+  if (verbsBlocked()) return;
+  if (!verbTarget(branch)) return;
+  setBusy(true);
+  state.pending = {}; state.pending[branch] = true; renderBranch(branch);
+  try {
+    const r = await post("/reroll", { session: state.session, branch: branch }, { timeout: CHAT_TIMEOUT_MS });
+    const t = verbTarget(branch);
+    clearPrevTakes(branch);
+    if (t){
+      const bot = state.history[branch][t.last.bot];
+      const displaced = (typeof r.replaced === "string") ? r.replaced : bot.text;
+      applyReply(bot, r, branch, { rerollN: r.reroll_n, previousTake: displaced });
+    }
+    reconcileWear(branch, r);
+    invalidateLoomContext(branch, "the last reply was redrawn");
+  } catch (e){
+    pushMsg(branch, { kind:"err", text:"/reroll (" + branch + ") — " + e.message });
+    toast("/reroll failed", e.message);
+  } finally {
+    state.pending = null;
+    setBusy(false);
+    refresh();
+  }
+}
+
+async function doUndo(branch){
+  if (verbsBlocked()) return;
+  setBusy(true);
+  try {
+    const r = await post("/undo", { session: state.session, branch: branch }, { timeout: 60000 });
+    const popped = r.popped || {};
+    clearPrevTakes(branch);
+    // nothing typed is ever destroyed by one click: the turn comes back on offer
+    state.undone = { branch: branch, user: popped.user || "", assistant: popped.assistant || "" };
+    invalidateLoomContext(branch, "an exchange was undone");
+    await hydrate(null, { quiet:true });
+    toast("undo", "removed one exchange from " + branch + " · " + r.n_turns + " turn(s) left", "info");
+  } catch (e){
+    toast("/undo failed", e.message);
+  } finally {
+    setBusy(false);
+    refresh();
+  }
+}
+
+function renderUndoBar(){
+  const bar = $("undoBar"), u = state.undone;
+  if (!u){ bar.hidden = true; return; }
+  bar.hidden = false;
+  $("undoText").textContent = "“" + String(u.user).replace(/\s+/g, " ").slice(0, 160) + "”";
+  $("undoText").title = u.user;
+  $("undoRestore").disabled = state.busy || state.looming;
+}
+
+let resetArmed = false, resetTimer = null;
+async function doReset(){
+  if (state.busy || state.looming) return;
+  const btn = $("resetBtn");
+  if (!resetArmed){
+    resetArmed = true;
+    btn.classList.add("armed");
+    btn.textContent = "confirm?";
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(disarmReset, 4000);
+    return;
+  }
+  disarmReset();
+  setBusy(true);
+  try {
+    await post("/reset", { session: state.session }, { timeout: 30000 });
+    state.history = { loom: [], base: [] };
+    state.futures = []; state.selected = null; state.loomText = null;
+    state.loomMeta = null; state.spent = false;
+    state.spread = null; state.autoSelected = null; state.loomId = null;
+    state.loomContextChanged = null; state.editing = null; state.undone = null;
+    state.worn = null; state.wornVerified = true;
+    toast("reset", "session '" + state.session + "' cleared", "info");
+  } catch (e){
+    toast("/reset failed", e.message);
+  } finally {
+    setBusy(false);
+    renderAll(); renderWorn(); renderDeck();
+  }
+}
+function disarmReset(){
+  resetArmed = false;
+  clearTimeout(resetTimer);
+  const btn = $("resetBtn");
+  btn.classList.remove("armed");
+  btn.textContent = "reset";
+}
+
+/* ==== view wiring ==== */
+function setView(v){
+  state.view = v;
+  $("tabLoom").setAttribute("aria-pressed", String(v === "loom"));
+  $("tabBase").setAttribute("aria-pressed", String(v === "base"));
+  $("tabBoth").setAttribute("aria-pressed", String(v === "both"));
+  const pl = document.querySelector('.pane[data-branch="loom"]');
+  const pb = document.querySelector('.pane[data-branch="base"]');
+  pl.hidden = (v === "base");
+  pb.hidden = (v === "loom");
+  const t = targetBranch();
+  $("mirror").parentElement.lastChild.textContent = t === "loom" ? " mirror to base" : " mirror to loom";
+  syncComposerButtons();   // owns the send label, which an edit also claims
+  renderAll();
+}
+
+function setSession(name){
+  const n = (name || "").trim() || "luxia";
+  if (n === state.session) return;
+  state.session = n;
+  $("session").value = n;
+  state.history = { loom: [], base: [] };
+  state.futures = []; state.selected = null; state.loomText = null;
+  state.loomMeta = null; state.spent = false;
+  state.spread = null; state.autoSelected = null; state.loomId = null;
+  state.loomContextChanged = null; state.editing = null; state.undone = null;
+  state.worn = null;
+  state.foreignLoom = false; state.progress = null; stopProgressPoll();
+  renderAll(); renderWorn(); renderDeck();
+  hydrate("for session '" + n + "'");   // /state tells us everything about it
+}
+
+function cycleTheme(){
+  const order = ["auto", "dark", "light"];
+  const cur = document.documentElement.getAttribute("data-theme") || "auto";
+  const next = order[(order.indexOf(cur) + 1) % order.length];
+  document.documentElement.setAttribute("data-theme", next);
+  $("themeBtn").textContent = next;
+  try { localStorage.setItem("loom.theme", next); } catch(_){}
+  scheduleFan();
+}
+
+function wire(){
+  $("tabLoom").addEventListener("click", () => setView("loom"));
+  $("tabBase").addEventListener("click", () => setView("base"));
+  $("tabBoth").addEventListener("click", () => setView("both"));
+
+  $("sendBtn").addEventListener("click", doChat);
+  $("loomBtn").addEventListener("click", doLoom);
+  $("wearBtn").addEventListener("click", doWear);
+  $("unwearBtn").addEventListener("click", doUnwear);
+  $("unwearTop").addEventListener("click", doUnwear);
+  $("resetBtn").addEventListener("click", doReset);
+  $("themeBtn").addEventListener("click", cycleTheme);
+  $("clearDeck").addEventListener("click", () => {
+    if (state.looming) return;
+    state.futures = []; state.selected = null; state.loomText = null; state.loomMeta = null;
+    state.spent = false; state.spread = null; state.autoSelected = null;
+    state.loomContextChanged = null;
+    renderDeck();
+  });
+
+  $("constelBtn").addEventListener("click", () => {
+    state.constelOn = !state.constelOn;
+    $("constelBtn").setAttribute("aria-pressed", String(state.constelOn));
+    $("constelBtn").classList.toggle("primary", state.constelOn);
+    try { localStorage.setItem("loom.constel", state.constelOn ? "1" : "0"); } catch(_){}
+    renderConstellation();
+    scheduleFan();
+  });
+  $("classCol").addEventListener("change", (e) => {
+    state.classColour = !!e.target.checked;
+    renderConstellation();
+  });
+  for (const id of ["axX", "axY"]){
+    $(id).addEventListener("change", () => {
+      // the two axes must differ, or the plot collapses onto its diagonal
+      if ($("axX").value === $("axY").value){
+        const other = id === "axX" ? $("axY") : $("axX");
+        other.value = String((Number($(id).value) + 1) % nAxes());
+      }
+      renderConstellation();
+    });
+  }
+
+  $("editConfirm").addEventListener("click", confirmEditDeep);
+  $("editCancel").addEventListener("click", cancelEdit);
+  $("undoDismiss").addEventListener("click", () => { state.undone = null; renderUndoBar(); });
+  $("undoRestore").addEventListener("click", () => {
+    const u = state.undone;
+    if (!u || state.busy || state.looming) return;
+    const box = $("composer");
+    // never clobber something already typed — append instead
+    box.value = box.value.trim() ? (box.value.replace(/\s+$/, "") + "\n\n" + u.user) : u.user;
+    state.undone = null;
+    renderUndoBar(); syncComposerButtons(); renderDeck();
+    box.focus();
+  });
+
+  $("autoArm").addEventListener("change", (e) => {
+    state.auto.armed = !!e.target.checked;
+    const blocked = autoBlockedReason();
+    if (state.auto.armed && blocked) toast("auto-wear", blocked, "info");
+    syncComposerButtons();
+  });
+  $("autoPolicy").addEventListener("change", (e) => {
+    const p = policyByKey(e.target.value);
+    if (p.needsWorn && !state.worn){
+      // the option is disabled, but keyboard selection can still land here
+      e.target.value = state.auto.policy;
+      toast("auto-wear", "policy " + p.key.toUpperCase() + " needs a code already worn", "info");
+      return;
+    }
+    state.auto.policy = p.key;
+    syncComposerButtons();
+  });
+
+  const comp = $("composer");
+  comp.addEventListener("input", () => { syncComposerButtons(); if (state.loomText !== null) renderDeck(); });
+  comp.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)){
+      e.preventDefault();
+      if (e.shiftKey) doLoom(); else doChat();
+    }
+    if (e.key === "Escape" && state.editing){ e.preventDefault(); cancelEdit(); }
+  });
+
+  $("session").addEventListener("change", (e) => setSession(e.target.value));
+  $("session").addEventListener("keydown", (e) => { if (e.key === "Enter") e.target.blur(); });
+
+  for (const id of ["kIn", "hIn"]){
+    $(id).addEventListener("input", (e) => { e.target.dataset.touched = "1"; });
+    $(id).addEventListener("change", (e) => {
+      const lo = id === "kIn" ? 1 : 16, hi = id === "kIn" ? 16 : 1024, d = id === "kIn" ? 6 : 192;
+      e.target.value = Math.round(clampNum(e.target.value, lo, hi, d));
+    });
+  }
+
+  const slider = $("alpha");
+  slider.addEventListener("input", () => {
+    state.alpha = clampNum(slider.value, 0, ALPHA_MAX, 0.5);
+    renderGauge();
+  });
+  // snap to the calibration landmarks with a modifier-free double-click
+  $("track").addEventListener("dblclick", () => {
+    const snaps = [0.125, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5];
+    let best = snaps[0];
+    for (const s of snaps) if (Math.abs(s - state.alpha) < Math.abs(best - state.alpha)) best = s;
+    state.alpha = best; slider.value = String(best); renderGauge();
+  });
+
+  window.addEventListener("resize", scheduleFan);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) scheduleFan(); });
+  if (typeof ResizeObserver === "function"){
+    try { new ResizeObserver(scheduleFan).observe($("deckBody")); } catch(_){}
+  }
+
+  window.addEventListener("error", (e) => {
+    toast("ui fault", (e && e.message) || "unknown script error");
+  });
+  window.addEventListener("unhandledrejection", (e) => {
+    const r = e && e.reason;
+    toast("ui fault", (r && r.message) || String(r));
+  });
+}
+
+/* ==== boot ==== */
+function boot(){
+  try {
+    const t = localStorage.getItem("loom.theme");
+    if (t === "dark" || t === "light" || t === "auto"){
+      document.documentElement.setAttribute("data-theme", t);
+      $("themeBtn").textContent = t;
+    }
+    const s = localStorage.getItem("loom.session");
+    if (s) { $("session").value = s; state.session = s; }
+  } catch(_){ /* private mode / blocked storage — fine */ }
+
+  if (!/Mac|iPhone|iPad/.test(navigator.platform || "")){
+    $("kbdHint").textContent = "ctrl+↵ send · ctrl+⇧+↵ loom";
+  }
+
+  try {
+    if (localStorage.getItem("loom.constel") === "1"){
+      state.constelOn = true;
+      $("constelBtn").setAttribute("aria-pressed", "true");
+      $("constelBtn").classList.add("primary");
+    }
+  } catch(_){}
+
+  buildPolicySelect();   // provisional; rebuilt from /info once it lands
+  buildAxisSelects();
+  buildTrack();
+  wire();
+  setView("loom");
+  renderWorn();
+  renderGauge();
+  renderDeck();
+  renderAll();
+
+  // /info first (sites, policies, loudness reference), then the atlas that
+  // gives code coordinates their scale, then the session's own state —
+  // histories, worn code, last draw, any loom already running
+  loadInfo().then(loadAtlas).then(() => hydrate(null));
+
+  // persist the session key opportunistically
+  setInterval(() => { try { localStorage.setItem("loom.session", state.session); } catch(_){} }, 4000);
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+else boot();
+
+})();
+</script>
+</body>
+</html>

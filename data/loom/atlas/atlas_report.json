@@ -1,0 +1,2231 @@
+{
+ "rank": 8,
+ "n_groups": 138,
+ "singular_values": [
+  0.508,
+  0.418,
+  0.353,
+  0.338,
+  0.299,
+  0.286,
+  0.257,
+  0.25
+ ],
+ "in_space_energy": {
+  "mean": -0.347,
+  "median": -0.334,
+  "note": "fraction of centered lever energy inside span(V) \u2014 how much of a TRUE disposition the 8-dim code can even say"
+ },
+ "axes": [
+  {
+   "axis": 0,
+   "sv": 0.508,
+   "coord_std": 0.94,
+   "class_eta2": 0.162,
+   "class_means": {
+    "convergent_control": 0.024,
+    "decision_continuation": 0.183,
+    "interpretive_fork": 0.451,
+    "method_fork": -0.603,
+    "open_generative": 0.504,
+    "stance_fork": -0.148
+   },
+   "twin_consistency_r": 0.774,
+   "low_extreme": [
+    "dc14|orig(de)",
+    "mf3|repl(me)",
+    "mf8|repl(me)",
+    "sf23|orig(st)"
+   ],
+   "high_extreme": [
+    "if1|orig(in)",
+    "if7|orig(in)",
+    "if5|repl(in)",
+    "if5|orig(in)"
+   ],
+   "quantiles": [
+    -0.852,
+    -0.526,
+    -0.193,
+    0.708,
+    1.624
+   ]
+  },
+  {
+   "axis": 1,
+   "sv": 0.418,
+   "coord_std": 0.639,
+   "class_eta2": 0.147,
+   "class_means": {
+    "convergent_control": 0.255,
+    "decision_continuation": 0.428,
+    "interpretive_fork": 0.588,
+    "method_fork": 0.873,
+    "open_generative": 0.133,
+    "stance_fork": 0.7
+   },
+   "twin_consistency_r": 0.621,
+   "low_extreme": [
+    "if1|repl(in)",
+    "og19|orig(op)",
+    "sf1|repl(st)",
+    "og7|repl(op)"
+   ],
+   "high_extreme": [
+    "mf3|repl(me)",
+    "sf3|orig(st)",
+    "if7|orig(in)",
+    "sf3|repl(st)"
+   ],
+   "quantiles": [
+    -0.303,
+    0.127,
+    0.388,
+    0.815,
+    1.55
+   ]
+  },
+  {
+   "axis": 2,
+   "sv": 0.353,
+   "coord_std": 0.675,
+   "class_eta2": 0.196,
+   "class_means": {
+    "convergent_control": -0.037,
+    "decision_continuation": 0.148,
+    "interpretive_fork": -0.304,
+    "method_fork": -0.744,
+    "open_generative": -0.021,
+    "stance_fork": 0.122
+   },
+   "twin_consistency_r": 0.541,
+   "low_extreme": [
+    "if1|repl(in)",
+    "if5|orig(in)",
+    "mf8|orig(me)",
+    "mf3|repl(me)"
+   ],
+   "high_extreme": [
+    "if7|orig(in)",
+    "sf13|orig(st)",
+    "sf3|orig(st)",
+    "sf3|repl(st)"
+   ],
+   "quantiles": [
+    -1.097,
+    -0.465,
+    -0.196,
+    0.218,
+    1.051
+   ]
+  },
+  {
+   "axis": 3,
+   "sv": 0.338,
+   "coord_std": 0.647,
+   "class_eta2": 0.067,
+   "class_means": {
+    "convergent_control": 0.154,
+    "decision_continuation": 0.115,
+    "interpretive_fork": 0.17,
+    "method_fork": 0.198,
+    "open_generative": -0.086,
+    "stance_fork": -0.245
+   },
+   "twin_consistency_r": 0.719,
+   "low_extreme": [
+    "sf14|orig(st)",
+    "sf3|orig(st)",
+    "sf3|repl(st)",
+    "if1|repl(in)"
+   ],
+   "high_extreme": [
+    "dc7|orig(de)",
+    "dc4|orig(de)",
+    "if7|repl(in)",
+    "if7|orig(in)"
+   ],
+   "quantiles": [
+    -0.759,
+    -0.138,
+    0.088,
+    0.324,
+    0.7
+   ]
+  },
+  {
+   "axis": 4,
+   "sv": 0.299,
+   "coord_std": 0.571,
+   "class_eta2": 0.014,
+   "class_means": {
+    "convergent_control": -0.15,
+    "decision_continuation": -0.118,
+    "interpretive_fork": -0.07,
+    "method_fork": 0.093,
+    "open_generative": -0.011,
+    "stance_fork": -0.062
+   },
+   "twin_consistency_r": 0.585,
+   "low_extreme": [
+    "dc8|orig(de)",
+    "dc19|orig(de)",
+    "dc3|repl(de)",
+    "if13|orig(in)"
+   ],
+   "high_extreme": [
+    "dc16|orig(de)",
+    "if7|orig(in)",
+    "if1|repl(in)",
+    "if7|repl(in)"
+   ],
+   "quantiles": [
+    -0.902,
+    -0.353,
+    -0.087,
+    0.153,
+    1.077
+   ]
+  },
+  {
+   "axis": 5,
+   "sv": 0.286,
+   "coord_std": 0.526,
+   "class_eta2": 0.055,
+   "class_means": {
+    "convergent_control": -0.205,
+    "decision_continuation": -0.14,
+    "interpretive_fork": -0.024,
+    "method_fork": -0.341,
+    "open_generative": -0.307,
+    "stance_fork": -0.066
+   },
+   "twin_consistency_r": 0.54,
+   "low_extreme": [
+    "dc3|repl(de)",
+    "mf11|orig(me)",
+    "if7|orig(in)",
+    "sf14|orig(st)"
+   ],
+   "high_extreme": [
+    "dc2|orig(de)",
+    "dc17|orig(de)",
+    "if5|repl(in)",
+    "if5|orig(in)"
+   ],
+   "quantiles": [
+    -0.989,
+    -0.476,
+    -0.172,
+    0.13,
+    0.723
+   ]
+  },
+  {
+   "axis": 6,
+   "sv": 0.257,
+   "coord_std": 0.49,
+   "class_eta2": 0.113,
+   "class_means": {
+    "convergent_control": -0.027,
+    "decision_continuation": 0.148,
+    "interpretive_fork": 0.006,
+    "method_fork": -0.252,
+    "open_generative": -0.296,
+    "stance_fork": 0.004
+   },
+   "twin_consistency_r": 0.314,
+   "low_extreme": [
+    "mf1|repl(me)",
+    "sf9|orig(st)",
+    "og7|repl(op)",
+    "og16|orig(op)"
+   ],
+   "high_extreme": [
+    "dc3|orig(de)",
+    "dc3|repl(de)",
+    "dc16|orig(de)",
+    "dc14|orig(de)"
+   ],
+   "quantiles": [
+    -0.904,
+    -0.343,
+    -0.118,
+    0.194,
+    0.777
+   ]
+  },
+  {
+   "axis": 7,
+   "sv": 0.25,
+   "coord_std": 0.476,
+   "class_eta2": 0.11,
+   "class_means": {
+    "convergent_control": 0.016,
+    "decision_continuation": 0.264,
+    "interpretive_fork": -0.026,
+    "method_fork": -0.084,
+    "open_generative": 0.296,
+    "stance_fork": -0.025
+   },
+   "twin_consistency_r": 0.536,
+   "low_extreme": [
+    "sf14|orig(st)",
+    "og20|orig(op)",
+    "if7|orig(in)",
+    "if11|orig(in)"
+   ],
+   "high_extreme": [
+    "og7|repl(op)",
+    "og5|orig(op)",
+    "og5|repl(op)",
+    "if1|repl(in)"
+   ],
+   "quantiles": [
+    -0.477,
+    -0.179,
+    0.044,
+    0.287,
+    0.963
+   ]
+  }
+ ],
+ "gauge": {
+  "n_flipped": 77,
+  "note": "dispositions are unsigned axes; signs here are a convention (twin-aligned then greedy norm-ordered), not a discovery"
+ },
+ "groups": [
+  {
+   "id": "cc1|orig",
+   "class": "convergent_control",
+   "coords": [
+    0.3271,
+    -0.0607,
+    0.2039,
+    0.0301,
+    -0.0068,
+    -0.3762,
+    -0.0042,
+    -0.2853
+   ]
+  },
+  {
+   "id": "cc2|orig",
+   "class": "convergent_control",
+   "coords": [
+    0.2945,
+    0.4037,
+    0.1189,
+    0.3509,
+    -0.0958,
+    -0.3389,
+    -0.1997,
+    0.1677
+   ]
+  },
+  {
+   "id": "mf1|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.7438,
+    1.1463,
+    -0.8646,
+    0.3463,
+    -0.1876,
+    -0.7201,
+    -0.0405,
+    -0.0795
+   ]
+  },
+  {
+   "id": "mf2|orig",
+   "class": "method_fork",
+   "coords": [
+    0.0135,
+    0.6877,
+    -0.3482,
+    0.2975,
+    0.1195,
+    -0.3479,
+    -0.2929,
+    0.1169
+   ]
+  },
+  {
+   "id": "sf1|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.6727,
+    0.3837,
+    -0.0813,
+    0.3968,
+    0.069,
+    0.4737,
+    -0.1593,
+    0.2747
+   ]
+  },
+  {
+   "id": "sf2|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.2676,
+    0.8561,
+    -0.3376,
+    0.1637,
+    -0.0446,
+    -0.4442,
+    0.143,
+    0.0013
+   ]
+  },
+  {
+   "id": "if1|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    2.7168,
+    0.7528,
+    -0.1868,
+    -0.2079,
+    0.3749,
+    0.2317,
+    -0.9728,
+    0.5188
+   ]
+  },
+  {
+   "id": "if2|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.7473,
+    0.2941,
+    -0.5861,
+    -0.1138,
+    -0.0969,
+    -0.1209,
+    0.0931,
+    -0.2108
+   ]
+  },
+  {
+   "id": "og1|orig",
+   "class": "open_generative",
+   "coords": [
+    -0.3244,
+    0.4829,
+    -0.3294,
+    0.1395,
+    -0.1696,
+    0.2104,
+    0.332,
+    -0.3414
+   ]
+  },
+  {
+   "id": "og2|orig",
+   "class": "open_generative",
+   "coords": [
+    0.9188,
+    0.2473,
+    0.0558,
+    -0.1058,
+    -0.3263,
+    -0.1364,
+    -0.3984,
+    0.2011
+   ]
+  },
+  {
+   "id": "dc1|orig",
+   "class": "decision_continuation",
+   "coords": [
+    1.4869,
+    -0.1262,
+    0.3308,
+    0.4766,
+    0.2406,
+    -0.5181,
+    0.4001,
+    -0.1631
+   ]
+  },
+  {
+   "id": "dc2|orig",
+   "class": "decision_continuation",
+   "coords": [
+    0.3942,
+    1.2525,
+    0.499,
+    0.6967,
+    0.4441,
+    1.0123,
+    -0.01,
+    0.4078
+   ]
+  },
+  {
+   "id": "mf3|orig",
+   "class": "method_fork",
+   "coords": [
+    -1.0066,
+    1.2014,
+    -0.8644,
+    0.3587,
+    0.2041,
+    -0.1645,
+    -0.5995,
+    -0.2272
+   ]
+  },
+  {
+   "id": "mf4|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.2076,
+    0.2297,
+    -0.2312,
+    0.0203,
+    -0.0088,
+    -0.0108,
+    -0.0463,
+    -0.0457
+   ]
+  },
+  {
+   "id": "mf5|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.5339,
+    0.7328,
+    -0.5878,
+    0.1558,
+    0.1728,
+    -0.383,
+    0.0288,
+    -0.1278
+   ]
+  },
+  {
+   "id": "mf6|orig",
+   "class": "method_fork",
+   "coords": [
+    0.0912,
+    0.1919,
+    -0.1116,
+    -0.0987,
+    0.0238,
+    -0.5981,
+    0.3096,
+    -0.1453
+   ]
+  },
+  {
+   "id": "mf7|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.7263,
+    0.9273,
+    -0.8166,
+    0.3292,
+    0.2882,
+    -0.1304,
+    -0.1705,
+    -0.0557
+   ]
+  },
+  {
+   "id": "mf8|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.8439,
+    1.3495,
+    -1.4091,
+    0.2282,
+    0.0694,
+    -0.5126,
+    -0.7812,
+    0.0274
+   ]
+  },
+  {
+   "id": "sf3|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.7574,
+    2.7231,
+    1.6201,
+    -2.7302,
+    -0.145,
+    0.1887,
+    0.6883,
+    0.6074
+   ]
+  },
+  {
+   "id": "sf4|orig",
+   "class": "stance_fork",
+   "coords": [
+    0.5798,
+    0.2041,
+    0.0858,
+    0.6364,
+    -0.5542,
+    -0.4828,
+    0.1164,
+    0.1123
+   ]
+  },
+  {
+   "id": "sf5|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.2179,
+    0.7151,
+    -0.6378,
+    0.288,
+    -0.3536,
+    -0.3028,
+    -0.0156,
+    0.003
+   ]
+  },
+  {
+   "id": "sf6|orig",
+   "class": "stance_fork",
+   "coords": [
+    0.5469,
+    -0.0048,
+    0.2877,
+    0.0476,
+    -0.3851,
+    0.2118,
+    -0.1505,
+    -0.0282
+   ]
+  },
+  {
+   "id": "sf7|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.2771,
+    1.0107,
+    0.2233,
+    -0.136,
+    0.0336,
+    0.2481,
+    -0.2307,
+    0.4157
+   ]
+  },
+  {
+   "id": "sf8|orig",
+   "class": "stance_fork",
+   "coords": [
+    1.0425,
+    0.2619,
+    0.505,
+    0.4902,
+    0.2151,
+    -0.1082,
+    0.1206,
+    -0.2552
+   ]
+  },
+  {
+   "id": "if3|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.6543,
+    0.5933,
+    -0.7093,
+    0.2622,
+    -0.3677,
+    -0.0879,
+    0.3559,
+    0.0557
+   ]
+  },
+  {
+   "id": "if4|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.2128,
+    0.6626,
+    -0.4239,
+    0.7003,
+    -0.3296,
+    0.1299,
+    0.2471,
+    0.0411
+   ]
+  },
+  {
+   "id": "if5|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    4.8958,
+    1.6071,
+    -2.366,
+    -0.7623,
+    -1.0384,
+    2.333,
+    1.0305,
+    -0.5576
+   ]
+  },
+  {
+   "id": "if6|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.3852,
+    0.0577,
+    -0.4678,
+    0.407,
+    -0.2277,
+    -0.0933,
+    0.2486,
+    0.0879
+   ]
+  },
+  {
+   "id": "if7|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    2.732,
+    2.9642,
+    1.1928,
+    2.1941,
+    1.5769,
+    -1.0675,
+    -0.2914,
+    -0.7652
+   ]
+  },
+  {
+   "id": "if8|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    0.0044,
+    0.1747,
+    -0.0901,
+    -0.2573,
+    -0.3739,
+    0.0856,
+    -0.1961,
+    0.485
+   ]
+  },
+  {
+   "id": "og3|orig",
+   "class": "open_generative",
+   "coords": [
+    1.0019,
+    -0.3597,
+    -0.4,
+    -0.4149,
+    0.232,
+    -0.3545,
+    -0.6012,
+    0.1665
+   ]
+  },
+  {
+   "id": "og4|orig",
+   "class": "open_generative",
+   "coords": [
+    0.8506,
+    -0.2436,
+    0.7238,
+    -0.0726,
+    -0.134,
+    0.1202,
+    -0.6504,
+    0.562
+   ]
+  },
+  {
+   "id": "og5|orig",
+   "class": "open_generative",
+   "coords": [
+    -0.4373,
+    0.3754,
+    -0.4585,
+    0.5074,
+    0.4891,
+    -0.7442,
+    -0.5169,
+    1.3025
+   ]
+  },
+  {
+   "id": "og6|orig",
+   "class": "open_generative",
+   "coords": [
+    0.8501,
+    -0.4044,
+    -0.209,
+    -0.3055,
+    0.5203,
+    -0.6844,
+    -0.119,
+    0.3519
+   ]
+  },
+  {
+   "id": "og7|orig",
+   "class": "open_generative",
+   "coords": [
+    -0.222,
+    0.3724,
+    -0.9835,
+    -0.033,
+    -0.3877,
+    -0.4481,
+    -0.1815,
+    -0.1353
+   ]
+  },
+  {
+   "id": "dc3|orig",
+   "class": "decision_continuation",
+   "coords": [
+    0.3066,
+    0.7698,
+    1.061,
+    0.7028,
+    -0.7877,
+    -1.0394,
+    1.0364,
+    0.8187
+   ]
+  },
+  {
+   "id": "dc4|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.0432,
+    0.5636,
+    0.0495,
+    0.956,
+    0.1369,
+    0.8295,
+    -0.5881,
+    0.5451
+   ]
+  },
+  {
+   "id": "dc5|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.5399,
+    0.9542,
+    0.0924,
+    0.3258,
+    -0.1013,
+    0.2809,
+    0.221,
+    0.5124
+   ]
+  },
+  {
+   "id": "dc6|orig",
+   "class": "decision_continuation",
+   "coords": [
+    1.3683,
+    0.8589,
+    -0.2888,
+    -0.354,
+    -0.4429,
+    -0.0931,
+    0.1895,
+    -0.031
+   ]
+  },
+  {
+   "id": "dc7|orig",
+   "class": "decision_continuation",
+   "coords": [
+    0.4237,
+    0.2741,
+    0.599,
+    0.8897,
+    0.4315,
+    0.3787,
+    -0.1332,
+    0.2021
+   ]
+  },
+  {
+   "id": "dc8|orig",
+   "class": "decision_continuation",
+   "coords": [
+    0.5537,
+    -0.1531,
+    0.6946,
+    -0.181,
+    -1.5623,
+    -0.6574,
+    0.7183,
+    -0.0188
+   ]
+  },
+  {
+   "id": "cc1|repl",
+   "class": "convergent_control",
+   "coords": [
+    -0.2269,
+    0.5666,
+    -0.1973,
+    0.4182,
+    -0.1241,
+    0.2096,
+    -0.335,
+    0.3617
+   ]
+  },
+  {
+   "id": "cc2|repl",
+   "class": "convergent_control",
+   "coords": [
+    -0.2969,
+    0.109,
+    -0.2744,
+    -0.1836,
+    -0.372,
+    -0.3153,
+    0.4312,
+    -0.1816
+   ]
+  },
+  {
+   "id": "mf1|repl",
+   "class": "method_fork",
+   "coords": [
+    -0.6731,
+    0.7995,
+    -0.9774,
+    0.2401,
+    -0.039,
+    -0.0958,
+    -1.186,
+    0.125
+   ]
+  },
+  {
+   "id": "mf2|repl",
+   "class": "method_fork",
+   "coords": [
+    -0.3904,
+    0.4593,
+    -0.0999,
+    0.2189,
+    0.2461,
+    0.1367,
+    -0.3791,
+    0.0329
+   ]
+  },
+  {
+   "id": "sf1|repl",
+   "class": "stance_fork",
+   "coords": [
+    0.644,
+    -0.4404,
+    -0.2272,
+    -0.0221,
+    -0.5155,
+    -0.7483,
+    0.7064,
+    -0.4566
+   ]
+  },
+  {
+   "id": "sf2|repl",
+   "class": "stance_fork",
+   "coords": [
+    -0.4302,
+    0.1333,
+    -0.487,
+    0.0738,
+    -0.0061,
+    -0.479,
+    0.2107,
+    -0.3345
+   ]
+  },
+  {
+   "id": "if1|repl",
+   "class": "interpretive_fork",
+   "coords": [
+    1.4405,
+    -1.2428,
+    -2.9916,
+    -2.6004,
+    2.046,
+    -1.0404,
+    0.7681,
+    1.6049
+   ]
+  },
+  {
+   "id": "if2|repl",
+   "class": "interpretive_fork",
+   "coords": [
+    0.9302,
+    0.0388,
+    0.6872,
+    0.4054,
+    0.506,
+    -0.2561,
+    0.1241,
+    -0.2285
+   ]
+  },
+  {
+   "id": "og2|repl",
+   "class": "open_generative",
+   "coords": [
+    -0.673,
+    0.3807,
+    -0.2384,
+    0.3152,
+    0.3924,
+    -0.1185,
+    0.2916,
+    0.1523
+   ]
+  },
+  {
+   "id": "dc1|repl",
+   "class": "decision_continuation",
+   "coords": [
+    1.6253,
+    -0.3169,
+    0.1816,
+    0.5655,
+    0.2078,
+    -0.8923,
+    0.8452,
+    -0.2314
+   ]
+  },
+  {
+   "id": "dc2|repl",
+   "class": "decision_continuation",
+   "coords": [
+    -0.2855,
+    0.2922,
+    -0.3815,
+    -0.0343,
+    0.0441,
+    -0.1626,
+    0.1486,
+    -0.0955
+   ]
+  },
+  {
+   "id": "mf3|repl",
+   "class": "method_fork",
+   "coords": [
+    -1.4201,
+    1.7696,
+    -1.3475,
+    0.5228,
+    0.1232,
+    -0.3335,
+    -0.8045,
+    -0.3521
+   ]
+  },
+  {
+   "id": "mf4|repl",
+   "class": "method_fork",
+   "coords": [
+    -0.6083,
+    1.344,
+    -1.0739,
+    0.1793,
+    0.2134,
+    -0.8479,
+    -0.0346,
+    -0.246
+   ]
+  },
+  {
+   "id": "mf5|repl",
+   "class": "method_fork",
+   "coords": [
+    -0.5861,
+    0.3406,
+    -0.5141,
+    0.0584,
+    -0.1845,
+    -0.0126,
+    -0.2152,
+    0.0094
+   ]
+  },
+  {
+   "id": "mf7|repl",
+   "class": "method_fork",
+   "coords": [
+    -0.8703,
+    1.1196,
+    -1.04,
+    0.3124,
+    0.4348,
+    -0.078,
+    -0.3233,
+    -0.0856
+   ]
+  },
+  {
+   "id": "mf8|repl",
+   "class": "method_fork",
+   "coords": [
+    -1.1631,
+    1.1099,
+    -1.2726,
+    0.1993,
+    -0.0227,
+    -0.0647,
+    -0.9098,
+    0.2369
+   ]
+  },
+  {
+   "id": "sf3|repl",
+   "class": "stance_fork",
+   "coords": [
+    -0.8501,
+    3.565,
+    1.9714,
+    -2.6654,
+    -0.0418,
+    0.7217,
+    0.7274,
+    0.9784
+   ]
+  },
+  {
+   "id": "sf5|repl",
+   "class": "stance_fork",
+   "coords": [
+    -0.1802,
+    0.3185,
+    -0.5322,
+    0.4249,
+    -0.2005,
+    -0.3156,
+    -0.0248,
+    -0.0016
+   ]
+  },
+  {
+   "id": "sf6|repl",
+   "class": "stance_fork",
+   "coords": [
+    -0.2719,
+    0.3392,
+    -0.0315,
+    0.086,
+    0.0421,
+    -0.1764,
+    0.1909,
+    0.2901
+   ]
+  },
+  {
+   "id": "sf7|repl",
+   "class": "stance_fork",
+   "coords": [
+    -0.165,
+    0.4315,
+    -0.4068,
+    0.1868,
+    -0.4651,
+    -0.2764,
+    0.3297,
+    0.1419
+   ]
+  },
+  {
+   "id": "sf8|repl",
+   "class": "stance_fork",
+   "coords": [
+    0.7964,
+    -0.0199,
+    0.3865,
+    -0.228,
+    -0.24,
+    -0.0554,
+    -0.1923,
+    -0.2923
+   ]
+  },
+  {
+   "id": "if3|repl",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.4863,
+    0.3857,
+    -0.2206,
+    0.0844,
+    -0.6342,
+    0.1189,
+    -0.0828,
+    0.4949
+   ]
+  },
+  {
+   "id": "if5|repl",
+   "class": "interpretive_fork",
+   "coords": [
+    3.1966,
+    1.3391,
+    -1.2305,
+    0.0162,
+    -0.3528,
+    1.2234,
+    0.3802,
+    -0.3223
+   ]
+  },
+  {
+   "id": "if6|repl",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.0283,
+    0.1758,
+    0.2901,
+    0.0149,
+    0.0902,
+    0.1201,
+    -0.3158,
+    -0.0261
+   ]
+  },
+  {
+   "id": "if7|repl",
+   "class": "interpretive_fork",
+   "coords": [
+    1.6851,
+    1.5779,
+    1.1044,
+    1.6373,
+    2.5127,
+    -1.0046,
+    0.8298,
+    -0.0265
+   ]
+  },
+  {
+   "id": "if8|repl",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.3973,
+    0.0653,
+    -0.3414,
+    -0.1061,
+    -0.0444,
+    0.247,
+    -0.1341,
+    0.1406
+   ]
+  },
+  {
+   "id": "og3|repl",
+   "class": "open_generative",
+   "coords": [
+    1.5883,
+    0.5126,
+    -0.3246,
+    -0.2279,
+    0.1866,
+    -0.3601,
+    -0.6136,
+    0.3283
+   ]
+  },
+  {
+   "id": "og4|repl",
+   "class": "open_generative",
+   "coords": [
+    -0.6026,
+    0.5273,
+    -0.3539,
+    0.2298,
+    -0.1836,
+    0.1352,
+    0.1672,
+    0.163
+   ]
+  },
+  {
+   "id": "og5|repl",
+   "class": "open_generative",
+   "coords": [
+    0.0699,
+    -0.1816,
+    -0.6105,
+    -0.1384,
+    1.0456,
+    -0.4538,
+    -0.9554,
+    1.3131
+   ]
+  },
+  {
+   "id": "og6|repl",
+   "class": "open_generative",
+   "coords": [
+    -0.0871,
+    0.4912,
+    -0.5393,
+    -0.0361,
+    -0.238,
+    -0.3858,
+    0.3398,
+    -0.2717
+   ]
+  },
+  {
+   "id": "og7|repl",
+   "class": "open_generative",
+   "coords": [
+    1.0379,
+    -0.4177,
+    0.9478,
+    -0.6596,
+    0.0315,
+    -0.1541,
+    -1.1369,
+    1.2611
+   ]
+  },
+  {
+   "id": "dc3|repl",
+   "class": "decision_continuation",
+   "coords": [
+    0.9624,
+    0.8427,
+    1.0496,
+    0.6365,
+    -1.2547,
+    -1.7789,
+    1.3672,
+    1.1286
+   ]
+  },
+  {
+   "id": "dc5|repl",
+   "class": "decision_continuation",
+   "coords": [
+    -0.5313,
+    0.5585,
+    -0.0784,
+    0.4356,
+    0.4682,
+    0.4581,
+    0.1946,
+    0.2589
+   ]
+  },
+  {
+   "id": "dc6|repl",
+   "class": "decision_continuation",
+   "coords": [
+    0.7642,
+    -0.0831,
+    0.536,
+    -0.6663,
+    -0.9025,
+    -0.8292,
+    -0.5992,
+    0.3096
+   ]
+  },
+  {
+   "id": "dc7|repl",
+   "class": "decision_continuation",
+   "coords": [
+    0.5227,
+    -0.0769,
+    0.3833,
+    0.2179,
+    0.01,
+    -0.0771,
+    -0.1929,
+    0.0878
+   ]
+  },
+  {
+   "id": "dc8|repl",
+   "class": "decision_continuation",
+   "coords": [
+    -0.1702,
+    0.349,
+    -0.4568,
+    0.157,
+    0.1209,
+    0.0379,
+    -0.6266,
+    0.2054
+   ]
+  },
+  {
+   "id": "sf9|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.5819,
+    1.2122,
+    0.5597,
+    -0.0197,
+    -0.1592,
+    0.8245,
+    -1.1614,
+    0.0456
+   ]
+  },
+  {
+   "id": "sf17|orig",
+   "class": "stance_fork",
+   "coords": [
+    0.4589,
+    0.0265,
+    0.4747,
+    -0.0568,
+    0.6233,
+    0.3605,
+    -0.3932,
+    -0.4756
+   ]
+  },
+  {
+   "id": "if9|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.6577,
+    0.4032,
+    -0.2869,
+    0.4144,
+    -0.0584,
+    0.1482,
+    0.2592,
+    -0.1502
+   ]
+  },
+  {
+   "id": "if17|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.4266,
+    1.5448,
+    -0.8122,
+    0.402,
+    -0.6526,
+    -0.8858,
+    0.3794,
+    0.0252
+   ]
+  },
+  {
+   "id": "og8|orig",
+   "class": "open_generative",
+   "coords": [
+    0.9257,
+    -0.1145,
+    0.0478,
+    -0.3554,
+    0.555,
+    -0.3002,
+    -0.2487,
+    0.2206
+   ]
+  },
+  {
+   "id": "og16|orig",
+   "class": "open_generative",
+   "coords": [
+    0.8223,
+    -0.1793,
+    0.2469,
+    -0.1265,
+    -0.242,
+    -0.2769,
+    -0.9984,
+    0.1309
+   ]
+  },
+  {
+   "id": "dc9|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.5377,
+    0.8246,
+    0.1252,
+    0.3167,
+    -0.1193,
+    -0.4013,
+    0.2498,
+    0.2776
+   ]
+  },
+  {
+   "id": "dc17|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.3636,
+    1.1746,
+    0.6008,
+    0.3289,
+    1.2718,
+    1.0917,
+    -0.0537,
+    0.3166
+   ]
+  },
+  {
+   "id": "sf10|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.5869,
+    0.5394,
+    -0.5676,
+    -0.0853,
+    -0.4936,
+    0.1957,
+    -0.3548,
+    0.3149
+   ]
+  },
+  {
+   "id": "sf18|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.5561,
+    0.8091,
+    0.003,
+    -0.3001,
+    0.0889,
+    -0.196,
+    0.0225,
+    -0.0243
+   ]
+  },
+  {
+   "id": "if10|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    0.1422,
+    0.716,
+    -0.3905,
+    0.4582,
+    -0.1142,
+    -0.3162,
+    -0.0527,
+    0.1511
+   ]
+  },
+  {
+   "id": "if18|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.5345,
+    0.6062,
+    -0.6274,
+    0.0571,
+    -0.5869,
+    0.5274,
+    -0.299,
+    -0.0079
+   ]
+  },
+  {
+   "id": "og9|orig",
+   "class": "open_generative",
+   "coords": [
+    0.0769,
+    0.5258,
+    -0.4178,
+    0.6981,
+    0.2295,
+    0.0731,
+    -0.077,
+    0.9035
+   ]
+  },
+  {
+   "id": "og17|orig",
+   "class": "open_generative",
+   "coords": [
+    1.6418,
+    0.8582,
+    -0.1952,
+    -0.1422,
+    -0.716,
+    -0.5152,
+    0.0341,
+    -0.1711
+   ]
+  },
+  {
+   "id": "dc10|orig",
+   "class": "decision_continuation",
+   "coords": [
+    0.3716,
+    -0.0235,
+    0.3625,
+    0.1063,
+    -0.1013,
+    0.0451,
+    -0.1954,
+    0.1975
+   ]
+  },
+  {
+   "id": "dc18|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.2063,
+    0.6924,
+    -0.302,
+    -0.3144,
+    -0.1941,
+    -0.1692,
+    -0.4955,
+    0.0893
+   ]
+  },
+  {
+   "id": "sf11|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.256,
+    0.368,
+    -0.0011,
+    0.1672,
+    -0.2424,
+    -0.1747,
+    -0.1357,
+    0.0151
+   ]
+  },
+  {
+   "id": "sf19|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.5299,
+    0.6766,
+    -0.2561,
+    -0.2361,
+    0.0476,
+    -0.3089,
+    0.4317,
+    0.0229
+   ]
+  },
+  {
+   "id": "if11|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    1.5625,
+    1.3835,
+    -0.1076,
+    0.7123,
+    -0.2185,
+    -0.3063,
+    -0.2312,
+    -0.6027
+   ]
+  },
+  {
+   "id": "if19|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.4182,
+    0.2124,
+    -0.4227,
+    0.2772,
+    -0.0336,
+    0.1287,
+    -0.1257,
+    -0.3
+   ]
+  },
+  {
+   "id": "og10|orig",
+   "class": "open_generative",
+   "coords": [
+    0.5023,
+    -0.0943,
+    0.885,
+    0.0905,
+    -0.1298,
+    -0.6337,
+    -0.662,
+    0.0733
+   ]
+  },
+  {
+   "id": "og18|orig",
+   "class": "open_generative",
+   "coords": [
+    0.9396,
+    -0.0763,
+    0.0967,
+    -0.2382,
+    0.1589,
+    -0.4666,
+    -0.3497,
+    0.9597
+   ]
+  },
+  {
+   "id": "dc11|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.4312,
+    0.7806,
+    -0.3068,
+    0.1639,
+    0.7629,
+    0.7309,
+    -0.24,
+    -0.2173
+   ]
+  },
+  {
+   "id": "dc19|orig",
+   "class": "decision_continuation",
+   "coords": [
+    0.3382,
+    0.1452,
+    0.1897,
+    -0.7587,
+    -1.4142,
+    -0.6224,
+    -0.8992,
+    0.3513
+   ]
+  },
+  {
+   "id": "sf12|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.1737,
+    0.7805,
+    -0.1901,
+    0.1898,
+    0.5827,
+    0.0153,
+    0.0602,
+    -0.1941
+   ]
+  },
+  {
+   "id": "sf20|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.2642,
+    -0.0533,
+    -0.5159,
+    -0.0618,
+    -0.1566,
+    -0.3788,
+    0.1433,
+    -0.1508
+   ]
+  },
+  {
+   "id": "if12|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    0.9487,
+    0.5173,
+    1.0569,
+    0.1725,
+    -0.3402,
+    -0.2604,
+    -0.3802,
+    -0.4654
+   ]
+  },
+  {
+   "id": "if20|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.4885,
+    0.8248,
+    -0.0082,
+    0.6348,
+    -0.193,
+    0.1955,
+    -0.3914,
+    0.0432
+   ]
+  },
+  {
+   "id": "og11|orig",
+   "class": "open_generative",
+   "coords": [
+    0.687,
+    -0.0936,
+    1.019,
+    0.1553,
+    -0.3569,
+    -0.8205,
+    -0.1427,
+    -0.4871
+   ]
+  },
+  {
+   "id": "og19|orig",
+   "class": "open_generative",
+   "coords": [
+    0.7969,
+    -0.46,
+    0.2971,
+    -0.5736,
+    0.1061,
+    -0.5643,
+    0.3412,
+    0.1463
+   ]
+  },
+  {
+   "id": "dc12|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.5145,
+    0.9261,
+    0.7176,
+    0.2638,
+    -0.065,
+    0.3963,
+    0.1439,
+    0.7935
+   ]
+  },
+  {
+   "id": "dc20|orig",
+   "class": "decision_continuation",
+   "coords": [
+    1.624,
+    0.1884,
+    -0.1455,
+    -0.3108,
+    -0.4785,
+    -0.4592,
+    -0.2925,
+    1.0893
+   ]
+  },
+  {
+   "id": "sf13|orig",
+   "class": "stance_fork",
+   "coords": [
+    1.0818,
+    1.2221,
+    1.2609,
+    -0.4022,
+    -0.4856,
+    0.0265,
+    0.057,
+    0.1892
+   ]
+  },
+  {
+   "id": "sf21|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.8232,
+    0.8802,
+    0.2035,
+    -0.0817,
+    0.0372,
+    0.5272,
+    -0.3455,
+    0.0754
+   ]
+  },
+  {
+   "id": "if13|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    1.2768,
+    0.3143,
+    -0.2691,
+    -0.4935,
+    -1.0803,
+    -0.769,
+    -0.4672,
+    -0.5632
+   ]
+  },
+  {
+   "id": "if21|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    0.5999,
+    0.1237,
+    0.9836,
+    -0.0018,
+    -0.1136,
+    0.4193,
+    -0.3575,
+    -0.2654
+   ]
+  },
+  {
+   "id": "og12|orig",
+   "class": "open_generative",
+   "coords": [
+    -0.1707,
+    0.7623,
+    0.0519,
+    0.7002,
+    -0.4799,
+    0.327,
+    -0.1168,
+    0.6115
+   ]
+  },
+  {
+   "id": "og20|orig",
+   "class": "open_generative",
+   "coords": [
+    0.7153,
+    0.178,
+    0.64,
+    -0.8874,
+    -1.0697,
+    -0.4269,
+    -0.6107,
+    -1.0937
+   ]
+  },
+  {
+   "id": "dc13|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.2099,
+    0.087,
+    -0.1304,
+    0.1537,
+    -0.5503,
+    -0.5197,
+    0.2071,
+    0.1529
+   ]
+  },
+  {
+   "id": "mf9|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.0847,
+    0.1492,
+    -0.1386,
+    0.0112,
+    -0.0349,
+    -0.0964,
+    -0.0283,
+    -0.0376
+   ]
+  },
+  {
+   "id": "sf14|orig",
+   "class": "stance_fork",
+   "coords": [
+    -0.5136,
+    1.4085,
+    0.5363,
+    -3.0792,
+    1.3163,
+    -1.0525,
+    -0.7035,
+    -2.4047
+   ]
+  },
+  {
+   "id": "if14|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.8655,
+    0.8165,
+    -0.7112,
+    0.2066,
+    -0.9021,
+    -0.0491,
+    0.0993,
+    -0.4755
+   ]
+  },
+  {
+   "id": "if22|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    0.2651,
+    0.1372,
+    0.0668,
+    0.0315,
+    -0.4104,
+    -0.2203,
+    -0.1476,
+    -0.0277
+   ]
+  },
+  {
+   "id": "og13|orig",
+   "class": "open_generative",
+   "coords": [
+    1.2941,
+    -0.1703,
+    0.191,
+    -0.2419,
+    1.2577,
+    -0.1857,
+    -0.23,
+    0.7845
+   ]
+  },
+  {
+   "id": "og21|orig",
+   "class": "open_generative",
+   "coords": [
+    -0.4484,
+    0.7842,
+    -0.0053,
+    0.4956,
+    -0.5347,
+    0.6297,
+    -0.198,
+    0.2256
+   ]
+  },
+  {
+   "id": "dc14|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -2.073,
+    0.5715,
+    -0.4069,
+    -1.3389,
+    0.0622,
+    -0.8389,
+    1.6208,
+    0.1782
+   ]
+  },
+  {
+   "id": "mf10|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.2426,
+    0.3895,
+    -0.4474,
+    0.0221,
+    -0.0786,
+    -0.3246,
+    0.1335,
+    -0.1902
+   ]
+  },
+  {
+   "id": "sf23|orig",
+   "class": "stance_fork",
+   "coords": [
+    -1.1419,
+    0.8824,
+    -0.601,
+    0.1604,
+    -0.2687,
+    -0.1157,
+    0.1761,
+    0.5017
+   ]
+  },
+  {
+   "id": "if15|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.3689,
+    0.1583,
+    -0.4761,
+    -0.1566,
+    0.1347,
+    -0.0463,
+    0.1209,
+    -0.2397
+   ]
+  },
+  {
+   "id": "if23|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.477,
+    0.1255,
+    -0.4477,
+    0.1626,
+    -0.4104,
+    -0.5031,
+    0.067,
+    -0.1736
+   ]
+  },
+  {
+   "id": "og14|orig",
+   "class": "open_generative",
+   "coords": [
+    -0.3538,
+    0.3082,
+    -0.5715,
+    0.1827,
+    0.0365,
+    -0.483,
+    0.3207,
+    0.4985
+   ]
+  },
+  {
+   "id": "og22|orig",
+   "class": "open_generative",
+   "coords": [
+    0.8915,
+    0.2017,
+    0.1085,
+    -0.0133,
+    -0.1952,
+    -0.303,
+    -0.4663,
+    0.4046
+   ]
+  },
+  {
+   "id": "dc15|orig",
+   "class": "decision_continuation",
+   "coords": [
+    0.3376,
+    -0.0127,
+    -0.3683,
+    -0.2428,
+    -0.7351,
+    -0.5287,
+    -0.4098,
+    -0.2326
+   ]
+  },
+  {
+   "id": "mf11|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.7621,
+    1.6411,
+    -1.2826,
+    0.2785,
+    0.5392,
+    -1.1194,
+    0.2111,
+    -0.2738
+   ]
+  },
+  {
+   "id": "sf16|orig",
+   "class": "stance_fork",
+   "coords": [
+    0.2134,
+    0.3767,
+    0.1726,
+    -0.0548,
+    -0.0373,
+    -0.0254,
+    -0.1535,
+    -0.0609
+   ]
+  },
+  {
+   "id": "if16|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.7265,
+    0.272,
+    -0.3851,
+    0.1902,
+    -0.215,
+    0.2064,
+    -0.1228,
+    0.0597
+   ]
+  },
+  {
+   "id": "if24|orig",
+   "class": "interpretive_fork",
+   "coords": [
+    -0.5522,
+    0.6364,
+    -0.2372,
+    0.5161,
+    -0.6176,
+    0.1793,
+    -0.247,
+    0.905
+   ]
+  },
+  {
+   "id": "og15|orig",
+   "class": "open_generative",
+   "coords": [
+    1.4263,
+    -0.0508,
+    -0.5116,
+    -0.6877,
+    0.2356,
+    -0.9868,
+    -0.2464,
+    0.5142
+   ]
+  },
+  {
+   "id": "og23|orig",
+   "class": "open_generative",
+   "coords": [
+    0.8893,
+    -0.3003,
+    0.2419,
+    -0.7522,
+    -0.6188,
+    -0.6056,
+    -0.9032,
+    -0.1803
+   ]
+  },
+  {
+   "id": "dc16|orig",
+   "class": "decision_continuation",
+   "coords": [
+    -0.2187,
+    0.2506,
+    -0.6012,
+    -0.0942,
+    1.3342,
+    0.5476,
+    1.3923,
+    0.1818
+   ]
+  },
+  {
+   "id": "mf12|orig",
+   "class": "method_fork",
+   "coords": [
+    -0.7025,
+    1.0024,
+    -0.7092,
+    0.073,
+    -0.1121,
+    -0.7716,
+    0.3343,
+    -0.2795
+   ]
+  }
+ ]
+}

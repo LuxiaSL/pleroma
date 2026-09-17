@@ -1,0 +1,88 @@
+{
+  "description": "Phase 1 8B baseline: same 20 topics from Phase 0, 5 modes, 2 repetitions = 200 samples",
+  "user_prompt_template": "Write about: {topic}",
+  "num_repetitions": 2,
+
+  "vmb_stage0_strata": {
+    "description": "prereg-vmb-v1 Stage-0 floor protocol (ratified 2026-07-12): Phase-0 20 topics (set_a+set_b) x 4 task strata = 80 prompt classes; 10 seeds per class per model; NO system prompt (bare floors, addendum 2026-07-12a item 2). Stratum order is FROZEN (stratum_idx feeds make_seed). The conversational template embeds the topic mid-sentence verbatim (capitalization untouched) - consistency over elegance.",
+    "strata": [
+      {"name": "expository", "template": "Write about: {topic}"},
+      {"name": "explanatory", "template": "Explain to a beginner: {topic}"},
+      {"name": "argumentative", "template": "Argue for or against: {topic}"},
+      {"name": "conversational", "template": "I've been thinking about {topic} lately — what's your take?"}
+    ],
+    "topic_sets": ["set_a", "set_b"],
+    "seeds_per_class": 10
+  },
+
+  "topics": {
+    "set_a": [
+      "The nature of consciousness",
+      "How to debug a segfault",
+      "The history of bread",
+      "Climate change mitigation strategies",
+      "What makes a good friendship",
+      "How neural networks learn",
+      "The appeal of horror fiction",
+      "Urban planning challenges",
+      "Teaching a child to ride a bike",
+      "The future of space exploration"
+    ],
+    "set_b": [
+      "How memory works in the brain",
+      "The ethics of genetic engineering",
+      "Why music moves us",
+      "Building a house from scratch",
+      "The mathematics of infinity",
+      "The evolution of language",
+      "Why we dream",
+      "How markets determine prices",
+      "The art of persuasion",
+      "Cooking as chemistry"
+    ],
+    "set_c": [
+      "How vaccines train the immune system",
+      "The water cycle and weather",
+      "Why earthquakes happen",
+      "How tides work",
+      "Photosynthesis and how plants make food",
+      "How antibiotics fight infection",
+      "The role of fungi in ecosystems",
+      "How encryption keeps data private",
+      "How search engines rank results",
+      "What makes software easy to maintain",
+      "The principles of good interface design",
+      "The causes of inflation",
+      "How democracies make collective decisions",
+      "The ethics of surveillance",
+      "Why misinformation spreads online",
+      "The value of public libraries",
+      "The origins of writing systems",
+      "The legacy of the printing press",
+      "How myths shape cultures",
+      "The history of timekeeping"
+    ],
+    "set_d": [
+      "Why empires rise and fall",
+      "What makes a story memorable",
+      "The craft of photography",
+      "How architecture shapes how we feel",
+      "The appeal of minimalism",
+      "Why we find symmetry beautiful",
+      "The psychology of habits",
+      "Why we procrastinate",
+      "How emotions shape decisions",
+      "The experience of nostalgia",
+      "What motivates generosity",
+      "How to plan a long journey",
+      "The art of brewing coffee",
+      "Keeping a healthy garden",
+      "How to choose where to live",
+      "How to give useful feedback",
+      "The meaning of fairness",
+      "Whether free will exists",
+      "The nature of time",
+      "What it means to understand something"
+    ]
+  }
+}

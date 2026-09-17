@@ -1,0 +1,101 @@
+{
+ "description": "D4 off-genre census (session-11, 14q item 3; Pd4=.75): the SAME frozen Phase-0 20 topics (set_a+set_b) recast into FOUR creative-narrative strata - census-matched WITHIN genre (structure mirrors the frozen 4-stratum protocol exactly: stratum_idx feeds make_seed, order FROZEN). Enactor ops choice journaled 2026-07-16; stop-and-surface fires only on census surprises in the data, never improvised post-hoc.",
+ "user_prompt_template": "Write about: {topic}",
+ "num_repetitions": 2,
+ "topics": {
+  "set_a": [
+   "The nature of consciousness",
+   "How to debug a segfault",
+   "The history of bread",
+   "Climate change mitigation strategies",
+   "What makes a good friendship",
+   "How neural networks learn",
+   "The appeal of horror fiction",
+   "Urban planning challenges",
+   "Teaching a child to ride a bike",
+   "The future of space exploration"
+  ],
+  "set_b": [
+   "How memory works in the brain",
+   "The ethics of genetic engineering",
+   "Why music moves us",
+   "Building a house from scratch",
+   "The mathematics of infinity",
+   "The evolution of language",
+   "Why we dream",
+   "How markets determine prices",
+   "The art of persuasion",
+   "Cooking as chemistry"
+  ],
+  "set_c": [
+   "How vaccines train the immune system",
+   "The water cycle and weather",
+   "Why earthquakes happen",
+   "How tides work",
+   "Photosynthesis and how plants make food",
+   "How antibiotics fight infection",
+   "The role of fungi in ecosystems",
+   "How encryption keeps data private",
+   "How search engines rank results",
+   "What makes software easy to maintain",
+   "The principles of good interface design",
+   "The causes of inflation",
+   "How democracies make collective decisions",
+   "The ethics of surveillance",
+   "Why misinformation spreads online",
+   "The value of public libraries",
+   "The origins of writing systems",
+   "The legacy of the printing press",
+   "How myths shape cultures",
+   "The history of timekeeping"
+  ],
+  "set_d": [
+   "Why empires rise and fall",
+   "What makes a story memorable",
+   "The craft of photography",
+   "How architecture shapes how we feel",
+   "The appeal of minimalism",
+   "Why we find symmetry beautiful",
+   "The psychology of habits",
+   "Why we procrastinate",
+   "How emotions shape decisions",
+   "The experience of nostalgia",
+   "What motivates generosity",
+   "How to plan a long journey",
+   "The art of brewing coffee",
+   "Keeping a healthy garden",
+   "How to choose where to live",
+   "How to give useful feedback",
+   "The meaning of fairness",
+   "Whether free will exists",
+   "The nature of time",
+   "What it means to understand something"
+  ]
+ },
+ "vmb_stage0_strata": {
+  "description": "D4 creative-narrative strata (frozen at staging, before any gen): four narrative frames over the frozen 20 topics; NO system prompt (bare, matching the A5 cell convention).",
+  "strata": [
+   {
+    "name": "story_third",
+    "template": "Write a short story about: {topic}"
+   },
+   {
+    "name": "story_first",
+    "template": "Write a first-person story about: {topic}"
+   },
+   {
+    "name": "fable",
+    "template": "Write a fable about: {topic}"
+   },
+   {
+    "name": "scene_dialogue",
+    "template": "Write a scene where two characters discuss {topic}."
+   }
+  ],
+  "topic_sets": [
+   "set_a",
+   "set_b"
+  ],
+  "seeds_per_class": 2
+ }
+}
