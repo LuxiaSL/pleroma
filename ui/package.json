@@ -1,0 +1,42 @@
+{
+  "name": "pleroma-loom-ui",
+  "private": true,
+  "version": "0.1.0",
+  "description": "The loom's standalone front-end: a typed /api/v1 client, a session-to-wear vertical slice, and a three.js view of a fan's code space.",
+  "type": "module",
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "dev": "vite",
+    "dev:mock": "vite --mode mock",
+    "build": "npm run typecheck && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
+    "gen:api": "node scripts/gen-api.mjs",
+    "check:api": "node scripts/gen-api.mjs --check",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "dependencies": {
+    "preact": "^10.29.8",
+    "three": "^0.186.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.14",
+    "@playwright/test": "1.62.0",
+    "@preact/preset-vite": "^2.10.6",
+    "@types/node": "^22.20.4",
+    "@types/three": "^0.186.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "jsdom": "^29.1.1",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "~5.9",
+    "vite": "^8.3.0",
+    "vitest": "^5.0.1"
+  }
+}

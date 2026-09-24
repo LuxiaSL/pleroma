@@ -1,0 +1,21 @@
+# Date exemptions for G3's date rule (check_timelessness.py).
+#
+# Dates do not belong in code. Git records when a line changed, and a dated
+# measurement, ruling or pre-registration belongs in the record that holds it,
+# where a reader can weigh the whole thing rather than a fragment of it. So this
+# file does NOT exempt citations: a comment that dates its evidence is still a
+# comment carrying a date, and the way to keep the evidence is to state the
+# standing fact the code depends on.
+#
+# What earns an entry is narrower: a line where the date is part of something a
+# reader can follow, so removing it would break the thing rather than tidy it.
+# One regex per line, matched case-insensitively anywhere in the masked prose;
+# lines starting with `#` and blank lines are ignored.
+#
+# An entry is a claim that its reason is true NOW. If the reason has expired, the
+# entry goes, whatever it used to protect.
+
+# A public URL is reachable by definition, and a date inside one is part of the
+# address rather than a citation beside it: strip it and the link dies. Anchored
+# to the scheme so it cannot exempt a bare path that merely carries a date.
+https?://\S*(?:19|20)[0-9]{2}-[0-9]{2}-[0-9]{2}

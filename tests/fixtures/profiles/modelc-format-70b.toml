@@ -1,0 +1,62 @@
+# PUBLIC TEST FIXTURE — a model-C-FORMAT profile on a 70B-shaped model.
+# The private modelc-70b profile's values (sites, bins, lengths, sampling,
+# stops, dose, arch) with its private fields replaced: no checkpoint path, no
+# private preset, no private anamnesis registry. For validator tests; never a
+# deployable configuration.
+name = "modelc-format-70b"
+description = "fixture: model-C document format on a Llama-3.1-70B-shaped model"
+
+[model]
+model_id = "example/modelc-format-70b"
+preset_name = "example-70b"
+dtype = "bfloat16"
+
+[model.arch]            # config.json (the 70B-base preset's values, read 2026-09-01)
+num_layers = 80
+hidden_dim = 8192
+num_attention_heads = 64
+num_kv_heads = 8
+head_dim = 128
+eos_token_ids = [128001]
+pad_token_id = 128004   # ≠ eos; pad was once harvested as generated text
+
+[model.layers]          # 8B depths rescaled, top anchored to num_layers-1
+sampled = [0, 20, 40, 50, 60, 70, 79]
+pca = [20, 40, 50, 60, 70]
+early_cutoff = 20
+late_cutoff = 60
+
+[format]
+mode = "modelc"
+header = "stranger"
+stops = ["\n\n**User:**", "\n\n**User**", "\n\n**Model C:**", "\nAs follows is", "\n\n---"]
+
+[sampling]              # the format doc's house rule: 0.98, emphatically not 0.95
+temperature = 1.0
+top_p = 0.98
+
+[lengths]
+future_tokens = 384
+reply_tokens = 600
+default_k = 6
+max_turns = 12
+
+[map]                   # served map meta: operating_point + bins_config
+sites = [22, 42, 52, 62]
+lam = 1e4
+rank = 64
+target = "raw"
+fan_source = "member_fan"
+
+[map.bins]
+layers = [12, 23, 35, 47, 59, 70, 79]
+n_bins = 20
+resolution = "B"
+
+[steer]
+injection_span = "uniform"
+lever_kind = "absolute"   # open question: contrast is what was validated
+
+[dose]
+policy = "predicted"
+scale_clamp = [0.5, 2.0]

@@ -1,0 +1,58 @@
+{
+ "schema": 1,
+ "tier": "measured",
+ "source": "old map (loom_map_3b.npz) dose ladder, RESULTS-B15-L1-2026-09-16.md; boundaries ported verbatim from loom_ui.html's pre-2026-09-18 hardcoded ZONES constant, which this file now supersedes as the band's canonical home",
+ "map_fingerprint": null,
+ "norm_ref": [
+  0.491,
+  1.044,
+  1.511,
+  2.096
+ ],
+ "alpha_max": 1.5,
+ "measured_at": "2026-09-16",
+ "notes": "map_fingerprint is deliberately null: this file was authored without the GPU node access to the real loom_map_3b.npz (see dose_band.py attach docs) \u2014 the server refuses to serve an UNSTAMPED band as measured only in the sense that it trusts the operator's placement of the sidecar; it cannot cross-check the fingerprint. Re-attach with --map pointed at the real npz to stamp it once available. Doctrine points ~0.75 threshold / 1.0 audible / 1.5 damage (LOOM-OPERATORS-GUIDE.md SS3/SS7) fall inside the threshold/audible/overdriven zones respectively.",
+ "ladder": null,
+ "zones": [
+  {
+   "lo": 0.0,
+   "hi": 0.125,
+   "hi_inclusive": false,
+   "key": "inert",
+   "label": "inert",
+   "hint": "below the floor \u2014 no measurable effect"
+  },
+  {
+   "lo": 0.125,
+   "hi": 0.5,
+   "hi_inclusive": true,
+   "key": "subliminal",
+   "label": "subliminal",
+   "hint": "mechanically active, conversationally invisible"
+  },
+  {
+   "lo": 0.5,
+   "hi": 0.875,
+   "hi_inclusive": false,
+   "key": "threshold",
+   "label": "threshold",
+   "hint": "the first detectable tilt"
+  },
+  {
+   "lo": 0.875,
+   "hi": 1.2,
+   "hi_inclusive": false,
+   "key": "audible",
+   "label": "audible",
+   "hint": "the disposition's register is plainly present"
+  },
+  {
+   "lo": 1.2,
+   "hi": 1.5,
+   "hi_inclusive": true,
+   "key": "overdriven",
+   "label": "overdriven",
+   "hint": "OVERDRIVEN \u2014 risk of word-salad damage"
+  }
+ ]
+}

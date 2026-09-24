@@ -1,0 +1,35 @@
+# the demo kit (fetched by tools/fetch_kit.py) and model weights
+kit/
+models/
+*.part
+
+# your deployment (examples/deploy-*.toml is the template)
+deploy.toml
+deploy.*.toml
+!examples/deploy-*.toml
+
+# run products: sessions, receipts, validate output, build outputs
+runs/
+outputs/
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+# root only: pleroma/map/build/ is source code
+/build/
+/dist/
+.venv/
+.pytest_cache/
+
+# front-end build products and local settings
+ui/node_modules/
+ui/dist/
+ui/test-results/
+ui/playwright-report/
+ui/.env.local
+
+# editors / OS
+.DS_Store
+.idea/
+.vscode/

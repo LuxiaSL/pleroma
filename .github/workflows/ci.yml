@@ -1,0 +1,150 @@
+# CPU-only CI on GitHub's free runners. Nothing here needs a GPU, the model
+# weights, the demo kit, the network beyond package installs, or an API key.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      e2e:
+        description: "also run the Playwright e2e job"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true   # vendor/anamnesis: the pin's readable source; tests check it equals the install
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+      - name: venv + CPU torch + package
+        run: |
+          uv venv --python ${{ matrix.python }}
+          uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+          uv pip install -e ".[dev]"
+      - name: anamnesis pin agrees everywhere (pyproject, code, submodule)
+        run: |
+          source .venv/bin/activate
+          python - <<'PY'
+          import re, subprocess, tomllib
+          from pleroma.harvest.anamnesis_seam import PINNED_COMMIT
+          deps = tomllib.load(open("pyproject.toml", "rb"))["project"]["dependencies"]
+          pin = next(re.search(r"@([0-9a-f]{40})$", d).group(1) for d in deps if d.startswith("anamnesis"))
+          sub = subprocess.run(["git", "-C", "vendor/anamnesis", "rev-parse", "HEAD"],
+                               capture_output=True, text=True, check=True).stdout.strip()
+          print(f"pyproject {pin}\ncode      {PINNED_COMMIT}\nsubmodule {sub}")
+          assert pin == PINNED_COMMIT == sub, "anamnesis pin disagrees"
+          PY
+      - name: CLI smoke
+        run: |
+          source .venv/bin/activate
+          pleroma --help
+          python -m pleroma profile show profiles/llama31-8b-instruct.toml
+          python -m pleroma serve --profile profiles/llama31-8b-instruct.toml \
+              --deploy examples/deploy-llama31-8b.toml --dry-run
+          python tools/fetch_kit.py --list
+      - name: tests
+        run: |
+          source .venv/bin/activate
+          python -m pytest -q -p no:cacheprovider
+
+  gates:
+    # The repository gates (CONTRIBUTING.md): documentation (G3), import closure
+    # (G4) and test retention (G2). They read only the tree, so they need no torch.
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # G2 measures the change against the commit it starts from
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: G3 documentation timelessness
+        run: python -m tools.check_timelessness --root pleroma tools tests
+      - name: G3 referent reachability
+        run: python -m tools.check_referents --root pleroma tools tests
+      - name: G4 import closure
+        run: |
+          python -m tools.check_import_closure --package pleroma --roots tests \
+            --allow-orphan pleroma.__main__ --allow-orphan pleroma.serve.__main__
+      - name: G2 test retention
+        env:
+          G2_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$G2_BASE" ] && git cat-file -e "$G2_BASE^{commit}" 2>/dev/null; then
+            python -m tools.check_test_retention --base "$G2_BASE" --head HEAD
+          else
+            echo "::notice title=G2::no base commit to measure against (first push)"
+          fi
+
+  ui:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+      - name: generated API types match the committed schema
+        run: npm run check:api
+      - run: npm run typecheck
+      - run: npm test
+
+  ui-e2e:
+    # Optional: Playwright over the mock backend (desktop dark + 400 px light).
+    # Runs on pushes to main and on demand; browsers are cached.
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.e2e)
+    needs: ui
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/.pw-browsers
+    defaults:
+      run:
+        working-directory: ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+      - name: cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.pw-browsers
+          key: playwright-${{ runner.os }}-${{ hashFiles('ui/package-lock.json') }}
+      - run: npx playwright install --with-deps chromium
+      - run: npm run e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: ui/test-results
+          if-no-files-found: ignore

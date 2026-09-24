@@ -1,0 +1,88 @@
+{
+ "schema": 1,
+ "measured_at": "2026-09-22",
+ "source": "per-site median over generations of ||mean-over-continuation-positions h[s]||, from banked expB15_bank_mean_hiddens mean_hiddens.npz. NOT the mean of per-position norms and smaller than it, so these absolute values must not be quoted as a fraction of the residual stream; the ratio between the two arms is what the cross-model bound uses and both arms are reduced identically. Reference banks: <private>/mean_hiddens.npz, <private>/mean_hiddens.npz (n=4288). Target banks: <private>/mean_hiddens.npz, <private>/mean_hiddens.npz (n=11800). No GPU, no judges: the arrays were already banked.",
+ "reference": {
+  "model": "llama-3.2-3b-instruct (w6 wide map, loom_map_w6wide_r64.npz)",
+  "sites": [
+   8,
+   15,
+   19,
+   22
+  ],
+  "h_norm": [
+   3.348894567418309,
+   6.130920276639283,
+   8.925550724415299,
+   13.541854301206147
+  ],
+  "hidden_dim": 3072,
+  "n_generations": 4288,
+  "h_norm_p10": [
+   3.1325209307650597,
+   5.573399867851949,
+   7.896770673839038,
+   11.61299460877266
+  ],
+  "h_norm_p90": [
+   3.5924254908912605,
+   6.647612009879668,
+   9.695156594624539,
+   14.851291525561372
+  ],
+  "banks": [
+   "<private>/mean_hiddens.npz",
+   "<private>/mean_hiddens.npz"
+  ]
+ },
+ "target": {
+  "model": "llama-3.1-8b-instruct (8B v0 wide map, loom_map_8b_lam10000_r64.npz)",
+  "sites": [
+   9,
+   17,
+   21,
+   25
+  ],
+  "h_norm": [
+   3.32453403098369,
+   7.33091852089299,
+   10.518061125114414,
+   18.023963677921387
+  ],
+  "hidden_dim": 4096,
+  "n_generations": 11800,
+  "h_norm_p10": [
+   3.096912721553387,
+   6.63583986891744,
+   9.620057589944187,
+   16.61133604334445
+  ],
+  "h_norm_p90": [
+   3.544476301336906,
+   7.779076688054557,
+   11.021115372135498,
+   18.793509015390118
+  ],
+  "banks": [
+   "<private>/mean_hiddens.npz",
+   "<private>/mean_hiddens.npz"
+  ]
+ },
+ "reduction": "per-site median over generations of ||mean-over-continuation-positions h[s]||, from banked expB15_bank_mean_hiddens mean_hiddens.npz. NOT the mean of per-position norms and smaller than it, so these absolute values must not be quoted as a fraction of the residual stream; the ratio between the two arms is what the cross-model bound uses and both arms are reduced identically.",
+ "h_ratio_target_over_reference": {
+  "per_site": [
+   0.992726,
+   1.195729,
+   1.178422,
+   1.330982
+  ],
+  "mean": 1.174465
+ },
+ "caveats": [
+  "||h|| here is the norm of the POSITION-MEAN hidden state, not the mean of per-position norms \u2014 that is what is banked. Averaging over positions cancels position-varying components, so these are LOWER than a per-position ||h||. Both arms are reduced identically, so the ratio (the load-bearing quantity) is fair, but the absolute fractions should not be quoted as 'the injection displaces X% of the residual stream'.",
+  "The two models' sites are at matched RELATIVE depth (8/28, 15/28, 19/28, 22/28 vs 9/32, 17/32, 21/32, 25/32), not matched absolute layer index. That is deliberate and is how both maps were built; it is also why a site-for-site ratio is the right comparison.",
+  "The corpora differ (w6 wide vs corpus_8b), so this ratio mixes model scale with corpus composition. It is an upper bound on the purely-model part, which is the conservative direction for an error bar.",
+  "The reference BAND this is used with (w5_r32_measured.json) was measured on a different 3B map than the corpus these 3B ||h|| come from (w6 wide). That is fine for the denominator: ||h|| is a property of the MODEL at a site, not of the map, and [8, 15, 19, 22] is the project-wide 3B site set that every 3B map including w5 uses (inherited from B1 -- LEDGER-ideas-and-outcomes.md). loom_map_w5_r32.npz is no longer on disk anywhere reachable, so its own corpus's ||h|| cannot be measured; if it reappears, re-measure and check this ratio."
+ ],
+ "generated_by": "expB_inversion/measure_residual_scale.py, run on the GPU node 2026-09-22 against the banked mean_hiddens listed in reference.banks / target.banks. Re-runnable and byte-reproducible: the arrays are frozen, the reduction is deterministic."
+}

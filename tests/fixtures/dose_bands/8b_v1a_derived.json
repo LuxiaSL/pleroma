@@ -1,0 +1,114 @@
+{
+ "schema": 1,
+ "tier": "derived",
+ "source": "derived from \"w5-r32 dose ladder, 2026-09-18: 3 levers x 8 probes x 7 alphas x 6 reps, judges claude-sonnet-5 + claude-opus-5. Overdriven ceiling derived from the old map's documented alpha=1.5 (not from this ladder's own accuracy, which keeps climbing into damage \u2014 see RUNBOOK-w5r32-dose-band.md SS6). See RUNBOOK-w5r32-dose-band.md.\" via per-site norm_ref-ratio rescale (mean ratio 0.7029, x1.4228) \u2014 PROVISIONAL, not itself measured on this map. CROSS-MODEL transfer (llama-3.2-3b-instruct (w6 wide map, loom_map_w6wide_r64.npz) -> llama-3.1-8b-instruct (8B v0 wide map, loom_map_8b_lam10000_r64.npz)): the competing relative-magnitude hypothesis would put this band at x1.6580 instead, a factor of 1.1654; the served (absolute) numbers are the CONSERVATIVE side of that ambiguity",
+ "map_fingerprint": "de6aa6f4b19e63d0",
+ "norm_ref": [
+  0.6734572649002075,
+  1.556479573249817,
+  2.3059449195861816,
+  3.2894296646118164
+ ],
+ "alpha_max": 1.422757,
+ "measured_at": null,
+ "notes": "map_fingerprint is deliberately null \u2014 same reason as old_map_measured.json, no the GPU node access to the real loom_map_w5_r32.npz this session. Per-lever accuracy at alpha=0.25 ranged .590 (dc05293) to .746 (og01155): a well-predicted lever is already borderline-audible where a poorly-predicted one is not \u2014 this band is a pooled, conservative average, not a per-lever guarantee (see lever_quality_caveat on every /info response).",
+ "ladder": null,
+ "derivation": {
+  "method": "per-site norm_ref-ratio rescale (mean of target/reference, inverted)",
+  "reference_source": "w5-r32 dose ladder, 2026-09-18: 3 levers x 8 probes x 7 alphas x 6 reps, judges claude-sonnet-5 + claude-opus-5. Overdriven ceiling derived from the old map's documented alpha=1.5 (not from this ladder's own accuracy, which keeps climbing into damage \u2014 see RUNBOOK-w5r32-dose-band.md SS6). See RUNBOOK-w5r32-dose-band.md.",
+  "reference_norm_ref": [
+   1.012,
+   2.184,
+   3.239,
+   4.56
+  ],
+  "reference_alpha_max": 1.0,
+  "mean_ratio": 0.702861,
+  "scale": 1.422757,
+  "per_site_ratio": [
+   0.665472,
+   0.712674,
+   0.711931,
+   0.721366
+  ],
+  "per_site_spread": 0.079524,
+  "per_site_spread_warn_threshold": 0.15,
+  "per_site_spread_exceeds_threshold": false,
+  "cross_model": {
+   "hypothesis_served": "absolute",
+   "absolute": {
+    "claim": "equal audibility at equal alpha * norm_ref[s]",
+    "mean_ratio": 0.702861,
+    "scale": 1.422757,
+    "per_site_ratio": [
+     0.665472,
+     0.712674,
+     0.711931,
+     0.721366
+    ]
+   },
+   "relative": {
+    "claim": "equal audibility at equal alpha * norm_ref[s] / ||h[s]||",
+    "mean_ratio": 0.603121,
+    "scale": 1.658042,
+    "per_site_ratio": [
+     0.670348,
+     0.596016,
+     0.60414,
+     0.54198
+    ]
+   },
+   "residual_scale": {
+    "mean_ratio_target_over_reference": 1.174465,
+    "per_site_ratio": [
+     0.992726,
+     1.195729,
+     1.178422,
+     1.330982
+    ],
+    "reference_model": "llama-3.2-3b-instruct (w6 wide map, loom_map_w6wide_r64.npz)",
+    "target_model": "llama-3.1-8b-instruct (8B v0 wide map, loom_map_8b_lam10000_r64.npz)",
+    "source": "per-site median over generations of ||mean-over-continuation-positions h[s]||, from banked expB15_bank_mean_hiddens mean_hiddens.npz. NOT the mean of per-position norms and smaller than it, so these absolute values must not be quoted as a fraction of the residual stream; the ratio between the two arms is what the cross-model bound uses and both arms are reduced identically. Reference banks: <private>/mean_hiddens.npz, <private>/mean_hiddens.npz (n=4288). Target banks: <private>/mean_hiddens.npz, <private>/mean_hiddens.npz (n=11800). No GPU, no judges: the arrays were already banked.",
+    "measured_at": "2026-09-22"
+   },
+   "disagreement": 1.165373,
+   "conservative": "absolute",
+   "served_is_conservative": true,
+   "note": "the served band uses the ABSOLUTE hypothesis unchanged. This block is an error bar, not a correction: switching the served numbers to an unvalidated alternative is the failure this module exists to prevent. Between two maps of the SAME model the two hypotheses coincide, which is why the 2026-09-18 old-map -> w5-r32 validation says nothing about this factor."
+  }
+ },
+ "zones": [
+  {
+   "lo": 0.0,
+   "hi": 0.177845,
+   "hi_inclusive": true,
+   "key": "subliminal",
+   "label": "subliminal",
+   "hint": "pooled subliminal ceiling: the best-predicted lever (og01155, cos .573) already reads .746 at alpha=0.25 \u2014 plainly not invisible \u2014 so 0.125 is the conservative pooled edge, not 0.25 (which only held for the worst-predicted lever, dc05293, cos .208)"
+  },
+  {
+   "lo": 0.177845,
+   "hi": 0.711379,
+   "hi_inclusive": false,
+   "key": "threshold",
+   "label": "threshold",
+   "hint": "alpha~0.35 is dc05293's first rung clearing the .352 catch floor; better-predicted levers clear earlier (og01155: .800 already at 0.35)"
+  },
+  {
+   "lo": 0.711379,
+   "hi": 1.007589,
+   "hi_inclusive": false,
+   "key": "audible",
+   "label": "audible",
+   "hint": "alpha>=0.5: pooled accuracy .740-.989 across the three levers"
+  },
+  {
+   "lo": 1.007589,
+   "hi": 1.422757,
+   "hi_inclusive": true,
+   "key": "overdriven",
+   "label": "overdriven",
+   "hint": "OVERDRIVEN \u2014 at/above the damage ceiling derived from the reference map's own known word-salad point, not inferred from this ladder's accuracy (which keeps climbing into damage rather than falling)"
+  }
+ ]
+}

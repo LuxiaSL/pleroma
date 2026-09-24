@@ -1,0 +1,3991 @@
+{
+ "cand_chars": {
+  "A_wrongprize": [
+   988,
+   975,
+   913,
+   611,
+   825,
+   308,
+   690,
+   960,
+   666,
+   978,
+   708,
+   370,
+   616,
+   977,
+   974,
+   488
+  ],
+  "accuratereview": [
+   259,
+   190,
+   290,
+   158,
+   216,
+   372,
+   285,
+   270,
+   217,
+   330,
+   235,
+   232,
+   267,
+   314,
+   218,
+   300
+  ],
+  "bettercook": [
+   954,
+   979,
+   947,
+   956,
+   947,
+   963,
+   918,
+   971,
+   974,
+   974,
+   968,
+   987,
+   938,
+   978,
+   1004,
+   969
+  ],
+  "fasterlonger": [
+   939,
+   296,
+   977,
+   917,
+   658,
+   972,
+   999,
+   937,
+   977,
+   960,
+   979,
+   947,
+   972,
+   921,
+   959,
+   1012
+  ],
+  "fathershand": [
+   1059,
+   990,
+   993,
+   1009,
+   1098,
+   985,
+   1028,
+   1018,
+   1018,
+   1014,
+   1045,
+   1107,
+   1032,
+   1086,
+   1079,
+   1030
+  ],
+  "keystillhave": [
+   808,
+   911,
+   325,
+   943,
+   932,
+   892,
+   892,
+   829,
+   879,
+   878,
+   866,
+   852,
+   228,
+   877,
+   850,
+   929
+  ],
+  "managerlaugh": [
+   920,
+   932,
+   836,
+   949,
+   378,
+   706,
+   549,
+   955,
+   917,
+   967,
+   929,
+   879,
+   917,
+   803,
+   972,
+   913
+  ],
+  "nineteenletters": [
+   250,
+   160,
+   910,
+   950,
+   342,
+   328,
+   234,
+   233,
+   232,
+   80,
+   205,
+   974,
+   378,
+   956,
+   901,
+   175
+  ],
+  "officeclose": [
+   435,
+   585,
+   649,
+   922,
+   164,
+   681,
+   965,
+   341,
+   407,
+   294,
+   984,
+   981,
+   352,
+   885,
+   732,
+   696
+  ],
+  "paidanddropped": [
+   161,
+   472,
+   236,
+   347,
+   815,
+   1014,
+   311,
+   996,
+   915,
+   394,
+   625,
+   196,
+   818,
+   959,
+   427,
+   361
+  ],
+  "phonepolite": [
+   893,
+   791,
+   925,
+   346,
+   975,
+   942,
+   691,
+   241,
+   210,
+   154,
+   597,
+   1010,
+   748,
+   741,
+   1010,
+   295
+  ],
+  "pricequeue": [
+   577,
+   351,
+   348,
+   215,
+   301,
+   162,
+   559,
+   263,
+   228,
+   958,
+   362,
+   979,
+   335,
+   983,
+   158,
+   345
+  ],
+  "wrongname": [
+   884,
+   884,
+   289,
+   892,
+   860,
+   902,
+   934,
+   525,
+   900,
+   883,
+   903,
+   847,
+   262,
+   853,
+   888,
+   462
+  ]
+ },
+ "length_unit": "characters (sitenorm_analyze.chars)",
+ "rows": [
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 3,
+   "reply_chars": 635
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 2,
+   "reply_chars": 899
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 5,
+   "reply_chars": 814
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 11,
+   "reply_chars": 962
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 8,
+   "reply_chars": 987
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 7,
+   "reply_chars": 349
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 10,
+   "reply_chars": 886
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 1,
+   "reply_chars": 496
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 3,
+   "reply_chars": 693
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 1,
+   "reply_chars": 947
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 7,
+   "reply_chars": 980
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 4,
+   "reply_chars": 359
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 11,
+   "reply_chars": 908
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 2,
+   "reply_chars": 186
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 5,
+   "reply_chars": 935
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 1,
+   "reply_chars": 920
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 0,
+   "reply_chars": 977
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 6,
+   "reply_chars": 1011
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 3,
+   "reply_chars": 879
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 9,
+   "reply_chars": 944
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 5,
+   "reply_chars": 812
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 2,
+   "reply_chars": 953
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 6,
+   "reply_chars": 858
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 0,
+   "reply_chars": 643
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 9,
+   "reply_chars": 935
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 8,
+   "reply_chars": 456
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 10,
+   "reply_chars": 895
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 4,
+   "reply_chars": 939
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 8,
+   "reply_chars": 978
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 11,
+   "reply_chars": 758
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 6,
+   "reply_chars": 613
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 2,
+   "reply_chars": 948
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 7,
+   "reply_chars": 813
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 2,
+   "reply_chars": 301
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 1,
+   "reply_chars": 482
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 3,
+   "reply_chars": 341
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 9,
+   "reply_chars": 1004
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 0,
+   "reply_chars": 997
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 3,
+   "reply_chars": 419
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 4,
+   "reply_chars": 925
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 3,
+   "reply_chars": 1033
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 2,
+   "reply_chars": 938
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 4,
+   "reply_chars": 562
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 8,
+   "reply_chars": 943
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 6,
+   "reply_chars": 718
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 0,
+   "reply_chars": 877
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 5,
+   "reply_chars": 948
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 0,
+   "reply_chars": 904
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 5,
+   "reply_chars": 679
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 6,
+   "reply_chars": 967
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 5,
+   "reply_chars": 1003
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 7,
+   "reply_chars": 225
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 4,
+   "reply_chars": 768
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 4,
+   "reply_chars": 919
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 1,
+   "reply_chars": 476
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 9,
+   "reply_chars": 999
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 0,
+   "reply_chars": 999
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 10,
+   "reply_chars": 319
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 10,
+   "reply_chars": 285
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 6,
+   "reply_chars": 1027
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 1,
+   "reply_chars": 513
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 7,
+   "reply_chars": 671
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 1,
+   "reply_chars": 922
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 10,
+   "reply_chars": 1006
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 6,
+   "reply_chars": 1035
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 6,
+   "reply_chars": 1068
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 2,
+   "reply_chars": 966
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 8,
+   "reply_chars": 982
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 3,
+   "reply_chars": 917
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 1,
+   "reply_chars": 972
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 0,
+   "reply_chars": 818
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 11,
+   "reply_chars": 742
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 3,
+   "reply_chars": 1047
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 5,
+   "reply_chars": 1019
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 4,
+   "reply_chars": 945
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 11,
+   "reply_chars": 402
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 3,
+   "reply_chars": 582
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 7,
+   "reply_chars": 939
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 4,
+   "reply_chars": 1076
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 4,
+   "reply_chars": 880
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 0,
+   "reply_chars": 1047
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 5,
+   "reply_chars": 986
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 7,
+   "reply_chars": 930
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 7,
+   "reply_chars": 898
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 0,
+   "reply_chars": 1086
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "officeclose",
+   "rep": 11,
+   "reply_chars": 380
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 9,
+   "reply_chars": 957
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 2,
+   "reply_chars": 936
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 8,
+   "reply_chars": 1004
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 11,
+   "reply_chars": 519
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 15,
+   "prompt_id": "managerlaugh",
+   "rep": 6,
+   "reply_chars": 473
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 1,
+   "reply_chars": 988
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 0,
+   "reply_chars": 291
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 3,
+   "reply_chars": 852
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 1,
+   "reply_chars": 884
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 7,
+   "reply_chars": 592
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 10,
+   "reply_chars": 940
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 0,
+   "reply_chars": 842
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 9,
+   "reply_chars": 767
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 4,
+   "reply_chars": 871
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 10,
+   "reply_chars": 451
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 1,
+   "reply_chars": 1022
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 10,
+   "reply_chars": 910
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 9,
+   "reply_chars": 520
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 7,
+   "reply_chars": 907
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 3,
+   "reply_chars": 921
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 0,
+   "reply_chars": 850
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 5,
+   "reply_chars": 891
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 2,
+   "reply_chars": 800
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 4,
+   "reply_chars": 163
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 9,
+   "reply_chars": 960
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 6,
+   "reply_chars": 629
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 2,
+   "reply_chars": 646
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 11,
+   "reply_chars": 470
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 8,
+   "reply_chars": 991
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 8,
+   "reply_chars": 971
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 7,
+   "reply_chars": 870
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 2,
+   "reply_chars": 231
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 6,
+   "reply_chars": 909
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 3,
+   "reply_chars": 1081
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 7,
+   "reply_chars": 984
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 9,
+   "reply_chars": 1064
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 11,
+   "reply_chars": 745
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 5,
+   "reply_chars": 940
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 6,
+   "reply_chars": 82
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 0,
+   "reply_chars": 1010
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 11,
+   "reply_chars": 1028
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 2,
+   "reply_chars": 397
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 2,
+   "reply_chars": 397
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 1,
+   "reply_chars": 905
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 5,
+   "reply_chars": 1048
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 3,
+   "reply_chars": 411
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 4,
+   "reply_chars": 1015
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 1,
+   "reply_chars": 337
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 0,
+   "reply_chars": 1016
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 10,
+   "reply_chars": 974
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 8,
+   "reply_chars": 289
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 8,
+   "reply_chars": 1045
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 7,
+   "reply_chars": 401
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 5,
+   "reply_chars": 355
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 2,
+   "reply_chars": 412
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 5,
+   "reply_chars": 133
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 3,
+   "reply_chars": 1017
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 1,
+   "reply_chars": 125
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 7,
+   "reply_chars": 765
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 1,
+   "reply_chars": 181
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 5,
+   "reply_chars": 896
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 9,
+   "reply_chars": 1021
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 0,
+   "reply_chars": 148
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 5,
+   "reply_chars": 372
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 6,
+   "reply_chars": 360
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 4,
+   "reply_chars": 982
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 4,
+   "reply_chars": 683
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 7,
+   "reply_chars": 922
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 5,
+   "reply_chars": 939
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 7,
+   "reply_chars": 925
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 4,
+   "reply_chars": 990
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 3,
+   "reply_chars": 520
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 0,
+   "reply_chars": 428
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 7,
+   "reply_chars": 193
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 7,
+   "reply_chars": 725
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 3,
+   "reply_chars": 360
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 2,
+   "reply_chars": 970
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 11,
+   "reply_chars": 479
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 11,
+   "reply_chars": 306
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 4,
+   "reply_chars": 241
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 1,
+   "reply_chars": 221
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 1,
+   "reply_chars": 1046
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 2,
+   "reply_chars": 731
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 5,
+   "reply_chars": 448
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 10,
+   "reply_chars": 1074
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 9,
+   "reply_chars": 978
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 3,
+   "reply_chars": 390
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 12,
+   "prompt_id": "keystillhave",
+   "rep": 6,
+   "reply_chars": 912
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 3,
+   "reply_chars": 350
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 5,
+   "reply_chars": 959
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 0,
+   "reply_chars": 957
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 10,
+   "reply_chars": 219
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 4,
+   "reply_chars": 890
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 6,
+   "reply_chars": 1017
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 9,
+   "reply_chars": 559
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 8,
+   "reply_chars": 294
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 8,
+   "reply_chars": 333
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 6,
+   "reply_chars": 1037
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 6,
+   "reply_chars": 960
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 0,
+   "reply_chars": 940
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 2,
+   "reply_chars": 990
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 10,
+   "reply_chars": 964
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 4,
+   "reply_chars": 1022
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 4,
+   "reply_chars": 241
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 6,
+   "reply_chars": 1108
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 5,
+   "reply_chars": 1095
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 2,
+   "reply_chars": 1077
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 6,
+   "reply_chars": 1032
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 9,
+   "reply_chars": 1066
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 0,
+   "reply_chars": 1132
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 11,
+   "reply_chars": 1040
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 6,
+   "reply_chars": 260
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 1,
+   "reply_chars": 1034
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 3,
+   "reply_chars": 1117
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 0,
+   "reply_chars": 1103
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 8,
+   "reply_chars": 980
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 3,
+   "reply_chars": 1028
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 5,
+   "reply_chars": 992
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 2,
+   "reply_chars": 321
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 4,
+   "reply_chars": 1069
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 10,
+   "reply_chars": 1110
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 7,
+   "reply_chars": 843
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 11,
+   "reply_chars": 1048
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 2,
+   "reply_chars": 1159
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 10,
+   "reply_chars": 993
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 7,
+   "reply_chars": 1056
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 9,
+   "reply_chars": 1023
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 1,
+   "reply_chars": 1013
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 5,
+   "reply_chars": 1006
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 8,
+   "reply_chars": 982
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 3,
+   "reply_chars": 1001
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 4,
+   "reply_chars": 1035
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "paidanddropped",
+   "rep": 6,
+   "reply_chars": 203
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 1,
+   "reply_chars": 974
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 4,
+   "reply_chars": 1026
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 1,
+   "reply_chars": 1029
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 6,
+   "reply_chars": 989
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 0,
+   "reply_chars": 337
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 5,
+   "reply_chars": 960
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 3,
+   "reply_chars": 958
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 4,
+   "reply_chars": 1038
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 2,
+   "reply_chars": 1043
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 6,
+   "reply_chars": 973
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 7,
+   "reply_chars": 955
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 1,
+   "reply_chars": 955
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 14,
+   "prompt_id": "phonepolite",
+   "rep": 7,
+   "reply_chars": 1078
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 2,
+   "reply_chars": 1002
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 8,
+   "reply_chars": 1015
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 3,
+   "prompt_id": "nineteenletters",
+   "rep": 1,
+   "reply_chars": 1064
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 3,
+   "reply_chars": 982
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "fathershand",
+   "rep": 2,
+   "reply_chars": 973
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 9,
+   "reply_chars": 948
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 0,
+   "reply_chars": 1015
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 5,
+   "reply_chars": 986
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 6,
+   "reply_chars": 1009
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 10,
+   "reply_chars": 1009
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 1,
+   "reply_chars": 999
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 7,
+   "reply_chars": 936
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 11,
+   "reply_chars": 983
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 2,
+   "reply_chars": 924
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 8,
+   "reply_chars": 954
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 1,
+   "reply_chars": 320
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 4,
+   "reply_chars": 944
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 0,
+   "reply_chars": 343
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 4,
+   "reply_chars": 1067
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 4,
+   "reply_chars": 1057
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 3,
+   "reply_chars": 218
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 0,
+   "reply_chars": 944
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 6,
+   "reply_chars": 973
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 0,
+   "reply_chars": 1066
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 5,
+   "reply_chars": 943
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 1,
+   "reply_chars": 290
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 8,
+   "reply_chars": 970
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 10,
+   "reply_chars": 958
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 4,
+   "reply_chars": 348
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 1,
+   "reply_chars": 330
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 6,
+   "reply_chars": 1001
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 8,
+   "reply_chars": 975
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 10,
+   "reply_chars": 977
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 9,
+   "reply_chars": 956
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 5,
+   "reply_chars": 649
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 3,
+   "reply_chars": 968
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 10,
+   "reply_chars": 845
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 11,
+   "reply_chars": 209
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 0,
+   "reply_chars": 396
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 7,
+   "reply_chars": 992
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 2,
+   "reply_chars": 1070
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 2,
+   "reply_chars": 562
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 5,
+   "reply_chars": 1128
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 7,
+   "reply_chars": 573
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 3,
+   "reply_chars": 282
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 7,
+   "reply_chars": 934
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 2,
+   "reply_chars": 921
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 7,
+   "reply_chars": 950
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 9,
+   "reply_chars": 1014
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 11,
+   "reply_chars": 312
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 5,
+   "reply_chars": 666
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 6,
+   "reply_chars": 167
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 10,
+   "reply_chars": 147
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 2,
+   "reply_chars": 183
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 10,
+   "reply_chars": 147
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 0,
+   "reply_chars": 294
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 1,
+   "reply_chars": 182
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 8,
+   "reply_chars": 312
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 5,
+   "reply_chars": 950
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 4,
+   "reply_chars": 259
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 6,
+   "reply_chars": 414
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 11,
+   "reply_chars": 443
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 3,
+   "reply_chars": 180
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 3,
+   "reply_chars": 175
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 9,
+   "reply_chars": 449
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 3,
+   "reply_chars": 924
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 7,
+   "reply_chars": 117
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 0,
+   "reply_chars": 422
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 5,
+   "reply_chars": 1030
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 9,
+   "reply_chars": 503
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 0,
+   "reply_chars": 912
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 6,
+   "reply_chars": 442
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 2,
+   "reply_chars": 184
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 1,
+   "reply_chars": 976
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 4,
+   "reply_chars": 198
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 6,
+   "reply_chars": 953
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 4,
+   "reply_chars": 258
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 2,
+   "reply_chars": 512
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 7,
+   "reply_chars": 115
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 8,
+   "reply_chars": 247
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 11,
+   "reply_chars": 276
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 6,
+   "reply_chars": 730
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 0,
+   "reply_chars": 971
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 10,
+   "reply_chars": 1033
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 1,
+   "reply_chars": 375
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 0,
+   "reply_chars": 274
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 5,
+   "reply_chars": 186
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 4,
+   "reply_chars": 933
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 1,
+   "reply_chars": 652
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 2,
+   "reply_chars": 864
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 4,
+   "reply_chars": 849
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 0,
+   "reply_chars": 977
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 7,
+   "reply_chars": 229
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 7,
+   "reply_chars": 970
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 2,
+   "reply_chars": 350
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 3,
+   "reply_chars": 973
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 11,
+   "reply_chars": 978
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 5,
+   "reply_chars": 973
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 9,
+   "reply_chars": 957
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 8,
+   "reply_chars": 693
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 6,
+   "reply_chars": 961
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 7,
+   "reply_chars": 879
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 2,
+   "reply_chars": 494
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 4,
+   "reply_chars": 981
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 7,
+   "reply_chars": 1008
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 1,
+   "reply_chars": 996
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 3,
+   "reply_chars": 874
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 0,
+   "reply_chars": 912
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 8,
+   "reply_chars": 1038
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 10,
+   "reply_chars": 671
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 1,
+   "reply_chars": 955
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 11,
+   "reply_chars": 921
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 5,
+   "reply_chars": 855
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 6,
+   "reply_chars": 1042
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 8,
+   "reply_chars": 992
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 0,
+   "reply_chars": 496
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 9,
+   "reply_chars": 737
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 2,
+   "reply_chars": 984
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 11,
+   "reply_chars": 920
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 2,
+   "reply_chars": 939
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 6,
+   "reply_chars": 1043
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 6,
+   "reply_chars": 943
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 7,
+   "reply_chars": 973
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "bettercook",
+   "rep": 11,
+   "reply_chars": 980
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 10,
+   "reply_chars": 688
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 5,
+   "reply_chars": 955
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 11,
+   "reply_chars": 948
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 10,
+   "reply_chars": 979
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 5,
+   "reply_chars": 1000
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 7,
+   "reply_chars": 936
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 5,
+   "prompt_id": "accuratereview",
+   "rep": 3,
+   "reply_chars": 177
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 0,
+   "reply_chars": 953
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 1,
+   "reply_chars": 923
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 3,
+   "reply_chars": 986
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 6,
+   "reply_chars": 987
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 3,
+   "reply_chars": 200
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 1,
+   "reply_chars": 939
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 9,
+   "reply_chars": 780
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 2,
+   "reply_chars": 944
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 4,
+   "reply_chars": 392
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 7,
+   "reply_chars": 284
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 4,
+   "reply_chars": 367
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 8,
+   "reply_chars": 990
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 1,
+   "reply_chars": 947
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 0,
+   "reply_chars": 1039
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 3,
+   "reply_chars": 1024
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 4,
+   "reply_chars": 991
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 5,
+   "reply_chars": 446
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 8,
+   "reply_chars": 604
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 8,
+   "reply_chars": 468
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 7,
+   "reply_chars": 441
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 10,
+   "reply_chars": 662
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 9,
+   "reply_chars": 1007
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 11,
+   "reply_chars": 289
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 10,
+   "reply_chars": 452
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 5,
+   "reply_chars": 143
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 6,
+   "reply_chars": 957
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 0,
+   "reply_chars": 1006
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 7,
+   "prompt_id": "A_wrongprize",
+   "rep": 3,
+   "reply_chars": 479
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 3,
+   "reply_chars": 333
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 11,
+   "reply_chars": 104
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 6,
+   "prompt_id": "wrongname",
+   "rep": 5,
+   "reply_chars": 938
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 9,
+   "reply_chars": 924
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 5,
+   "reply_chars": 957
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 0,
+   "reply_chars": 1004
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 2,
+   "reply_chars": 497
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 4,
+   "reply_chars": 931
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 1,
+   "reply_chars": 957
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 9,
+   "reply_chars": 910
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 2,
+   "reply_chars": 989
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 1,
+   "reply_chars": 923
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 2,
+   "reply_chars": 456
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 0,
+   "reply_chars": 907
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 7,
+   "reply_chars": 996
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 4,
+   "reply_chars": 956
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 1,
+   "reply_chars": 633
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 5,
+   "reply_chars": 381
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 3,
+   "reply_chars": 254
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 6,
+   "reply_chars": 189
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 6,
+   "reply_chars": 491
+  },
+  {
+   "keys": [
+    "raw"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 7,
+   "reply_chars": 540
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 4,
+   "reply_chars": 878
+  },
+  {
+   "keys": [
+    "base"
+   ],
+   "prescribed_index": 4,
+   "prompt_id": "fasterlonger",
+   "rep": 3,
+   "reply_chars": 1000
+  },
+  {
+   "keys": [
+    "sitenorm"
+   ],
+   "prescribed_index": 11,
+   "prompt_id": "pricequeue",
+   "rep": 9,
+   "reply_chars": 920
+  }
+ ],
+ "source": {
+  "fans": "<private>/fans.jsonl",
+  "manifest": "<private>/manifest.json",
+  "rankings": "<private>/rankings_asfrozen_claude-sonnet-5.jsonl",
+  "replies": "<private>/replies.jsonl"
+ }
+}

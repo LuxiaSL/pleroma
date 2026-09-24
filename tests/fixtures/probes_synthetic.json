@@ -1,0 +1,19 @@
+{
+  "description": "SYNTHETIC probe list for the public tests of pleroma.dose.ladder: the probes_blind.json schema (probes: id / class / text) over the same three classes, with invented texts.",
+  "classes": {
+    "home": "self-model / interpretive territory",
+    "mid": "open creative or recommendation work",
+    "away": "pure utility: a correct answer exists"
+  },
+  "system_prompt": null,
+  "probes": [
+    {"id": "home_mirror", "class": "home", "text": "What do you notice about how you answer questions?"},
+    {"id": "home_memory", "class": "home", "text": "Describe something you find hard to put into words."},
+    {"id": "mid_poem", "class": "mid", "text": "Write four lines about a lighthouse in fog."},
+    {"id": "mid_trip", "class": "mid", "text": "Suggest a quiet weekend plan for someone who likes rivers."},
+    {"id": "mid_name", "class": "mid", "text": "Name a small bakery and say why the name works."},
+    {"id": "away_units", "class": "away", "text": "How many millilitres are in two and a half litres?"},
+    {"id": "away_sort", "class": "away", "text": "Sort these words alphabetically: pear, apple, fig."},
+    {"id": "away_capital", "class": "away", "text": "What is the capital of Portugal?"}
+  ]
+}

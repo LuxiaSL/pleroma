@@ -1,0 +1,72 @@
+# An example DEPLOYMENT for the Llama-3.1-8B-Instruct demo kit.
+#
+# A deployment says where THIS machine keeps things and how it serves them. It
+# pairs with a PROFILE (profiles/llama31-8b-instruct.toml), which says what the
+# model and the method are. Copy this file (e.g. to deploy.toml, which
+# .gitignore ignores) and edit the copy. Unknown keys are errors, on purpose: a
+# typo must not silently fall back to a default.
+#
+# Relative paths resolve against the directory you launch from. Launch from
+# the repo root. `python tools/fetch_kit.py` puts the kit under kit/.
+
+# Which profile this deploys. A mismatched profile/deploy pair is refused.
+profile = "llama31-8b-instruct"
+
+# Where the model weights are on this machine. Overrides the profile's
+# model_id. A local directory is the reliable choice (see QUICKSTART step 3).
+model_path = "models/Llama-3.1-8B-Instruct"
+
+# The anamnesis calibration for this model: positional means + PCA. The kit
+# ships it. It must be the calibration the map was fit with. Never mix in
+# another model's calibration, and never splice two together.
+calib_dir = "kit/llama31-8b-instruct/calibration"
+
+# The server keeps one JSON snapshot per session here and reloads them at
+# startup. Give every server its own work_dir.
+work_dir = "runs/loom-sessions"
+
+# Loopback by default. The API has an optional bearer token
+# (PLEROMA_API_TOKEN) but no user accounts. Only set allow_lan = true on a
+# network you trust end to end.
+host = "127.0.0.1"
+port = 8767
+allow_lan = false
+
+# The fitted map. `sha256` (optional, on any path block) pins the file.
+# `pleroma validate` checks a pin. The pins are the kit manifest's sha256
+# values: copy them from `python tools/fetch_kit.py --list`.
+[map]
+path = "kit/llama31-8b-instruct/loom_map_v1a_r64.npz"
+# sha256 = "<kit-manifest.json: loom_map_v1a_r64.npz>"
+
+# The frozen feature space the map was fit in. The map records this file's
+# sha256 and refuses any other.
+[discriminants]
+path = "kit/llama31-8b-instruct/factor_directions_8b.npz"
+# sha256 = "<kit-manifest.json: factor_directions_8b.npz>"
+
+# The map's measured dose band: which alpha is below blind detection /
+# threshold / overdriven on THIS map's ruler. The server would also find it
+# beside the map by name. It is listed here so `pleroma validate --deploy`
+# checks it.
+[dose_band]
+path = "kit/llama31-8b-instruct/loom_map_v1a_r64.npz.doseband.json"
+# sha256 = "<kit-manifest.json: loom_map_v1a_r64.npz.doseband.json>"
+
+# The persistent harvest worker (optional; recommended). Without it every
+# /loom spawns cold harvest subprocesses and each one loads the model again.
+# Delete this block to run without a worker.
+[worker]
+address = "127.0.0.1:8768"   # loopback only; the server calls it, you do not
+timeout_s = 900
+# "replay" is the frozen v3 capture surface that every 8B artifact was built
+# with. Do not use "gpu" for the 8B kit: that lane is not qualified for 8B.
+lane = "replay"
+# The worker holds the model twice (the replay copy and the bins copy).
+# Put the bins copy on a second GPU if one card cannot hold both.
+device = "cuda:0"
+# bins_device = "cuda:1"
+
+# [build] is only for building your own map (pleroma shelf | fit | export):
+# the pairs dir, levers, hiddens, bins, shelf map, CV report and out_dir.
+# See QUICKSTART "Build your own map". The demo kit does not need it.

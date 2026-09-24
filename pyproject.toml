@@ -1,0 +1,64 @@
+[project]
+name = "pleroma"
+version = "0.2.0"
+description = "The loom: sample a conversation's futures, read how the model computed each one, and wear a chosen future as a residual-stream lever"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "Luxia" }]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# Direct imports of the shipped code, floors raised to anamnesis's where it
+# declares one (it is the instrument every signature goes through, so its
+# floor is the binding one). The GPU path has been run on torch 2.11 +
+# transformers 5.3.0; the CPU test suite runs on whatever CI resolves.
+dependencies = [
+    # The feature extractor, pinned to ONE commit. A changed extractor
+    # silently invalidates every fitted map (VENDOR.md). Keep this sha equal
+    # to the vendor/anamnesis submodule and to
+    # pleroma.harvest.anamnesis_seam.PINNED_COMMIT.
+    "anamnesis @ git+https://github.com/LuxiaSL/anamnesis@bc79f10c307e9fdab1113db0f09d843340168c05",
+    "torch>=2.1",
+    # anamnesis's floor: its batched cache path needs the Cache.layers API (4.54)
+    "transformers>=4.54",
+    # anamnesis loads with device_map, which transformers hands to accelerate
+    "accelerate>=0.30",
+    "numpy>=1.26",
+    "scipy>=1.12",
+    "scikit-learn>=1.4",
+    "pydantic>=2.7",
+]
+
+[project.optional-dependencies]
+# Generating fan corpora and dose ladders at scale runs on vLLM's steered path
+# (enforce_eager; the steering hook self-checks). The loom itself, the harvest
+# and every build stage run on plain transformers and do not need it.
+vllm = ["vllm"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+pleroma = "pleroma.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/LuxiaSL/pleroma"
+Repository = "https://github.com/LuxiaSL/pleroma"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+# pleroma is the package. expB_inversion is the legacy server/worker that
+# `pleroma serve|worker` still launches; it shrinks as its modules move in.
+include = ["pleroma*", "expB_inversion*"]
+
+[tool.setuptools.package-data]
+# the API schema, the UI page(s) the server serves, dose-band sidecars
+"*" = ["*.json", "*.html", "static/*"]

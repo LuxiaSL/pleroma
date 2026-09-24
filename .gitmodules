@@ -1,0 +1,3 @@
+[submodule "vendor/anamnesis"]
+	path = vendor/anamnesis
+	url = https://github.com/LuxiaSL/anamnesis

@@ -1,0 +1,242 @@
+{
+ "map": "<redacted>/loom_map_v1a_r64.npz",
+ "map_meta": {
+  "lam": 10000.0,
+  "rank": 64,
+  "n_rows": 11800,
+  "n_fans": 1475,
+  "prereg_token": "v1a-fit-001",
+  "stage": "v1a_export — the deployment refit of §58's fit"
+ },
+ "sites": [
+  9,
+  17,
+  21,
+  25
+ ],
+ "branches": [
+  "base",
+  "loom"
+ ],
+ "default_k": 6,
+ "future_tokens": 192,
+ "detach_wear_default": false,
+ "n_sessions": 22,
+ "harvest_worker": "127.0.0.1:8784",
+ "harvest_workers": [
+  "127.0.0.1:8784",
+  "127.0.0.1:8785"
+ ],
+ "harvest_pool_width": 2,
+ "restored_sessions": 8,
+ "persistence": {
+  "enabled": true,
+  "dir": "<redacted>/sessions",
+  "writes": 47,
+  "write_failures": 0,
+  "restored_sessions": 8,
+  "failed_sessions": 0,
+  "last_error": null,
+  "restore_on_start": true,
+  "restore_errors": [],
+  "schema": 1
+ },
+ "auto_policies": [
+  {
+   "key": "distinct",
+   "needs_wear": false,
+   "description": "highest mean cosine distance to the rest of the fan, in corpus-standardized signature space.",
+   "status": "measured — §54 ranked it 33% of the ORACLE's picking skill (harvest .1875 vs floor .1102). THIRD of the three measured policies now wired: `gauge` probes at 71% (§54) and `loudest` on v1a is free at 43% (§63). There is no setting in which `distinct` is the best available choice on this server. Estimated, uncertified.",
+   "cost": "free — read off the draw."
+  },
+  {
+   "key": "loudest",
+   "needs_wear": false,
+   "description": "largest mean RAW map-output norm before the ruler flattens it — the map's own prediction of how far this future wants to move.",
+   "status": "★ RE-MEASURED ON v1a, 2026-09-21 (§63): 43% of the ORACLE's picking skill — the BEST FREE POLICY here, up from 12% on the wide map, where §54 found it BELOW random on `window`. On that same conversation v1a's score now harvests +.268 against a .321 oracle. ★ THE DEFAULT RECOMMENDATION when you are not paying for a probe: `gauge` measures 71% (§54) but costs seconds per turn, and 43% of the skill for 0 s is the better trade for most turns. Caveat: the harvest ground truth is fable Δnr measured under OLD-MAP wear, so this scores the PICKER, not the pairing of this picker with v1a's own steering; n=3 conversations / 48 cells, descriptive. Estimated, uncertified.",
+   "cost": "free — read off the draw."
+  },
+  {
+   "key": "minority",
+   "needs_wear": false,
+   "description": "the most distinct member of the smaller 2-means camp; falls back to `distinct` below 3 scored futures (the banner says so when it does).",
+   "status": "not separately measured — §54 did not score it. Camps are per-draw labels, not identities (§41.4). Estimated, uncertified.",
+   "cost": "free — read off the draw."
+  },
+  {
+   "key": "stay",
+   "needs_wear": true,
+   "description": "highest cosine to the code already worn — deepen the bend you are in.",
+   "status": "not measured as a pick policy; it is a steering intent, not a quality bar. Estimated, uncertified.",
+   "cost": "free — read off the draw."
+  },
+  {
+   "key": "swerve",
+   "needs_wear": true,
+   "description": "lowest cosine to the code already worn — leave the bend you are in.",
+   "status": "not measured as a pick policy; it is a steering intent, not a quality bar. Estimated, uncertified.",
+   "cost": "free — read off the draw."
+  },
+  {
+   "key": "gauge",
+   "needs_wear": false,
+   "needs_probe": true,
+   "description": "★ gauge-M2, the PROBE. For each candidate: wear its contrastive code, generate a short continuation, extract that reply's v3 signature, and measure the normalized rank of the target future among the fan by COSINE distance in z space. Score = mean base nr − mean steered nr (fable's Δnr construction with geometry in place of the judge). Ranks by that score.",
+   "status": "★ THE POLICY THIS PROJECT ADOPTED BY MEASUREMENT (RESULTS §54): 71% of the ORACLE's picking skill (pooled harvest .2731 vs a .1102 random floor) against `distinct`'s 33% and wide-map `loudness`'s 12%. On `window` it picked the oracle's EXACT top-4 (regret 0.000) where the static policies picked below random. ★ But §63 then bought 43% of that skill for FREE with `loudest` on v1a, so the probe's real margin here is the remaining ~27 points, not 71. ★ §53 REFUSED this same gauge as an INSTRUMENT (M2 missed the registered AUC bar by .0016) — it picks, it does not judge; fable remains the instrument and the human still chooses. Estimated, uncertified.",
+   "cost": "★ NOT FREE — it generates and harvests k more spans. MEASURED on this server 2026-09-21 at k=8 reps=1: 7.9 s generate + 10.6 s harvest = 18.6 s, ON TOP of a 15.1 s draw (33.7 s for the turn). reps ride in one batched generate per candidate, so they are near-free to generate and cost a full span each to harvest. /info's `probe.cost_estimate` prices your exact settings. Opt-in only: no default turn is ever silently expensive.",
+   "opt_in": "POST /probe, or pass \"probe\": true on /loom."
+  }
+ ],
+ "loudness_ref": 1.956,
+ "dose_band": {
+  "tier": "measured",
+  "alpha_max": 1.422757,
+  "source": "8B v1a CONFIRMATION ladder, 2026-09-22: 2 lever groups (w6_sf04245|repl held-out cos .184, w6_dc03448|repl .544) x 8 probes (probes_blind.json) x 4 alphas (0/0.125/0.35/0.75) x 6 reps = 384 pairs, 762 judgments from claude-sonnet-5 + claude-opus-5 independently at API-default effort — the same two-judge instrument the w5-r32 certified 3B band was read with. Generated on the vLLM steered path with all five hook self-checks passing (including C, the real-vector divergence check that catches a CUDA-graph-killed hook) and date_string pinned to '22 Sep 2026'. Directions are the 8B v0 wide map's held-out CV predictions (lambda 1e4, rank 64, fold-by-prompt); norm-matched per site to the SERVED v1a map's norm_ref, verified identical to v0's. Overdriven ceiling derived from the old map's documented alpha=1.5, NOT from this ladder's accuracy.",
+  "measured_at": "2026-09-22",
+  "notes": "CONFIRMATION, not calibration: 4 rungs, so every boundary sits AT a measured rung and none is interpolated. Read against this ladder's own catch floor (.471 [.379,.564], confidently-wrong 0.000): alpha=0.125 .524 p=.44 INDISTINGUISHABLE from the floor -> subliminal; alpha=0.35 .610 p=.039 clears -> threshold; alpha=0.75 .805 p<1e-4 clears, and is statistically indistinguishable from w5-r32's own audible-start rung (.876, p=.062) while different from its top threshold rung (.664, p=.003) -> audible, a label calibrated on the certified band's rungs rather than on a chosen accuracy bar. THE DERIVED BAND THIS SUPERSEDES IS CORROBORATED: it predicted subliminal<=0.178 / threshold<0.711 / audible<1.008 and all three tested rungs landed in the zone it predicted, so its finer boundaries remain usable as the interpolated reading; its independently-derived overdriven ceiling (1.0076) and this band's (1.0071) agree to 5e-4. CROSS-MODEL: 'no rescale needed' (x1.0) is REJECTED at alpha=0.75 (8B .805 vs instrument-matched 3B .977, p<1e-4) while the derived x1.4228 is consistent (p=.062 at that rung, p=.19 at 0.35). NOT LICENSED: this ladder does not separate absolute (x1.4228) from relative (x1.6580) magnitude transfer — they differ by 1.165x, far inside one rung — and the residual at the top rung leans, non-significantly, toward needing MORE alpha than x1.4228. CONFOUNDS: the 8B arm's mean held-out lever cos is .364 against the 3B arm's .413, which depresses the 8B curve independently of dose and points the same way as both the rescale and that residual; and 30 percent of judge calls were abstentions with low-rung cues dominated by max_new_tokens=288 truncation asymmetry, which is exactly what the catch rung absorbs and why every rung is read against it rather than against 0.5.",
+  "map_fingerprint": "de6aa6f4b19e63d0",
+  "derivation": null,
+  "zones": [
+   {
+    "lo": 0.0,
+    "hi": 0.125,
+    "hi_inclusive": true,
+    "key": "subliminal",
+    "label": "subliminal",
+    "hint": "measured at alpha=0.125: accuracy indistinguishable from the catch floor. The ceiling sits AT the rung, not between rungs — a 4-rung confirmation ladder cannot place it finer."
+   },
+   {
+    "lo": 0.125,
+    "hi": 0.75,
+    "hi_inclusive": false,
+    "key": "threshold",
+    "label": "threshold",
+    "hint": "between the highest rung reading chance and the lowest rung reading audible; rungs inside this span cleared the catch floor without reaching the audible bar"
+   },
+   {
+    "lo": 0.75,
+    "hi": 1.007054,
+    "hi_inclusive": false,
+    "key": "audible",
+    "label": "audible",
+    "hint": "measured at alpha=0.75: accuracy at/above the audible bar with a CI clear of the catch floor"
+   },
+   {
+    "lo": 1.007054,
+    "hi": 1.422757,
+    "hi_inclusive": true,
+    "key": "overdriven",
+    "label": "overdriven",
+    "hint": "OVERDRIVEN — at/above the damage ceiling derived from the reference map's own known word-salad point, not inferred from this ladder's accuracy (which keeps climbing into damage rather than falling)"
+   }
+  ],
+  "lever_quality_caveat": "this band is a per-map average over levers of varying held-out prediction quality (cos-to-true), not a guarantee for the specific code currently worn — a well-predicted future can read audible well below this band's threshold line, and a poorly-predicted one well above it"
+ },
+ "ruler": {
+  "norm_ref_in_force": [
+   0.673457,
+   1.55648,
+   2.305945,
+   3.28943
+  ],
+  "norm_ref_in_force_mean": 1.956328,
+  "which": "norm_ref = WIDE MAP's ruler (decision 1); norm_ref_v1a_own is v1a's own and is NOT worn",
+  "alternatives": {
+   "norm_ref_v1a_own": {
+    "norm_ref": [
+     0.314686,
+     0.756487,
+     1.154398,
+     1.668753
+    ],
+    "mean": 0.973581,
+    "in_force": false
+   }
+  },
+  "note": "alpha means an absolute per-site injected norm of alpha x norm_ref_in_force[s]. NEVER compare a bare alpha across rulers — RESULTS §36.1 (old map alpha 1.0 = w5-r32 alpha 0.468). Any alternative listed here is NOT being worn."
+ },
+ "auto_policies_unavailable": [],
+ "auto_policy_caveat": "★ The pick policy this project adopted by measurement (gauge-M2, RESULTS §54, 71% of ORACLE) IS NOW WIRED, as `gauge` — it is the probe, and it is the only policy here that costs seconds. The ranking of what is measured: gauge 71% (probed) > loudest 43% (free, v1a, §63) > distinct 33% (free, §54) > random floor. `minority`, `stay` and `swerve` were never scored as pick policies at all. DEFAULTS STAY FREE: no policy runs unless the request asks for it, and the probe additionally requires an explicit opt-in. Estimated, uncertified (§53's register).",
+ "probe": {
+  "available": true,
+  "endpoint": "POST /probe (or \"probe\": true on /loom)",
+  "policy_key": "gauge",
+  "base_modes": [
+   "fan",
+   "fresh"
+  ],
+  "default_base": "fan",
+  "default_reps": 2,
+  "cost_estimate": {
+   "k": 6,
+   "reps": 2,
+   "base": "fan",
+   "n_base": 0,
+   "n_spans_harvested": 12,
+   "generate_s": 5.9,
+   "harvest_s": 8.5,
+   "total_s": 14.4,
+   "harvest_width": 2,
+   "basis": {
+    "per_gen_s": 0.99,
+    "per_span_harvest_s": 1.33,
+    "harvest_width": 2,
+    "pool_per_span_degradation": 1.06,
+    "measured": "2026-09-21, B200, llama-3.2-3b-instruct, 3-turn session prefix (~1.1k prompt tokens), probe horizon 64, ONE serial harvest worker (k=8 reps=1 observed at 7.9 s generate / 10.6 s harvest). The per-span figure is that measurement; the harvest term is divided by harvest_width and multiplied by the pool's ~6% per-span degradation when a pool is armed.",
+    "caveat": "the per-span basis was measured on llama-3.2-3b; a larger model harvests more slowly per span, so on an 8B or 70B server read this as an ORDER OF MAGNITUDE, not a prediction."
+   },
+   "note": "ON TOP of the /loom draw itself. The harvest term dominates — it is 88-95% of any loom turn — and is sharded across the 2 harvest worker(s) this server has armed, at ~6% per-span degradation (RESULTS §72.1)."
+  },
+  "definition": "gauge-M2 = normalized rank of the target future among the same-pass futures by cosine distance in z space; cell = mean base nr − mean steered nr (freegauge_calibration.gauge_nr, imported not re-implemented).",
+  "label": "estimated, uncertified — §53 refused this gauge as an INSTRUMENT and §54 adopted it only as a pick POLICY."
+ },
+ "dose_policies": [
+  {
+   "key": "flat",
+   "default": false,
+   "needs_fan": false,
+   "description": "every candidate injected at the map's own norm_ref — identical per-site magnitude for all of them.",
+   "status": "the incumbent, and byte-identical to the pre-2026-09-21 server. Every dose band, ladder and RESULTS alpha in this project was measured under it."
+  },
+  {
+   "key": "predicted",
+   "default": true,
+   "needs_fan": true,
+   "description": "divide by the FAN's mean raw norm instead of the candidate's own, so a candidate the map predicts will move further is injected proportionally harder. The fan's average dose is unchanged, so alpha keeps its meaning. Per-site scale clamped to [0.5, 2.0]; every clamp is reported.",
+   "status": "★ UNVALIDATED — estimated, uncertified. The magnitude signal it restores is real and fit-side measured (v1a within-fan r=.757 vs v0 .538, ANALYSIS-2026-09-21-v1a-structure §3) but NO behavioural result exists for this policy. It also breaks the 1:1 between alpha and the dose band: a candidate's EFFECTIVE alpha is alpha x its scale, reported on every /wear as `alpha_effective_*`.",
+   "unavailable_for": "/wear_code — a bank group, a random direction or a bare code has no fan, so there is no mean to divide by. Asking for it there is refused, never silently flattened."
+  }
+ ],
+ "dose_policy_default": "predicted",
+ "dose_scale_clamp": [
+  0.5,
+  2.0
+ ],
+ "prompt_mode": "chat",
+ "prompt_mode_detail": {
+  "temperature": 1.0,
+  "top_p": 0.95,
+  "stop_strings": null,
+  "chat_template_present": true
+ },
+ "lever_kinds": [
+  {
+   "key": "absolute",
+   "default": true,
+   "description": "W applied to the future's own input row — every wear on record before 2026-09-22."
+  },
+  {
+   "key": "contrast",
+   "default": false,
+   "description": "W applied to the future's row minus the mean of the fan's OTHER valid rows — the one-vs-rest object v1a was fit on. UNVALIDATED behaviourally on a fan wear."
+  }
+ ],
+ "lever_kind_default": "absolute",
+ "api": {
+  "version": "1",
+  "prefix": "/api/v1",
+  "schema_sha256": "39ae827d698dcc0642c06f4675b7ca692d51e12cfc66710863da8740d30ee4ec",
+  "auth_required": false,
+  "legacy_aliases_open": true
+ }
+}

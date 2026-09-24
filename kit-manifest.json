@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "kit": "llama31-8b-instruct",
+  "profile": "profiles/llama31-8b-instruct.toml",
+  "release": "kit-8b-v1",
+  "description": "The Llama-3.1-8B-Instruct demo kit: everything the loom needs beside the model weights. Every asset is sha256-pinned; tools/fetch_kit.py verifies each before use.",
+  "assets": [
+    {
+      "name": "loom_map_v1a_r64.npz",
+      "role": "map",
+      "url": "https://github.com/LuxiaSL/pleroma/releases/download/kit-8b-v1/loom_map_v1a_r64.npz",
+      "sha256": "6c126d19011062a56af73ffb4de592fc9baab568c9859d026d585f5bb7a8ff82",
+      "dest": "kit/llama31-8b-instruct/loom_map_v1a_r64.npz",
+      "bytes": 9453568,
+      "description": "The kit's v1a map (the served 8B map re-exported by `pleroma export`: canonical SVD signs, in-build shelf stats): rank-64 codes -> per-site residual levers at sites 9/17/21/25, with its ruler (norm_ref)."
+    },
+    {
+      "name": "loom_map_v1a_r64.npz.doseband.json",
+      "role": "dose_band",
+      "url": "https://github.com/LuxiaSL/pleroma/releases/download/kit-8b-v1/loom_map_v1a_r64.npz.doseband.json",
+      "sha256": "2abd305c480b9cc2524e0e789db3b774ba2ba13a1174dcb994bcd2bbf56707cb",
+      "dest": "kit/llama31-8b-instruct/loom_map_v1a_r64.npz.doseband.json",
+      "bytes": 3507,
+      "description": "The map's MEASURED dose band (uniform injection span): below blind detection <= 0.35, threshold (0.35, 1.0), overdriven >= 1.0 (lever-dependent damage, measured). Stamped with the map's fingerprint and ruler; the server finds it beside the map."
+    },
+    {
+      "name": "factor_directions_8b.npz",
+      "role": "discriminants",
+      "url": "https://github.com/LuxiaSL/pleroma/releases/download/kit-8b-v1/factor_directions_8b.npz",
+      "sha256": "35ba6b1564a4ed87c0ffe1662d979ef1c66d6e23d89ea2d8d20c2eac7e18945f",
+      "dest": "kit/llama31-8b-instruct/factor_directions_8b.npz",
+      "bytes": 1017554,
+      "description": "The frozen feature space the map was fit in (feature names + standardisation); the map refuses any other."
+    },
+    {
+      "name": "calib_8b_positional_means.npz",
+      "role": "calibration",
+      "url": "https://github.com/LuxiaSL/pleroma/releases/download/kit-8b-v1/calib_8b_positional_means.npz",
+      "sha256": "89af03884db094a72ccaf3670482b7403469676113d7af3d094329b93d90a79d",
+      "dest": "kit/llama31-8b-instruct/calibration/positional_means.npz",
+      "bytes": 893256821,
+      "description": "Per-position, per-layer residual means for Llama-3.1-8B-Instruct (anamnesis calibration), filled through position 2047. Rows 0-554 are the calibration the map was fit under, byte for byte; rows 555-2047 are a fresh fit by the same recipe (generation continued past end-of-turn), spliced on."
+    },
+    {
+      "name": "calib_8b_pca_model.pkl",
+      "role": "calibration",
+      "url": "https://github.com/LuxiaSL/pleroma/releases/download/kit-8b-v1/calib_8b_pca_model.pkl",
+      "sha256": "6bc09c70f8ef2a6faa49495913bd6b6927cb9cf78722607e361dfaf41be8a648",
+      "dest": "kit/llama31-8b-instruct/calibration/pca_model.pkl",
+      "bytes": 836299,
+      "description": "The calibration's residual-stream PCA (a pickle: load only after its sha256 verified)."
+    },
+    {
+      "name": "v1a_report.json",
+      "role": "cv_report",
+      "url": "https://github.com/LuxiaSL/pleroma/releases/download/kit-8b-v1/v1a_report.json",
+      "sha256": "18f5816a9d9049519b7831d6296471d07ba502d2642f579ef3fda5fe4f83fe3c",
+      "dest": "kit/llama31-8b-instruct/reports/v1a_report.json",
+      "bytes": 8983,
+      "description": "The registered cross-validation report (held-out within-fan retrieval vs the shelf baseline) for pleroma validate's fit gates."
+    },
+    {
+      "name": "loom_map_v1a_r64_export_report.json",
+      "role": "export_report",
+      "url": "https://github.com/LuxiaSL/pleroma/releases/download/kit-8b-v1/loom_map_v1a_r64_export_report.json",
+      "sha256": "d8059cd9a7f203dc39847c1f9fbeffdb6ab8aa5b3c54d4251e3861b23bc44e0d",
+      "dest": "kit/llama31-8b-instruct/reports/loom_map_v1a_r64_export_report.json",
+      "bytes": 2712,
+      "description": "The export's self-check report for this map file, for pleroma validate's export-report gate."
+    }
+  ]
+}

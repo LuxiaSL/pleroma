@@ -1,0 +1,172 @@
+{
+ "session": "uifix-phaseb",
+ "worn": {
+  "index": 3,
+  "alpha": 0.5,
+  "loom_id": "b4eaa6ff30-000",
+  "per_site_norms_at_alpha1": [
+   0.749,
+   1.716,
+   2.564,
+   3.707
+  ],
+  "code": [
+   1.3938,
+   1.4765,
+   5.4577,
+   4.0937,
+   -2.6022,
+   0.4124,
+   -0.2416,
+   -1.0964,
+   0.2469,
+   -1.1413,
+   -0.673,
+   0.9949,
+   -0.7494,
+   0.1676,
+   -0.1961,
+   0.0277,
+   0.3623,
+   -0.6716,
+   0.2734,
+   0.7121,
+   0.6311,
+   -0.0328,
+   1.1288,
+   0.0244,
+   0.1727,
+   -0.8038,
+   1.2457,
+   -0.0687,
+   0.5558,
+   0.1858,
+   -0.1365,
+   -0.0002,
+   0.4318,
+   -0.0894,
+   0.0934,
+   -0.0065,
+   -0.1809,
+   -0.033,
+   -0.3266,
+   0.0043,
+   -0.1944,
+   0.0571,
+   0.2913,
+   0.1116,
+   0.1649,
+   0.0349,
+   0.3115,
+   -0.5619,
+   -0.1372,
+   0.3079,
+   -0.2639,
+   -0.1838,
+   -0.3483,
+   -0.2118,
+   0.0306,
+   -0.0396,
+   -0.2868,
+   -0.0522,
+   0.051,
+   0.1276,
+   -0.1377,
+   -0.2089,
+   -0.0423,
+   -0.1553
+  ],
+  "active": true,
+  "dose": {
+   "policy": "predicted",
+   "scale": [
+    1.111621,
+    1.102405,
+    1.111961,
+    1.126819
+   ],
+   "scale_raw": [
+    1.111621,
+    1.102405,
+    1.111961,
+    1.126819
+   ],
+   "scale_mean": 1.113201,
+   "fan_mean_raw_norms": [
+    1.088901,
+    2.558254,
+    3.899356,
+    5.683842
+   ],
+   "candidate_raw_norms": [
+    1.210445,
+    2.820232,
+    4.33593,
+    6.404663
+   ],
+   "clamped": [],
+   "clamp_range": [
+    0.5,
+    2.0
+   ],
+   "note": "predicted: per-site norm_ref x (this candidate's raw norm / the fan's mean raw norm). Fan average dose unchanged; alpha keeps its meaning. UNVALIDATED — estimated, uncertified."
+  },
+  "lever_kind": "absolute"
+ },
+ "sites": [
+  9,
+  17,
+  21,
+  25
+ ],
+ "dose": {
+  "policy": "predicted",
+  "scale": [
+   1.111621,
+   1.102405,
+   1.111961,
+   1.126819
+  ],
+  "scale_raw": [
+   1.111621,
+   1.102405,
+   1.111961,
+   1.126819
+  ],
+  "scale_mean": 1.113201,
+  "fan_mean_raw_norms": [
+   1.088901,
+   2.558254,
+   3.899356,
+   5.683842
+  ],
+  "candidate_raw_norms": [
+   1.210445,
+   2.820232,
+   4.33593,
+   6.404663
+  ],
+  "clamped": [],
+  "clamp_range": [
+   0.5,
+   2.0
+  ],
+  "note": "predicted: per-site norm_ref x (this candidate's raw norm / the fan's mean raw norm). Fan average dose unchanged; alpha keeps its meaning. UNVALIDATED — estimated, uncertified."
+ },
+ "effective_alpha": {
+  "alpha": 0.5,
+  "alpha_effective_mean": 0.556601,
+  "alpha_effective_per_site": [
+   0.55581,
+   0.551202,
+   0.55598,
+   0.56341
+  ],
+  "alpha_effective_range": [
+   0.551202,
+   0.56341
+  ],
+  "note": "dose_policy=predicted: read the dose band at alpha_effective_per_site, not at alpha — the band's zones are absolute-magnitude boundaries and this wear is off-nominal by its dose scale."
+ },
+ "lever_kind": "absolute"
+}

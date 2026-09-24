@@ -1,0 +1,96 @@
+{
+ "schema": 1,
+ "tier": "measured",
+ "source": "w5-r32 dose ladder, 2026-09-18: 3 levers x 8 probes x 7 alphas x 6 reps, judges claude-sonnet-5 + claude-opus-5. Overdriven ceiling derived from the old map's documented alpha=1.5 (not from this ladder's own accuracy, which keeps climbing into damage \u2014 see RUNBOOK-w5r32-dose-band.md SS6). See RUNBOOK-w5r32-dose-band.md.",
+ "map_fingerprint": null,
+ "norm_ref": [
+  1.012,
+  2.184,
+  3.239,
+  4.56
+ ],
+ "alpha_max": 1.0,
+ "measured_at": "2026-09-18",
+ "notes": "map_fingerprint is deliberately null \u2014 same reason as old_map_measured.json, no the GPU node access to the real loom_map_w5_r32.npz this session. Per-lever accuracy at alpha=0.25 ranged .590 (dc05293) to .746 (og01155): a well-predicted lever is already borderline-audible where a poorly-predicted one is not \u2014 this band is a pooled, conservative average, not a per-lever guarantee (see lever_quality_caveat on every /info response).",
+ "ladder": {
+  "alphas": [
+   0.125,
+   0.25,
+   0.35,
+   0.5,
+   0.75,
+   1.0
+  ],
+  "catch_false_positive_floor": 0.352,
+  "levers": {
+   "dc05293": {
+    "cos_to_true": 0.208,
+    "accuracy": [
+     0.537,
+     0.59,
+     0.648,
+     0.875,
+     0.988,
+     1.0
+    ]
+   },
+   "if03864": {
+    "cos_to_true": 0.458,
+    "accuracy": [
+     0.508,
+     0.699,
+     0.522,
+     0.74,
+     0.94,
+     1.0
+    ]
+   },
+   "og01155": {
+    "cos_to_true": 0.573,
+    "accuracy": [
+     0.547,
+     0.746,
+     0.8,
+     0.989,
+     1.0,
+     1.0
+    ]
+   }
+  },
+  "field_report": "live /wear at alpha=0.75 on w5-r32 (2026-09-18) produced visible word-salad (\"...you may not have the muscle memory of a professional chef, but your body is still full of muscle fibers that...\"), consistent with 0.75 already past the derived overdriven ceiling"
+ },
+ "zones": [
+  {
+   "lo": 0.0,
+   "hi": 0.125,
+   "hi_inclusive": true,
+   "key": "subliminal",
+   "label": "subliminal",
+   "hint": "pooled subliminal ceiling: the best-predicted lever (og01155, cos .573) already reads .746 at alpha=0.25 \u2014 plainly not invisible \u2014 so 0.125 is the conservative pooled edge, not 0.25 (which only held for the worst-predicted lever, dc05293, cos .208)"
+  },
+  {
+   "lo": 0.125,
+   "hi": 0.5,
+   "hi_inclusive": false,
+   "key": "threshold",
+   "label": "threshold",
+   "hint": "alpha~0.35 is dc05293's first rung clearing the .352 catch floor; better-predicted levers clear earlier (og01155: .800 already at 0.35)"
+  },
+  {
+   "lo": 0.5,
+   "hi": 0.708195,
+   "hi_inclusive": false,
+   "key": "audible",
+   "label": "audible",
+   "hint": "alpha>=0.5: pooled accuracy .740-.989 across the three levers"
+  },
+  {
+   "lo": 0.708195,
+   "hi": 1.0,
+   "hi_inclusive": true,
+   "key": "overdriven",
+   "label": "overdriven",
+   "hint": "OVERDRIVEN \u2014 at/above the damage ceiling derived from the reference map's own known word-salad point, not inferred from this ladder's accuracy (which keeps climbing into damage rather than falling)"
+  }
+ ]
+}

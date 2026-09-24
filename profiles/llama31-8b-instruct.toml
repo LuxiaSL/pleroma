@@ -1,0 +1,58 @@
+# Llama-3.1-8B-Instruct — the 8B loom (v1a map, corpus_8b).
+# Verified against the served map's meta (sites, bins, operating point) on
+# 2026-09-23. UNVERIFIED (code defaults, no live record found): lengths,
+# sampling, date_string — confirm before treating as the 8B demo config.
+name = "llama31-8b-instruct"
+description = "Llama-3.1-8B-Instruct, chat format, v1a map at sites 9/17/21/25"
+
+[model]
+model_id = "meta-llama/Llama-3.1-8B-Instruct"   # HF id; a deploy.toml model_path overrides it locally
+preset_name = "8b"
+dtype = "bfloat16"
+
+[model.arch]
+num_layers = 32
+hidden_dim = 4096
+num_attention_heads = 32
+num_kv_heads = 8
+head_dim = 128
+eos_token_ids = [128001, 128008, 128009]
+
+[model.layers]          # anamnesis 8b preset
+sampled = [0, 8, 16, 20, 24, 28, 31]
+pca = [8, 16, 20, 24, 28]
+early_cutoff = 8
+late_cutoff = 24
+
+[format]
+mode = "chat"
+# the date the 8B corpus (and so the map) was generated under (CHAIN-COUNTS
+# 1.gen: date_string "21 Sep 2026"); the template's own default is 26 Jul 2024
+date_string = "21 Sep 2026"
+
+[sampling]              # verified: the 8B dose ladder's pairs.json (temperature 1.0, top_p .95)
+temperature = 1.0
+top_p = 0.95
+
+[lengths]               # UNVERIFIED: loom_serve code defaults
+future_tokens = 192
+reply_tokens = 320
+
+[map]
+sites = [9, 17, 21, 25]
+lam = 1e4
+rank = 64
+# the served 8B map joined fans by lever group (11,800 rows / 1,475 fans)
+fan_source = "lever_group"
+
+[map.bins]
+layers = [5, 9, 14, 18, 23, 28, 31]
+n_bins = 20
+resolution = "B"
+
+[steer]
+injection_span = "uniform"
+lever_kind = "absolute"
+
+[dose]
+policy = "predicted"

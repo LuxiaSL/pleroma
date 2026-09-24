@@ -1,0 +1,4337 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "pleroma loom API",
+    "version": "1",
+    "description": "The loom inference server. Every route is served at `/api/v1/<route>`; the un-prefixed paths are same-origin legacy aliases for loom_ui.html. Bearer auth applies when the server has a token (--api-token / $PLEROMA_API_TOKEN). See docs/API.md."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "security": [
+    {
+      "bearer": []
+    },
+    {}
+  ],
+  "paths": {
+    "/api/v1/info": {
+      "get": {
+        "operationId": "getInfo",
+        "summary": "what this server is: map, prompt mode, rulers, policies, dose band, API version",
+        "description": "Legacy alias (same-origin, un-prefixed): `GET /info`.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InfoResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/info",
+        "x-mutating": false
+      }
+    },
+    "/api/v1/state": {
+      "get": {
+        "operationId": "getState",
+        "summary": "one session's histories, wear, current fan and probe",
+        "description": "Legacy alias (same-origin, un-prefixed): `GET /state`. v1 NEVER creates the session: an unknown session is 404 `no_session`. The legacy alias creates it.",
+        "parameters": [
+          {
+            "name": "session",
+            "in": "query",
+            "required": true,
+            "description": "the session tag",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StateResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/state",
+        "x-mutating": false
+      }
+    },
+    "/api/v1/sessions": {
+      "get": {
+        "operationId": "getSessions",
+        "summary": "every session, on disk and in memory",
+        "description": "Legacy alias (same-origin, un-prefixed): `GET /sessions`.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionsResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/sessions",
+        "x-mutating": false
+      }
+    },
+    "/api/v1/loom/progress": {
+      "get": {
+        "operationId": "getLoomProgress",
+        "summary": "a running /loom or /probe's stage and harvest",
+        "description": "Legacy alias (same-origin, un-prefixed): `GET /loom/progress`. v1 never creates the session (an unknown one reads `progress: null`); the legacy alias creates it.",
+        "parameters": [
+          {
+            "name": "session",
+            "in": "query",
+            "required": false,
+            "description": "the session tag; empty reads nothing",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgressResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/loom/progress",
+        "x-mutating": false
+      }
+    },
+    "/api/v1/pool": {
+      "get": {
+        "operationId": "getPool",
+        "summary": "harvest worker health, probed on request (2 s cache)",
+        "description": "Legacy alias (same-origin, un-prefixed): `GET /pool`.",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PoolResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/pool",
+        "x-mutating": false
+      }
+    },
+    "/api/v1/atlas": {
+      "get": {
+        "operationId": "getAtlas",
+        "summary": "the atlas report (dead path, kept for a decision)",
+        "description": "Legacy alias (same-origin, un-prefixed): `GET /atlas`.",
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenObject"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/atlas",
+        "x-mutating": false
+      }
+    },
+    "/api/v1/schema": {
+      "get": {
+        "operationId": "getSchema",
+        "summary": "this document: the OpenAPI 3.1 description of /api/v1",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenObject"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": null,
+        "x-mutating": false
+      }
+    },
+    "/api/v1/chat": {
+      "post": {
+        "operationId": "postChat",
+        "summary": "say a turn on a branch (worn on `loom`)",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /chat`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/chat",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/loom": {
+      "post": {
+        "operationId": "postLoom",
+        "summary": "draw K futures of a contemplated turn; score, optionally probe and auto-wear",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /loom`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoomBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoomResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/loom",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/probe": {
+      "post": {
+        "operationId": "postProbe",
+        "summary": "score the current fan with the probe gauge (optionally wear the pick)",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /probe`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProbeBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProbeResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/probe",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/wear": {
+      "post": {
+        "operationId": "postWear",
+        "summary": "wear a candidate of the current fan",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /wear`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WearBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WearResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/wear",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/wear_code": {
+      "post": {
+        "operationId": "postWearCode",
+        "summary": "wear a lever from no draw (dead path, kept for a decision)",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /wear_code`. Mutating: a session snapshot is written after success.",
+        "deprecated": true,
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WearCodeBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WearCodeResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/wear_code",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/undo": {
+      "post": {
+        "operationId": "postUndo",
+        "summary": "pop the last exchange (returned, not discarded)",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /undo`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UndoResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/undo",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/reroll": {
+      "post": {
+        "operationId": "postReroll",
+        "summary": "redraw the last reply under the current wear",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /reroll`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BranchBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RerollResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/reroll",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/edit": {
+      "post": {
+        "operationId": "postEdit",
+        "summary": "replace the last user turn and regenerate",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /edit`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/edit",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/truncate": {
+      "post": {
+        "operationId": "postTruncate",
+        "summary": "cut a branch back to its first keep_turns exchanges",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /truncate`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TruncateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TruncateResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/truncate",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/unwear": {
+      "post": {
+        "operationId": "postUnwear",
+        "summary": "take the wear off",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /unwear`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnwearResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/unwear",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/reset": {
+      "post": {
+        "operationId": "postReset",
+        "summary": "forget the session entirely (the snapshot records the cleared session)",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /reset`. Mutating: a session snapshot is written after success.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResetResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/reset",
+        "x-mutating": true
+      }
+    },
+    "/api/v1/restore": {
+      "post": {
+        "operationId": "postRestore",
+        "summary": "reload one session from its snapshot",
+        "description": "Legacy alias (same-origin, un-prefixed): `POST /restore`.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestoreResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "error — `code` is machine-readable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorBody"
+                }
+              }
+            }
+          }
+        },
+        "x-legacy-alias": "/restore",
+        "x-mutating": false
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiInfo": {
+        "additionalProperties": false,
+        "description": "``/info.api`` — which API this server speaks (docs/API.md).",
+        "properties": {
+          "version": {
+            "const": "1",
+            "title": "Version",
+            "type": "string"
+          },
+          "prefix": {
+            "title": "Prefix",
+            "type": "string"
+          },
+          "schema_sha256": {
+            "description": "sha256 of GET /api/v1/schema's canonical JSON",
+            "title": "Schema Sha256",
+            "type": "string"
+          },
+          "auth_required": {
+            "description": "/api/v1 routes need a bearer token",
+            "title": "Auth Required",
+            "type": "boolean"
+          },
+          "legacy_aliases_open": {
+            "description": "the un-prefixed aliases answer without a token",
+            "title": "Legacy Aliases Open",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "version",
+          "prefix",
+          "schema_sha256",
+          "auth_required",
+          "legacy_aliases_open"
+        ],
+        "title": "ApiInfo",
+        "type": "object"
+      },
+      "AutoSelected": {
+        "additionalProperties": false,
+        "properties": {
+          "policy": {
+            "title": "Policy",
+            "type": "string"
+          },
+          "effective_policy": {
+            "title": "Effective Policy",
+            "type": "string"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "alpha": {
+            "title": "Alpha",
+            "type": "number"
+          },
+          "scores": {
+            "$ref": "#/components/schemas/FutureScores"
+          },
+          "dose": {
+            "$ref": "#/components/schemas/DoseReceipt"
+          },
+          "lever_kind": {
+            "title": "Lever Kind",
+            "type": "string"
+          },
+          "effective_alpha": {
+            "$ref": "#/components/schemas/EffectiveAlpha"
+          }
+        },
+        "required": [
+          "policy",
+          "effective_policy",
+          "index",
+          "alpha",
+          "scores",
+          "dose",
+          "lever_kind",
+          "effective_alpha"
+        ],
+        "title": "AutoSelected",
+        "type": "object"
+      },
+      "AutoSpec": {
+        "description": "/loom's ``auto`` object: pick a candidate by ``policy`` and wear it.\n\n``from_mapping`` performs the do_loom coercions in their original order;\n``lever_kind``/``dose_policy`` stay raw here and are resolved (and refused,\nwith their codes) by ``resolve_lever_kind``/``resolve_dose_policy`` exactly\nwhere they always were — after ``pick_auto``.",
+        "properties": {
+          "policy": {
+            "description": "one of ['distinct', 'loudest', 'stay', 'swerve', 'gauge']; refused (400) otherwise",
+            "enum": [
+              "distinct",
+              "loudest",
+              "stay",
+              "swerve",
+              "gauge"
+            ],
+            "title": "Policy",
+            "type": "string"
+          },
+          "alpha": {
+            "default": 0.35,
+            "description": "the dose the pick is worn at",
+            "title": "Alpha",
+            "type": "number"
+          },
+          "lever_kind": {
+            "anyOf": [
+              {
+                "enum": [
+                  "absolute",
+                  "contrast"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent -> --wear-lever-default",
+            "title": "Lever Kind"
+          },
+          "dose_policy": {
+            "anyOf": [
+              {
+                "enum": [
+                  "flat",
+                  "predicted"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent -> --dose-policy-default",
+            "title": "Dose Policy"
+          }
+        },
+        "required": [
+          "policy"
+        ],
+        "title": "AutoSpec",
+        "type": "object"
+      },
+      "BranchBody": {
+        "additionalProperties": true,
+        "description": "POST /undo and /reroll.",
+        "properties": {
+          "session": {
+            "description": "the session tag; required on every POST",
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "default": "loom",
+            "enum": [
+              "base",
+              "loom"
+            ],
+            "title": "Branch",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session"
+        ],
+        "title": "BranchBody",
+        "type": "object"
+      },
+      "ChatBody": {
+        "additionalProperties": true,
+        "description": "POST /chat and /edit.",
+        "properties": {
+          "session": {
+            "description": "the session tag; required on every POST",
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "default": "loom",
+            "enum": [
+              "base",
+              "loom"
+            ],
+            "title": "Branch",
+            "type": "string"
+          },
+          "text": {
+            "default": "",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session"
+        ],
+        "title": "ChatBody",
+        "type": "object"
+      },
+      "ChatResponse": {
+        "additionalProperties": false,
+        "description": "POST /chat. ``dream``/``tail_kind`` lead the body in modelc mode.",
+        "properties": {
+          "dream": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dream"
+          },
+          "tail_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Tail Kind"
+          },
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "reply": {
+            "title": "Reply",
+            "type": "string"
+          },
+          "n_turns": {
+            "title": "N Turns",
+            "type": "integer"
+          },
+          "dropped_messages": {
+            "title": "Dropped Messages",
+            "type": "integer"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "elapsed_s": {
+            "title": "Elapsed S",
+            "type": "number"
+          }
+        },
+        "required": [
+          "session",
+          "branch",
+          "reply",
+          "n_turns",
+          "dropped_messages",
+          "worn",
+          "elapsed_s"
+        ],
+        "title": "ChatResponse",
+        "type": "object"
+      },
+      "DoseBandInfo": {
+        "additionalProperties": false,
+        "description": "``dose_band_info_json`` — ``tier: \"none\"`` means UNCALIBRATED.",
+        "properties": {
+          "tier": {
+            "title": "Tier",
+            "type": "string"
+          },
+          "alpha_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Alpha Max"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "measured_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Measured At"
+          },
+          "notes": {
+            "description": "OPEN: the band file's own notes",
+            "title": "Notes"
+          },
+          "map_fingerprint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Map Fingerprint"
+          },
+          "derivation": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "OPEN: pleroma.dose.band derivation record",
+            "title": "Derivation"
+          },
+          "zones": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "OPEN: DoseZone.to_json rows",
+            "title": "Zones"
+          },
+          "lever_quality_caveat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lever Quality Caveat"
+          }
+        },
+        "required": [
+          "tier",
+          "alpha_max",
+          "source",
+          "measured_at",
+          "notes",
+          "map_fingerprint",
+          "derivation",
+          "zones",
+          "lever_quality_caveat"
+        ],
+        "title": "DoseBandInfo",
+        "type": "object"
+      },
+      "DoseReceipt": {
+        "additionalProperties": false,
+        "description": "``DoseScale.to_json()`` — the dose one wear applied, and why.",
+        "properties": {
+          "policy": {
+            "title": "Policy",
+            "type": "string"
+          },
+          "scale": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Scale",
+            "type": "array"
+          },
+          "scale_raw": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Scale Raw",
+            "type": "array"
+          },
+          "scale_mean": {
+            "title": "Scale Mean",
+            "type": "number"
+          },
+          "fan_mean_raw_norms": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fan Mean Raw Norms"
+          },
+          "candidate_raw_norms": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Candidate Raw Norms"
+          },
+          "clamped": {
+            "description": "one record per clamped site (open: pleroma.dose.policy)",
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Clamped",
+            "type": "array"
+          },
+          "clamp_range": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Clamp Range",
+            "type": "array"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "policy",
+          "scale",
+          "scale_raw",
+          "scale_mean",
+          "fan_mean_raw_norms",
+          "candidate_raw_norms",
+          "clamped",
+          "clamp_range",
+          "note"
+        ],
+        "title": "DoseReceipt",
+        "type": "object"
+      },
+      "EditResponse": {
+        "additionalProperties": false,
+        "description": "POST /edit: a /chat body plus what it replaced.",
+        "properties": {
+          "dream": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dream"
+          },
+          "tail_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Tail Kind"
+          },
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "reply": {
+            "title": "Reply",
+            "type": "string"
+          },
+          "n_turns": {
+            "title": "N Turns",
+            "type": "integer"
+          },
+          "dropped_messages": {
+            "title": "Dropped Messages",
+            "type": "integer"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "elapsed_s": {
+            "title": "Elapsed S",
+            "type": "number"
+          },
+          "replaced_user": {
+            "title": "Replaced User",
+            "type": "string"
+          },
+          "replaced_assistant": {
+            "title": "Replaced Assistant",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session",
+          "branch",
+          "reply",
+          "n_turns",
+          "dropped_messages",
+          "worn",
+          "elapsed_s",
+          "replaced_user",
+          "replaced_assistant"
+        ],
+        "title": "EditResponse",
+        "type": "object"
+      },
+      "EffectiveAlpha": {
+        "additionalProperties": false,
+        "description": "``effective_alpha_json`` — what alpha means once the dose scale is in.",
+        "properties": {
+          "alpha": {
+            "title": "Alpha",
+            "type": "number"
+          },
+          "alpha_effective_mean": {
+            "title": "Alpha Effective Mean",
+            "type": "number"
+          },
+          "alpha_effective_per_site": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Alpha Effective Per Site",
+            "type": "array"
+          },
+          "alpha_effective_range": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Alpha Effective Range",
+            "type": "array"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "alpha",
+          "alpha_effective_mean",
+          "alpha_effective_per_site",
+          "alpha_effective_range",
+          "note"
+        ],
+        "title": "EffectiveAlpha",
+        "type": "object"
+      },
+      "ErrorBody": {
+        "additionalProperties": false,
+        "description": "Every non-2xx JSON body the loom API sends.",
+        "properties": {
+          "error": {
+            "description": "the refusal, written for the operator; shown verbatim",
+            "title": "Error",
+            "type": "string"
+          },
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode",
+            "description": "stable machine-readable code (docs/API.md)"
+          }
+        },
+        "required": [
+          "error",
+          "code"
+        ],
+        "title": "ErrorBody",
+        "type": "object"
+      },
+      "ErrorCode": {
+        "description": "Every ``code`` the loom API can put in an error body.\n\nAdditive only (docs/API.md \"Versioning\"): a code, once published, keeps\nits meaning for the life of ``/api/v1``.",
+        "enum": [
+          "bad_request",
+          "not_found",
+          "session_required",
+          "no_session",
+          "unknown_branch",
+          "stale_loom",
+          "no_candidates",
+          "gauge_needs_probe",
+          "lever_kind_invalid",
+          "lever_kind_unavailable",
+          "dose_policy_invalid",
+          "dose_policy_unavailable",
+          "probe_prefix_mismatch",
+          "no_snapshot",
+          "unauthorized",
+          "forbidden_origin",
+          "internal"
+        ],
+        "title": "ErrorCode",
+        "type": "string"
+      },
+      "Future": {
+        "additionalProperties": false,
+        "description": "One future of a fan (``futures[i]`` on /loom, /probe, /state, /restore).",
+        "properties": {
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "n_tokens": {
+            "title": "N Tokens",
+            "type": "integer"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "harvested": {
+            "title": "Harvested",
+            "type": "boolean"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "scores": {
+            "$ref": "#/components/schemas/FutureScores"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "code_contrast": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent on futures persisted without a contrast code",
+            "title": "Code Contrast"
+          },
+          "dream": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dream"
+          },
+          "tail_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Tail Kind"
+          },
+          "modelc_dream_blocks": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Modelc Dream Blocks"
+          },
+          "reply_words": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Reply Words"
+          }
+        },
+        "required": [
+          "index",
+          "n_tokens",
+          "text",
+          "harvested",
+          "note",
+          "scores",
+          "code"
+        ],
+        "title": "Future",
+        "type": "object"
+      },
+      "FutureScores": {
+        "additionalProperties": false,
+        "description": "Advisory per-future scores; each is present only when computable.",
+        "properties": {
+          "distinct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Distinct"
+          },
+          "loudness": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Loudness"
+          },
+          "predicted_dose_scale": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Predicted Dose Scale"
+          },
+          "predicted_dose_scale_contrast": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Predicted Dose Scale Contrast"
+          },
+          "cos_to_worn": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Cos To Worn"
+          },
+          "gauge": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "probe-derived; null = unscorable",
+            "title": "Gauge"
+          }
+        },
+        "title": "FutureScores",
+        "type": "object"
+      },
+      "GaugeCandidate": {
+        "additionalProperties": false,
+        "description": "``CandidateGauge.to_json()``.",
+        "properties": {
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "gauge": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gauge"
+          },
+          "gauge_base_nr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gauge Base Nr"
+          },
+          "gauge_steered_nr": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gauge Steered Nr"
+          },
+          "gauge_reps": {
+            "title": "Gauge Reps",
+            "type": "integer"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "required": [
+          "index",
+          "gauge",
+          "gauge_base_nr",
+          "gauge_steered_nr",
+          "gauge_reps",
+          "note"
+        ],
+        "title": "GaugeCandidate",
+        "type": "object"
+      },
+      "HistoryMessage": {
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "enum": [
+              "user",
+              "assistant",
+              "system"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string"
+          },
+          "dream": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "modelc assistant turns only",
+            "title": "Dream"
+          },
+          "tail_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "modelc assistant turns only",
+            "title": "Tail Kind"
+          }
+        },
+        "required": [
+          "role",
+          "content"
+        ],
+        "title": "HistoryMessage",
+        "type": "object"
+      },
+      "InfoPersistence": {
+        "additionalProperties": false,
+        "properties": {
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "dir": {
+            "title": "Dir",
+            "type": "string"
+          },
+          "writes": {
+            "title": "Writes",
+            "type": "integer"
+          },
+          "write_failures": {
+            "title": "Write Failures",
+            "type": "integer"
+          },
+          "restored_sessions": {
+            "title": "Restored Sessions",
+            "type": "integer"
+          },
+          "failed_sessions": {
+            "title": "Failed Sessions",
+            "type": "integer"
+          },
+          "last_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error"
+          },
+          "restore_on_start": {
+            "title": "Restore On Start",
+            "type": "boolean"
+          },
+          "restore_errors": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Restore Errors",
+            "type": "array"
+          },
+          "schema": {
+            "title": "Schema",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "enabled",
+          "dir",
+          "writes",
+          "write_failures",
+          "restored_sessions",
+          "failed_sessions",
+          "last_error",
+          "restore_on_start",
+          "restore_errors",
+          "schema"
+        ],
+        "title": "InfoPersistence",
+        "type": "object"
+      },
+      "InfoResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "map": {
+            "title": "Map",
+            "type": "string"
+          },
+          "map_meta": {
+            "additionalProperties": true,
+            "description": "OPEN: whatever the map file carries",
+            "title": "Map Meta",
+            "type": "object"
+          },
+          "sites": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Sites",
+            "type": "array"
+          },
+          "branches": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Branches",
+            "type": "array"
+          },
+          "default_k": {
+            "title": "Default K",
+            "type": "integer"
+          },
+          "future_tokens": {
+            "title": "Future Tokens",
+            "type": "integer"
+          },
+          "detach_wear_default": {
+            "title": "Detach Wear Default",
+            "type": "boolean"
+          },
+          "n_sessions": {
+            "title": "N Sessions",
+            "type": "integer"
+          },
+          "prompt_mode": {
+            "title": "Prompt Mode",
+            "type": "string"
+          },
+          "prompt_mode_detail": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PromptModeDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "harvest_worker": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Harvest Worker"
+          },
+          "harvest_workers": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Harvest Workers"
+          },
+          "harvest_pool_width": {
+            "title": "Harvest Pool Width",
+            "type": "integer"
+          },
+          "restored_sessions": {
+            "title": "Restored Sessions",
+            "type": "integer"
+          },
+          "persistence": {
+            "$ref": "#/components/schemas/InfoPersistence"
+          },
+          "auto_policies": {
+            "items": {
+              "$ref": "#/components/schemas/TableRow"
+            },
+            "title": "Auto Policies",
+            "type": "array"
+          },
+          "loudness_ref": {
+            "title": "Loudness Ref",
+            "type": "number"
+          },
+          "dose_band": {
+            "$ref": "#/components/schemas/DoseBandInfo"
+          },
+          "ruler": {
+            "$ref": "#/components/schemas/Ruler"
+          },
+          "auto_policies_unavailable": {
+            "items": {
+              "$ref": "#/components/schemas/TableRow"
+            },
+            "title": "Auto Policies Unavailable",
+            "type": "array"
+          },
+          "auto_policy_caveat": {
+            "title": "Auto Policy Caveat",
+            "type": "string"
+          },
+          "probe": {
+            "$ref": "#/components/schemas/ProbeInfo"
+          },
+          "dose_policies": {
+            "items": {
+              "$ref": "#/components/schemas/TableRow"
+            },
+            "title": "Dose Policies",
+            "type": "array"
+          },
+          "dose_policy_default": {
+            "title": "Dose Policy Default",
+            "type": "string"
+          },
+          "dose_scale_clamp": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Dose Scale Clamp",
+            "type": "array"
+          },
+          "lever_kinds": {
+            "items": {
+              "$ref": "#/components/schemas/TableRow"
+            },
+            "title": "Lever Kinds",
+            "type": "array"
+          },
+          "lever_kind_default": {
+            "title": "Lever Kind Default",
+            "type": "string"
+          },
+          "api": {
+            "$ref": "#/components/schemas/ApiInfo"
+          }
+        },
+        "required": [
+          "map",
+          "map_meta",
+          "sites",
+          "branches",
+          "default_k",
+          "future_tokens",
+          "detach_wear_default",
+          "n_sessions",
+          "prompt_mode",
+          "prompt_mode_detail",
+          "harvest_worker",
+          "harvest_workers",
+          "harvest_pool_width",
+          "restored_sessions",
+          "persistence",
+          "auto_policies",
+          "loudness_ref",
+          "dose_band",
+          "ruler",
+          "auto_policies_unavailable",
+          "auto_policy_caveat",
+          "probe",
+          "dose_policies",
+          "dose_policy_default",
+          "dose_scale_clamp",
+          "lever_kinds",
+          "lever_kind_default",
+          "api"
+        ],
+        "title": "InfoResponse",
+        "type": "object"
+      },
+      "LoomBody": {
+        "additionalProperties": true,
+        "properties": {
+          "session": {
+            "description": "the session tag; required on every POST",
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          },
+          "text": {
+            "description": "the contemplated next user turn (not committed)",
+            "title": "Text",
+            "type": "string"
+          },
+          "k": {
+            "anyOf": [
+              {
+                "minimum": 2,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent -> --default-k",
+            "title": "K"
+          },
+          "horizon": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent -> --future-tokens",
+            "title": "Horizon"
+          },
+          "auto": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AutoSpec"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "pick and wear a candidate"
+          },
+          "detach_wear": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent -> --detach-wear-default",
+            "title": "Detach Wear"
+          },
+          "probe": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "$ref": "#/components/schemas/ProbeSpec"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent/false: no probe; true: defaults; object: settings",
+            "title": "Probe"
+          }
+        },
+        "required": [
+          "session",
+          "text"
+        ],
+        "title": "LoomBody",
+        "type": "object"
+      },
+      "LoomProgress": {
+        "additionalProperties": false,
+        "description": "A live /loom or /probe's ``{stage, done, total}`` (+ harvest detail).",
+        "properties": {
+          "stage": {
+            "title": "Stage",
+            "type": "string"
+          },
+          "done": {
+            "title": "Done",
+            "type": "integer"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "gens": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProgressGens"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "origin": {
+            "anyOf": [
+              {
+                "items": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "type": "array"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "probe harvest: gen id -> [candidate|null, rep]",
+            "title": "Origin"
+          }
+        },
+        "required": [
+          "stage",
+          "done",
+          "total"
+        ],
+        "title": "LoomProgress",
+        "type": "object"
+      },
+      "LoomResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "loom_id": {
+            "title": "Loom Id",
+            "type": "string"
+          },
+          "n_futures": {
+            "title": "N Futures",
+            "type": "integer"
+          },
+          "horizon": {
+            "title": "Horizon",
+            "type": "integer"
+          },
+          "prompt_mode": {
+            "title": "Prompt Mode",
+            "type": "string"
+          },
+          "prompt_length": {
+            "title": "Prompt Length",
+            "type": "integer"
+          },
+          "bins_prompt_floor": {
+            "title": "Bins Prompt Floor",
+            "type": "integer"
+          },
+          "bins_feasible": {
+            "title": "Bins Feasible",
+            "type": "boolean"
+          },
+          "detach_wear": {
+            "title": "Detach Wear",
+            "type": "boolean"
+          },
+          "drawn_under_wear": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornIndexAlpha"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "futures": {
+            "items": {
+              "$ref": "#/components/schemas/Future"
+            },
+            "title": "Futures",
+            "type": "array"
+          },
+          "spread": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Spread"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "fan_mean_raw_norms": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fan Mean Raw Norms"
+          },
+          "fan_mean_raw_norms_contrast": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fan Mean Raw Norms Contrast"
+          },
+          "contrast_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contrast Note"
+          },
+          "auto_selected": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AutoSelected"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "probe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProbeReceipt"
+              },
+              {
+                "$ref": "#/components/schemas/ProbeFailure"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probe"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "timing_s": {
+            "$ref": "#/components/schemas/LoomTiming"
+          },
+          "harvest_via": {
+            "title": "Harvest Via",
+            "type": "string"
+          },
+          "harvest_worker_detail": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "OPEN: the harvest worker's own reply, or null",
+            "title": "Harvest Worker Detail"
+          },
+          "loom_dir": {
+            "title": "Loom Dir",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session",
+          "loom_id",
+          "n_futures",
+          "horizon",
+          "prompt_mode",
+          "prompt_length",
+          "bins_prompt_floor",
+          "bins_feasible",
+          "detach_wear",
+          "drawn_under_wear",
+          "futures",
+          "spread",
+          "fan_mean_raw_norms",
+          "fan_mean_raw_norms_contrast",
+          "contrast_note",
+          "auto_selected",
+          "probe",
+          "worn",
+          "timing_s",
+          "harvest_via",
+          "harvest_worker_detail",
+          "loom_dir"
+        ],
+        "title": "LoomResponse",
+        "type": "object"
+      },
+      "LoomTiming": {
+        "additionalProperties": false,
+        "properties": {
+          "generate": {
+            "title": "Generate",
+            "type": "number"
+          },
+          "harvest": {
+            "title": "Harvest",
+            "type": "number"
+          }
+        },
+        "required": [
+          "generate",
+          "harvest"
+        ],
+        "title": "LoomTiming",
+        "type": "object"
+      },
+      "OpenObject": {
+        "additionalProperties": true,
+        "description": "An object with no fixed shape (the dead /atlas report; the schema itself).",
+        "title": "OpenObject",
+        "type": "object"
+      },
+      "PoolResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "configured": {
+            "title": "Configured",
+            "type": "integer"
+          },
+          "alive": {
+            "title": "Alive",
+            "type": "integer"
+          },
+          "workers": {
+            "items": {
+              "$ref": "#/components/schemas/WorkerHealth"
+            },
+            "title": "Workers",
+            "type": "array"
+          },
+          "timeout_s": {
+            "title": "Timeout S",
+            "type": "number"
+          },
+          "probed_at": {
+            "title": "Probed At",
+            "type": "number"
+          },
+          "pool_width_configured": {
+            "title": "Pool Width Configured",
+            "type": "integer"
+          },
+          "single_worker": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Single Worker"
+          }
+        },
+        "required": [
+          "configured",
+          "alive",
+          "workers",
+          "timeout_s",
+          "probed_at",
+          "pool_width_configured",
+          "single_worker"
+        ],
+        "title": "PoolResponse",
+        "type": "object"
+      },
+      "PoppedTurn": {
+        "additionalProperties": false,
+        "properties": {
+          "user": {
+            "title": "User",
+            "type": "string"
+          },
+          "assistant": {
+            "title": "Assistant",
+            "type": "string"
+          }
+        },
+        "required": [
+          "user",
+          "assistant"
+        ],
+        "title": "PoppedTurn",
+        "type": "object"
+      },
+      "ProbeBody": {
+        "additionalProperties": true,
+        "description": "POST /probe: the whole body is the probe's settings, plus the prefix.",
+        "properties": {
+          "alpha": {
+            "default": 0.35,
+            "description": "dose of each candidate's contrastive code",
+            "title": "Alpha",
+            "type": "number"
+          },
+          "reps": {
+            "default": 2,
+            "description": "replies per candidate; >=2 for `resolution`",
+            "minimum": 1,
+            "title": "Reps",
+            "type": "integer"
+          },
+          "horizon": {
+            "default": 64,
+            "description": "tokens per probe reply",
+            "minimum": 8,
+            "title": "Horizon",
+            "type": "integer"
+          },
+          "base": {
+            "default": "fan",
+            "description": "'fan' (leave-one-out) or 'fresh' (unworn replies)",
+            "enum": [
+              "fan",
+              "fresh"
+            ],
+            "title": "Base",
+            "type": "string"
+          },
+          "n_base": {
+            "default": 3,
+            "description": "unworn replies when base='fresh'",
+            "minimum": 1,
+            "title": "N Base",
+            "type": "integer"
+          },
+          "wear": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProbeWearSpec"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "/probe only: wear the pick with these settings"
+          },
+          "session": {
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          },
+          "text": {
+            "description": "the SAME contemplated turn the fan was drawn against",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session",
+          "text"
+        ],
+        "title": "ProbeBody",
+        "type": "object"
+      },
+      "ProbeFailure": {
+        "additionalProperties": false,
+        "description": "/loom's ``probe`` when the in-/loom probe failed; the draw survives.",
+        "properties": {
+          "error": {
+            "title": "Error",
+            "type": "string"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "note"
+        ],
+        "title": "ProbeFailure",
+        "type": "object"
+      },
+      "ProbeInfo": {
+        "additionalProperties": false,
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "endpoint": {
+            "title": "Endpoint",
+            "type": "string"
+          },
+          "policy_key": {
+            "title": "Policy Key",
+            "type": "string"
+          },
+          "base_modes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Base Modes",
+            "type": "array"
+          },
+          "default_base": {
+            "title": "Default Base",
+            "type": "string"
+          },
+          "default_reps": {
+            "title": "Default Reps",
+            "type": "integer"
+          },
+          "cost_estimate": {
+            "additionalProperties": true,
+            "description": "OPEN: loom_probe.estimate_cost_s, or {unavailable, why, note}",
+            "title": "Cost Estimate",
+            "type": "object"
+          },
+          "definition": {
+            "title": "Definition",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "available",
+          "endpoint",
+          "policy_key",
+          "base_modes",
+          "default_base",
+          "default_reps",
+          "cost_estimate",
+          "definition",
+          "label"
+        ],
+        "title": "ProbeInfo",
+        "type": "object"
+      },
+      "ProbeReceipt": {
+        "additionalProperties": false,
+        "description": "The probe receipt (``run_probe``; ``worn``/``wall_s`` added by /probe).",
+        "properties": {
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Id"
+          },
+          "k": {
+            "title": "K",
+            "type": "integer"
+          },
+          "reps": {
+            "title": "Reps",
+            "type": "integer"
+          },
+          "alpha": {
+            "title": "Alpha",
+            "type": "number"
+          },
+          "horizon": {
+            "title": "Horizon",
+            "type": "integer"
+          },
+          "base": {
+            "title": "Base",
+            "type": "string"
+          },
+          "n_base": {
+            "title": "N Base",
+            "type": "integer"
+          },
+          "n_spans_harvested": {
+            "title": "N Spans Harvested",
+            "type": "integer"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/GaugeCandidate"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "ranking": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Ranking",
+            "type": "array"
+          },
+          "pick": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pick"
+          },
+          "dead_rows": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Dead Rows",
+            "type": "array"
+          },
+          "session_worn_during_draw": {
+            "title": "Session Worn During Draw",
+            "type": "boolean"
+          },
+          "clean_regime": {
+            "title": "Clean Regime",
+            "type": "boolean"
+          },
+          "resolution": {
+            "additionalProperties": true,
+            "description": "OPEN: loom_probe.resolution_report's variance decomposition",
+            "title": "Resolution",
+            "type": "object"
+          },
+          "timing_s": {
+            "$ref": "#/components/schemas/ProbeTiming"
+          },
+          "harvest_via": {
+            "title": "Harvest Via",
+            "type": "string"
+          },
+          "harvest_worker_detail": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "OPEN: the harvest worker's own reply, or null",
+            "title": "Harvest Worker Detail"
+          },
+          "probe_dir": {
+            "title": "Probe Dir",
+            "type": "string"
+          },
+          "absolute_comparable": {
+            "title": "Absolute Comparable",
+            "type": "boolean"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "/probe with `wear` only"
+          },
+          "wall_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "/probe only",
+            "title": "Wall S"
+          }
+        },
+        "required": [
+          "loom_id",
+          "k",
+          "reps",
+          "alpha",
+          "horizon",
+          "base",
+          "n_base",
+          "n_spans_harvested",
+          "candidates",
+          "ranking",
+          "pick",
+          "dead_rows",
+          "session_worn_during_draw",
+          "clean_regime",
+          "resolution",
+          "timing_s",
+          "harvest_via",
+          "harvest_worker_detail",
+          "probe_dir",
+          "absolute_comparable",
+          "label"
+        ],
+        "title": "ProbeReceipt",
+        "type": "object"
+      },
+      "ProbeResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "probe": {
+            "$ref": "#/components/schemas/ProbeReceipt"
+          },
+          "futures": {
+            "items": {
+              "$ref": "#/components/schemas/Future"
+            },
+            "title": "Futures",
+            "type": "array"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "session",
+          "probe",
+          "futures",
+          "worn"
+        ],
+        "title": "ProbeResponse",
+        "type": "object"
+      },
+      "ProbeSpec": {
+        "description": "The probe's settings: /loom's ``probe`` object, or /probe's whole body.\n\n``from_mapping`` performs run_probe's coercions in their original order\n(alpha, reps, horizon, base, n_base); the range checks stay in run_probe.\n``wear`` is read (and type-checked) by do_probe, after the probe ran — it\nis only meaningful on /probe.",
+        "properties": {
+          "alpha": {
+            "default": 0.35,
+            "description": "dose of each candidate's contrastive code",
+            "title": "Alpha",
+            "type": "number"
+          },
+          "reps": {
+            "default": 2,
+            "description": "replies per candidate; >=2 for `resolution`",
+            "minimum": 1,
+            "title": "Reps",
+            "type": "integer"
+          },
+          "horizon": {
+            "default": 64,
+            "description": "tokens per probe reply",
+            "minimum": 8,
+            "title": "Horizon",
+            "type": "integer"
+          },
+          "base": {
+            "default": "fan",
+            "description": "'fan' (leave-one-out) or 'fresh' (unworn replies)",
+            "enum": [
+              "fan",
+              "fresh"
+            ],
+            "title": "Base",
+            "type": "string"
+          },
+          "n_base": {
+            "default": 3,
+            "description": "unworn replies when base='fresh'",
+            "minimum": 1,
+            "title": "N Base",
+            "type": "integer"
+          },
+          "wear": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProbeWearSpec"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "/probe only: wear the pick with these settings"
+          }
+        },
+        "title": "ProbeSpec",
+        "type": "object"
+      },
+      "ProbeTiming": {
+        "additionalProperties": false,
+        "properties": {
+          "generate": {
+            "title": "Generate",
+            "type": "number"
+          },
+          "harvest": {
+            "title": "Harvest",
+            "type": "number"
+          },
+          "total": {
+            "title": "Total",
+            "type": "number"
+          }
+        },
+        "required": [
+          "generate",
+          "harvest",
+          "total"
+        ],
+        "title": "ProbeTiming",
+        "type": "object"
+      },
+      "ProbeWearSpec": {
+        "description": "/probe's optional ``wear``: wear the probe's pick when it has one.",
+        "properties": {
+          "alpha": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "absent -> the probe's alpha",
+            "title": "Alpha"
+          },
+          "dose_policy": {
+            "anyOf": [
+              {
+                "enum": [
+                  "flat",
+                  "predicted"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dose Policy"
+          },
+          "lever_kind": {
+            "anyOf": [
+              {
+                "enum": [
+                  "absolute",
+                  "contrast"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Lever Kind"
+          }
+        },
+        "title": "ProbeWearSpec",
+        "type": "object"
+      },
+      "ProgressGens": {
+        "additionalProperties": false,
+        "properties": {
+          "n_gens": {
+            "title": "N Gens",
+            "type": "integer"
+          },
+          "harvested": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Harvested",
+            "type": "array"
+          }
+        },
+        "required": [
+          "n_gens",
+          "harvested"
+        ],
+        "title": "ProgressGens",
+        "type": "object"
+      },
+      "ProgressResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LoomProgress"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "session",
+          "progress"
+        ],
+        "title": "ProgressResponse",
+        "type": "object"
+      },
+      "PromptModeDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "temperature": {
+            "title": "Temperature",
+            "type": "number"
+          },
+          "top_p": {
+            "title": "Top P",
+            "type": "number"
+          },
+          "stop_strings": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Strings"
+          },
+          "chat_template_present": {
+            "title": "Chat Template Present",
+            "type": "boolean"
+          },
+          "modelc_header_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Modelc Header Name"
+          },
+          "modelc_header": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Modelc Header"
+          },
+          "modelc_header_is_bare": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Modelc Header Is Bare"
+          },
+          "raw_turn_join": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Raw Turn Join"
+          },
+          "raw_history_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Raw History Note"
+          }
+        },
+        "required": [
+          "temperature",
+          "top_p",
+          "stop_strings",
+          "chat_template_present"
+        ],
+        "title": "PromptModeDetail",
+        "type": "object"
+      },
+      "RerollResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "dream": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dream"
+          },
+          "tail_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Tail Kind"
+          },
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "reply": {
+            "title": "Reply",
+            "type": "string"
+          },
+          "replaced": {
+            "title": "Replaced",
+            "type": "string"
+          },
+          "reroll_n": {
+            "title": "Reroll N",
+            "type": "integer"
+          },
+          "n_turns": {
+            "title": "N Turns",
+            "type": "integer"
+          },
+          "dropped_messages": {
+            "title": "Dropped Messages",
+            "type": "integer"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "elapsed_s": {
+            "title": "Elapsed S",
+            "type": "number"
+          }
+        },
+        "required": [
+          "session",
+          "branch",
+          "reply",
+          "replaced",
+          "reroll_n",
+          "n_turns",
+          "dropped_messages",
+          "worn",
+          "elapsed_s"
+        ],
+        "title": "RerollResponse",
+        "type": "object"
+      },
+      "ResetResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "cleared": {
+            "const": true,
+            "title": "Cleared",
+            "type": "boolean"
+          },
+          "worn": {
+            "title": "Worn",
+            "type": "null"
+          }
+        },
+        "required": [
+          "session",
+          "cleared",
+          "worn"
+        ],
+        "title": "ResetResponse",
+        "type": "object"
+      },
+      "RestoreResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "restored": {
+            "const": true,
+            "title": "Restored",
+            "type": "boolean"
+          },
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "n_turns": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "N Turns",
+            "type": "object"
+          },
+          "n_looms": {
+            "title": "N Looms",
+            "type": "integer"
+          },
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Id"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "futures": {
+            "items": {
+              "$ref": "#/components/schemas/Future"
+            },
+            "title": "Futures",
+            "type": "array"
+          }
+        },
+        "required": [
+          "session",
+          "restored",
+          "file",
+          "n_turns",
+          "n_looms",
+          "loom_id",
+          "worn",
+          "futures"
+        ],
+        "title": "RestoreResponse",
+        "type": "object"
+      },
+      "Ruler": {
+        "additionalProperties": false,
+        "properties": {
+          "norm_ref_in_force": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Norm Ref In Force"
+          },
+          "norm_ref_in_force_mean": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Norm Ref In Force Mean"
+          },
+          "which": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Which"
+          },
+          "alternatives": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/RulerAlternative"
+            },
+            "title": "Alternatives",
+            "type": "object"
+          },
+          "note": {
+            "title": "Note",
+            "type": "string"
+          }
+        },
+        "required": [
+          "norm_ref_in_force",
+          "norm_ref_in_force_mean",
+          "which",
+          "alternatives",
+          "note"
+        ],
+        "title": "Ruler",
+        "type": "object"
+      },
+      "RulerAlternative": {
+        "additionalProperties": false,
+        "properties": {
+          "norm_ref": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Norm Ref",
+            "type": "array"
+          },
+          "mean": {
+            "title": "Mean",
+            "type": "number"
+          },
+          "in_force": {
+            "title": "In Force",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "norm_ref",
+          "mean",
+          "in_force"
+        ],
+        "title": "RulerAlternative",
+        "type": "object"
+      },
+      "SessionBody": {
+        "additionalProperties": true,
+        "description": "POST /unwear, /reset, /restore.",
+        "properties": {
+          "session": {
+            "description": "the session tag; required on every POST",
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session"
+        ],
+        "title": "SessionBody",
+        "type": "object"
+      },
+      "SessionRow": {
+        "additionalProperties": false,
+        "description": "``SessionListing.to_json()``.",
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "file": {
+            "title": "File",
+            "type": "string"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "in_memory": {
+            "title": "In Memory",
+            "type": "boolean"
+          },
+          "n_turns": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "N Turns",
+            "type": "object"
+          },
+          "n_messages": {
+            "title": "N Messages",
+            "type": "integer"
+          },
+          "n_looms": {
+            "title": "N Looms",
+            "type": "integer"
+          },
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Id"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "$ref": "#/components/schemas/WornRecord"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "in-memory rows: the live wear; on-disk rows: the persisted record",
+            "title": "Worn"
+          },
+          "modified_unix": {
+            "title": "Modified Unix",
+            "type": "number"
+          },
+          "modified_iso": {
+            "title": "Modified Iso",
+            "type": "string"
+          },
+          "size_bytes": {
+            "title": "Size Bytes",
+            "type": "integer"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "required": [
+          "session",
+          "file",
+          "ok",
+          "in_memory",
+          "n_turns",
+          "n_messages",
+          "n_looms",
+          "loom_id",
+          "worn",
+          "modified_unix",
+          "modified_iso",
+          "size_bytes",
+          "error"
+        ],
+        "title": "SessionRow",
+        "type": "object"
+      },
+      "SessionsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "sessions": {
+            "items": {
+              "$ref": "#/components/schemas/SessionRow"
+            },
+            "title": "Sessions",
+            "type": "array"
+          },
+          "n_sessions": {
+            "title": "N Sessions",
+            "type": "integer"
+          },
+          "persistence": {
+            "$ref": "#/components/schemas/StoreInfo"
+          }
+        },
+        "required": [
+          "sessions",
+          "n_sessions",
+          "persistence"
+        ],
+        "title": "SessionsResponse",
+        "type": "object"
+      },
+      "Spread": {
+        "additionalProperties": false,
+        "properties": {
+          "mean_pairwise_distance": {
+            "title": "Mean Pairwise Distance",
+            "type": "number"
+          },
+          "n_scored": {
+            "title": "N Scored",
+            "type": "integer"
+          },
+          "loudness_ref": {
+            "title": "Loudness Ref",
+            "type": "number"
+          }
+        },
+        "required": [
+          "mean_pairwise_distance",
+          "n_scored",
+          "loudness_ref"
+        ],
+        "title": "Spread",
+        "type": "object"
+      },
+      "StateResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "histories": {
+            "additionalProperties": {
+              "items": {
+                "$ref": "#/components/schemas/HistoryMessage"
+              },
+              "type": "array"
+            },
+            "title": "Histories",
+            "type": "object"
+          },
+          "worn": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WornPublic"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Id"
+          },
+          "futures": {
+            "items": {
+              "$ref": "#/components/schemas/Future"
+            },
+            "title": "Futures",
+            "type": "array"
+          },
+          "n_looms": {
+            "title": "N Looms",
+            "type": "integer"
+          },
+          "loom_in_progress": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LoomProgress"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "probe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ProbeReceipt"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "probe_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probe Note"
+          }
+        },
+        "required": [
+          "session",
+          "histories",
+          "worn",
+          "loom_id",
+          "futures",
+          "n_looms",
+          "loom_in_progress",
+          "probe",
+          "probe_note"
+        ],
+        "title": "StateResponse",
+        "type": "object"
+      },
+      "StoreInfo": {
+        "additionalProperties": false,
+        "description": "``SessionStore.to_json()``.",
+        "properties": {
+          "enabled": {
+            "title": "Enabled",
+            "type": "boolean"
+          },
+          "dir": {
+            "title": "Dir",
+            "type": "string"
+          },
+          "writes": {
+            "title": "Writes",
+            "type": "integer"
+          },
+          "write_failures": {
+            "title": "Write Failures",
+            "type": "integer"
+          },
+          "restored_sessions": {
+            "title": "Restored Sessions",
+            "type": "integer"
+          },
+          "failed_sessions": {
+            "title": "Failed Sessions",
+            "type": "integer"
+          },
+          "last_error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Error"
+          }
+        },
+        "required": [
+          "enabled",
+          "dir",
+          "writes",
+          "write_failures",
+          "restored_sessions",
+          "failed_sessions",
+          "last_error"
+        ],
+        "title": "StoreInfo",
+        "type": "object"
+      },
+      "TableRow": {
+        "additionalProperties": true,
+        "description": "A row of a copy table (/info's policies, kinds, dose policies): the\n``key`` is the contract; the other fields are prose that grows.",
+        "properties": {
+          "key": {
+            "title": "Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "key"
+        ],
+        "title": "TableRow",
+        "type": "object"
+      },
+      "TruncateBody": {
+        "additionalProperties": true,
+        "properties": {
+          "session": {
+            "description": "the session tag; required on every POST",
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "default": "loom",
+            "enum": [
+              "base",
+              "loom"
+            ],
+            "title": "Branch",
+            "type": "string"
+          },
+          "keep_turns": {
+            "minimum": 0,
+            "title": "Keep Turns",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "session",
+          "keep_turns"
+        ],
+        "title": "TruncateBody",
+        "type": "object"
+      },
+      "TruncateResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "n_turns": {
+            "title": "N Turns",
+            "type": "integer"
+          },
+          "dropped_messages": {
+            "title": "Dropped Messages",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "session",
+          "branch",
+          "n_turns",
+          "dropped_messages"
+        ],
+        "title": "TruncateResponse",
+        "type": "object"
+      },
+      "UndoResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "branch": {
+            "title": "Branch",
+            "type": "string"
+          },
+          "popped": {
+            "$ref": "#/components/schemas/PoppedTurn"
+          },
+          "n_turns": {
+            "title": "N Turns",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "session",
+          "branch",
+          "popped",
+          "n_turns"
+        ],
+        "title": "UndoResponse",
+        "type": "object"
+      },
+      "UnwearResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "worn": {
+            "title": "Worn",
+            "type": "null"
+          }
+        },
+        "required": [
+          "session",
+          "worn"
+        ],
+        "title": "UnwearResponse",
+        "type": "object"
+      },
+      "WearBody": {
+        "additionalProperties": true,
+        "properties": {
+          "session": {
+            "description": "the session tag; required on every POST",
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "alpha": {
+            "default": 0.5,
+            "title": "Alpha",
+            "type": "number"
+          },
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "the draw this wear belongs to; a stale id is refused (stale_loom)",
+            "title": "Loom Id"
+          },
+          "dose_policy": {
+            "anyOf": [
+              {
+                "enum": [
+                  "flat",
+                  "predicted"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dose Policy"
+          },
+          "lever_kind": {
+            "anyOf": [
+              {
+                "enum": [
+                  "absolute",
+                  "contrast"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Lever Kind"
+          }
+        },
+        "required": [
+          "session",
+          "index"
+        ],
+        "title": "WearBody",
+        "type": "object"
+      },
+      "WearCodeBody": {
+        "additionalProperties": true,
+        "description": "POST /wear_code: wear a code from another conversation (no UI calls it; the API keeps it).",
+        "properties": {
+          "session": {
+            "description": "the session tag; required on every POST",
+            "minLength": 1,
+            "title": "Session",
+            "type": "string"
+          },
+          "alpha": {
+            "default": 0.35,
+            "title": "Alpha",
+            "type": "number"
+          },
+          "group": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Group"
+          },
+          "axis": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Axis"
+          },
+          "pole": {
+            "anyOf": [
+              {
+                "enum": [
+                  "low",
+                  "high"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Pole"
+          },
+          "rank": {
+            "default": 0,
+            "title": "Rank",
+            "type": "integer"
+          },
+          "random_seed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Random Seed"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Code"
+          },
+          "code_kind": {
+            "default": "absolute",
+            "enum": [
+              "absolute",
+              "differential"
+            ],
+            "title": "Code Kind",
+            "type": "string"
+          },
+          "dose_policy": {
+            "anyOf": [
+              {
+                "const": "flat",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Dose Policy"
+          }
+        },
+        "required": [
+          "session"
+        ],
+        "title": "WearCodeBody",
+        "type": "object"
+      },
+      "WearCodeResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "worn": {
+            "$ref": "#/components/schemas/WornPublic"
+          },
+          "sites": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Sites",
+            "type": "array"
+          },
+          "source": {
+            "additionalProperties": true,
+            "description": "OPEN (dead path): explicit_code | random_direction | bank_group",
+            "title": "Source",
+            "type": "object"
+          }
+        },
+        "required": [
+          "session",
+          "worn",
+          "sites",
+          "source"
+        ],
+        "title": "WearCodeResponse",
+        "type": "object"
+      },
+      "WearResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "session": {
+            "title": "Session",
+            "type": "string"
+          },
+          "worn": {
+            "$ref": "#/components/schemas/WornPublic"
+          },
+          "sites": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Sites",
+            "type": "array"
+          },
+          "dose": {
+            "$ref": "#/components/schemas/DoseReceipt"
+          },
+          "effective_alpha": {
+            "$ref": "#/components/schemas/EffectiveAlpha"
+          },
+          "lever_kind": {
+            "title": "Lever Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session",
+          "worn",
+          "sites",
+          "dose",
+          "effective_alpha",
+          "lever_kind"
+        ],
+        "title": "WearResponse",
+        "type": "object"
+      },
+      "WorkerHealth": {
+        "additionalProperties": false,
+        "properties": {
+          "url": {
+            "title": "Url",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "ok",
+              "busy",
+              "down",
+              "error"
+            ],
+            "title": "State",
+            "type": "string"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          }
+        },
+        "required": [
+          "url",
+          "state",
+          "latency_ms",
+          "detail"
+        ],
+        "title": "WorkerHealth",
+        "type": "object"
+      },
+      "WornIndexAlpha": {
+        "additionalProperties": false,
+        "description": "/loom's ``drawn_under_wear``: what was ATTACHED for this draw.",
+        "properties": {
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "alpha": {
+            "title": "Alpha",
+            "type": "number"
+          },
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Id"
+          }
+        },
+        "required": [
+          "index",
+          "alpha",
+          "loom_id"
+        ],
+        "title": "WornIndexAlpha",
+        "type": "object"
+      },
+      "WornPublic": {
+        "additionalProperties": false,
+        "description": "``LoomSession.worn_public()`` — the session's wear, minus the vectors.",
+        "properties": {
+          "index": {
+            "description": "candidate index; -1 for a /wear_code wear",
+            "title": "Index",
+            "type": "integer"
+          },
+          "alpha": {
+            "title": "Alpha",
+            "type": "number"
+          },
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Id"
+          },
+          "per_site_norms_at_alpha1": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Per Site Norms At Alpha1",
+            "type": "array"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "active": {
+            "description": "false: restored metadata, nothing attached",
+            "title": "Active",
+            "type": "boolean"
+          },
+          "dose": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DoseReceipt"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "lever_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lever Kind"
+          }
+        },
+        "required": [
+          "index",
+          "alpha",
+          "loom_id",
+          "per_site_norms_at_alpha1",
+          "code",
+          "active",
+          "dose",
+          "lever_kind"
+        ],
+        "title": "WornPublic",
+        "type": "object"
+      },
+      "WornRecord": {
+        "additionalProperties": false,
+        "description": "``WornSnapshot.to_json()`` — a wear as persisted (GET /sessions, on-disk rows).",
+        "properties": {
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "alpha": {
+            "title": "Alpha",
+            "type": "number"
+          },
+          "loom_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Id"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "per_site_norms_at_alpha1": {
+            "items": {
+              "type": "number"
+            },
+            "title": "Per Site Norms At Alpha1",
+            "type": "array"
+          },
+          "loom_dir": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loom Dir"
+          },
+          "map_fingerprint": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Map Fingerprint"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "dose": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "the persisted dose receipt, as stored",
+            "title": "Dose"
+          },
+          "lever_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lever Kind"
+          },
+          "contrast_peers": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contrast Peers"
+          }
+        },
+        "required": [
+          "index",
+          "alpha",
+          "loom_id",
+          "code",
+          "per_site_norms_at_alpha1",
+          "loom_dir",
+          "map_fingerprint",
+          "source",
+          "dose",
+          "lever_kind",
+          "contrast_peers"
+        ],
+        "title": "WornRecord",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  }
+}

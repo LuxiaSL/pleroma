@@ -1,0 +1,178 @@
+# Pattern data for G3's referent rule (check_referents.py).
+#
+# Three sections, each one regex per line, `#` comments, blank lines ignored.
+# Lines before the first section header belong to [allow].
+#
+#   [allow]  Text that is a legitimate identifier rather than a pointer into
+#            this tree. Each pattern is BLANKED OUT of the line before referents
+#            are looked for, so a pattern wider than its reason hides real
+#            violations — keep each one anchored to the idiom it names.
+#
+#   [defer]  Prose that defers meaning to something a reader cannot open. These
+#            are matched, not masked: a hit is a violation.
+#
+#   [cite]   Provenance idioms: a citation of a document, an arm, a stage, a
+#            pre-registration, an item code, a commit. Matched, not masked — a hit
+#            is a violation. Outside the tree that held those documents the
+#            citation resolves nowhere, and the code is the receipt for what the
+#            code does. Git keeps the history of how it got here.
+#
+# All three sets are maintained, not closed. A new identifier idiom earns an
+# [allow] line with the reason above it; a new way of burying meaning earns a
+# [defer] line; a new citation idiom earns a [cite] line.
+#
+# [allow] and [cite] patterns are matched case-sensitively, because the
+# capitalisation is usually what distinguishes an identifier or a code from the
+# prose around it; a [cite] pattern that wants both spellings says so with an
+# inline `(?i:...)`. [defer] patterns are matched case-insensitively, because a
+# phrase is a phrase whether or not it begins a sentence.
+
+[allow]
+
+# Public URLs are reachable by definition: the rule asks for a reader who can
+# follow the name, and a link is the one pointer that always works. Includes the
+# lineage links in the README and the citations in module docstrings.
+https?://[^\s`'"<>)\]]+
+
+# A shebang is a kernel instruction, not prose, and the interpreter it names is
+# on the machine rather than in the repository. The tokenizer reports it as a
+# comment because that is what it lexically is.
+^#!\S+
+
+# The value after a flag in a usage example is an argument the operator supplies:
+# a directory on their machine, or a file the command is about to write. One value
+# per flag is masked, deliberately — masking a second would let a flag hide the
+# referent in the rest of the sentence.
+--[a-z0-9-][a-z0-9-]*[= ]\S+
+
+# An environment assignment in a usage example, same reason: the value is the
+# operator's, and the variable is what the reader needs.
+\b[A-Z][A-Z0-9_]*=\S+
+
+# Hugging Face model ids have exactly the shape of a repo path and are not one.
+# They are resolved by the hub, from the org prefix; the orgs whose models this
+# instrument has presets for are listed rather than matched generically, so a
+# genuine two-segment path cannot hide behind the pattern.
+\b(?:meta-llama|google|Qwen|allenai|deepseek-ai|mistralai|EleutherAI|microsoft|HuggingFaceTB|openai-community|nvidia|tiiuae)/[A-Za-z0-9._-]+
+
+# The on-disk data schema. These name the SHAPE of a run directory — what the
+# extractor writes and the analysis reads — not files that live in this
+# repository. Help text and docstrings illustrate the layout on purpose.
+\boutputs/[A-Za-z0-9_.<>/*=-]*
+\bruns/[A-Za-z0-9_.<>/*-]*
+\bsignatures(?:_v[0-9]+)?/[A-Za-z0-9_.<>/*-]*
+\braw(?:_tensors)?/[A-Za-z0-9_.<>/*-]*
+\bcalibration/[A-Za-z0-9_.<>/*-]*
+\bbattery/[A-Za-z0-9_.<>/*-]*
+\bgen_[0-9A-Za-z_<>*]*\.(?:npz|json)
+\bmetadata\.json
+\breplay_manifest\.json
+\breplay_index\.json
+\bresults\.json
+\bpca_model\.pkl
+\bpositional_means\.npz
+\bsignature\.npz
+\bfeatures\.npz
+
+# The default artifact location on the operator's machine. It is a location this
+# code computes rather than a file in this repository, and stating it is the whole
+# job of the docstring that names it — a reader has to know where a run's output
+# lands. Anchored to the XDG spelling so it cannot mask an arbitrary home path.
+~/\.local/share
+
+# Files that live inside a model checkpoint directory. They belong to the
+# checkpoint the operator points at, and what they contain is the reason the
+# comment names them.
+\bconfig\.json
+\bgeneration_config\.json
+\btokenizer(?:_config)?\.json
+
+# Metasyntactic package names in the import-semantics illustration: `a.b.c`,
+# `mod.py` and their file forms stand for any module, the way `foo` does.
+\b[a-z]/(?:[a-z]/)*__init__\.py
+\bmod\.py
+
+# A numbered section of a document that ships in this tree resolves: the reader
+# opens the file and finds the heading. Anchored to the shipped document names so
+# a bare `§` — a section of a document that is not here — stays a citation.
+\b(?:docs/)?(?:FINDINGS|API)\.md\s+§\s*[0-9]+[a-z]?(?:\.[0-9]+)*
+\b(?:README|QUICKSTART|CONTRIBUTING)\.md\s+§\s*[0-9]+[a-z]?(?:\.[0-9]+)*
+
+# A printf zero-padding conversion (`gen_%03d`, `shard_%02d`) is a format spec in a
+# log call, not an item code; the [cite] rule would read `03d` as one.
+%0[0-9]+d\b
+
+# The HTTP routes this package serves: `/api/v1/...` and the legacy `/loom/...`
+# aliases are URL paths on the server, not files, and docs/API.md documents them.
+(?<![\w.~/])/api/v1(?:/[A-Za-z0-9_{}<>*-]+)*
+(?<![\w.~/])/loom/[a-z_]+\b
+
+[defer]
+
+# Meaning that lives in a conversation. Each of these leaves a reader holding
+# this repository with nothing to open.
+\bsee the (?:earlier|previous|prior|above)\b
+\bas discussed\b
+\bas decided elsewhere\b
+\bas (?:noted|described|agreed|ruled) elsewhere\b
+\bper the (?:earlier|previous|prior)\b
+\bthe previous discussion\b
+\bsee above in\b
+\bas (?:we )?(?:agreed|ruled) (?:earlier|above)\b
+\bfor the reasons? (?:discussed|given) (?:earlier|above|when)\b
+
+[cite]
+
+# A section mark cites a numbered part of a document that is not in this tree.
+# Numbered SECTIONS of the analysis are a different thing and stay: section 9 is a
+# module here, and a reader can open it.
+§
+
+# A pre-registration, a ruling, an addendum, a codicil, a journal entry: document
+# kinds whose whole purpose is to sit outside the code and be cited. What the code
+# depends on is the standing fact, stated here, not the citation.
+(?i:prereg)
+(?i:\baddendu[m]\b)
+(?i:\bcodici[l]\b)
+(?i:\brulin[g]\b)
+(?i:\bjourna[l]\b)
+
+# A named arm or milestone of the research programme. The letter-and-digit code is
+# an index into a battery plan, not a name this repository defines. `arm A5` and a
+# bare `A5` are the same citation; a turn label is masked above before this runs.
+# A bare code is the one pattern here whose shape a legitimate label could share, so
+# a new such label earns an [allow] line anchored to what makes it one, the way the
+# turn label is anchored to its role word.
+\b[Aa]rms?\s+[A-Z][0-9]\b
+\bA[1-7]\b
+\bM[1-9]\b
+
+# A specification clause cited by code rather than by name: `spec P-B`. Plain
+# `spec` is ordinary vocabulary here — a generation spec, an intervention spec —
+# so the code is what makes this a citation.
+\b[Ss]pe[c]\s+[A-Z](?:-[A-Z0-9]+)+\b
+
+# A bare item code from a rake list or a work plan: `12d`, `14e`. Two digits and
+# one letter, standing alone — a preset key (`3b`, `8b`) is one digit and a
+# hyphenated model name (`gemma3-27b`) is excluded by the left guard. A two-digit
+# quantity with a one-letter unit would share the shape: `30x`, `16k`. Those earn an
+# [allow] line for the unit when one appears, rather than a wider guard here, which
+# would also excuse a real code.
+(?<![\w.-])[0-9]{2}[a-z](?![\w-])
+
+# A commit hash. Git is the receipt for what changed; a hash quoted in prose asks
+# a reader to go somewhere else to find out what the code in front of them does.
+# At least one digit and one letter, so an English word spelled in hex is not one.
+(?<![\w.-])(?=[0-9a-f]*[a-f])(?=[0-9a-f]*[0-9])[0-9a-f]{7,40}(?![\w.-])
+
+# pleroma's private planning, results and run documents. They never ship, so a
+# citation of one resolves nowhere for a reader of the public tree; the rule is to
+# restate what the code depends on instead.
+\bRESULTS(?:\.md)?\b
+\bREFACTOR-PLAN\b
+\bHANDOFF-[0-9A-Z]
+\bLOOM-DRIVE\b
+\bRUNBOOK-[0-9A-Za-z]
+\bJUDGE-POLICY\b
+\bJUDGEBENCH\b
+\bANALYSIS-20[0-9]{2}

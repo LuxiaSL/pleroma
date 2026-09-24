@@ -1,0 +1,38 @@
+# PUBLIC TEST FIXTURE — a deployment for tests/fixtures/profiles/modelc-format-70b.toml.
+# The private 70B deployment's SHAPE (a gpu-lane worker on a second device, a
+# pinned band beside the map, a [build] section) with placeholder paths and
+# shas. Nothing reads these files; the CLI tests render argv from them.
+profile = "modelc-format-70b"
+calib_dir = "artifacts/calibration"
+work_dir = "artifacts/loom_sessions"
+host = "0.0.0.0"
+port = 8802
+allow_lan = true
+
+[map]
+path = "artifacts/map/loom_map_modelc_v1a_full_r64.npz"
+sha256 = "0000000000000000000000000000000000000000000000000000000000000001"
+
+[discriminants]
+path = "artifacts/manifest_70b.npz"
+sha256 = "0000000000000000000000000000000000000000000000000000000000000002"
+
+[dose_band]
+path = "artifacts/map/loom_map_modelc_v1a_full_r64.npz.doseband.json"
+sha256 = "0000000000000000000000000000000000000000000000000000000000000003"
+
+[worker]
+address = "127.0.0.1:8803"
+timeout_s = 900
+lane = "gpu"
+device = "cuda:0"
+bins_device = "cuda:1"
+
+[build]
+pairs_dir = "artifacts/map/pairs"
+out_dir = "artifacts/golden"
+levers = { path = "artifacts/map/levers/levers.npz", sha256 = "0000000000000000000000000000000000000000000000000000000000000004" }
+hiddens = [ { path = "artifacts/map/hiddens/mean_hiddens.npz", sha256 = "0000000000000000000000000000000000000000000000000000000000000005" } ]
+bins = { path = "artifacts/bins/bins_features.npz" }
+shelf_map = { path = "artifacts/map/shelf/loom_map_r64.npz", sha256 = "0000000000000000000000000000000000000000000000000000000000000006" }
+cv_report = { path = "artifacts/cv/v1a_report.json" }

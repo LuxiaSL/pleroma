@@ -1,0 +1,101 @@
+/* ── THEME ─────────────────────────────────────────────────────────────────
+   The palette is loom_ui.html's, token for token: warp (cool structure,
+   the loom), weft (the worn/bent accent), alarm, ok, and the dose-zone
+   swatches. Dark is the default; `data-theme` on <html> is auto|dark|light,
+   and "auto" follows prefers-color-scheme. Every colour in the app (and in
+   the three.js view, read at runtime) comes from these tokens. */
+:root {
+  color-scheme: dark;
+  --bg: #0a0d10;
+  --bg-panel: #0e1216;
+  --bg-sunk: #070a0c;
+  --bg-raise: #141a20;
+  --hair: #1e262d;
+  --hair-strong: #2c3740;
+  --ink: #c6d0d8;
+  --ink-dim: #93a1ac;
+  --ink-faint: #75828d;
+  --warp: #5fb6c4;
+  --warp-dim: #2b5a63;
+  --weft: #e0a94b;
+  --weft-dim: #6b4f1e;
+  --alarm: #e06a5c;
+  --ok: #6fbf8a;
+  --z-inert: #1a2127;
+  --z-subliminal: #14414c;
+  --z-threshold: #4b4527;
+  --z-audible: #6d4a17;
+  --z-overdriven: #5a2320;
+  --z-uncalibrated: #24272b;
+  --tier-measured: #2f6e4c;
+  --tier-derived: #8a6a1f;
+  --tier-none: #8a3a30;
+  --focus: #8fd3df;
+
+  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --r: 3px;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.025) inset, 0 8px 24px -12px rgba(0, 0, 0, 0.8);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    color-scheme: light;
+    --bg: #eceef0;
+    --bg-panel: #f7f8f9;
+    --bg-sunk: #e2e5e8;
+    --bg-raise: #ffffff;
+    --hair: #d3d8dd;
+    --hair-strong: #b4bcc4;
+    --ink: #1d252b;
+    --ink-dim: #4a5660;
+    --ink-faint: #5a646e;
+    --warp: #1f7684;
+    --warp-dim: #9fc9d0;
+    --weft: #97640b;
+    --weft-dim: #e0c68e;
+    --alarm: #b23528;
+    --ok: #2b7a4d;
+    --z-inert: #dfe3e7;
+    --z-subliminal: #b9dde3;
+    --z-threshold: #e6dcb2;
+    --z-audible: #efd0a0;
+    --z-overdriven: #f0bdb6;
+    --z-uncalibrated: #cdd2d6;
+    --tier-measured: #2b7a4d;
+    --tier-derived: #97640b;
+    --tier-none: #b23528;
+    --focus: #1f7684;
+    --shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 6px 18px -12px rgba(0, 0, 0, 0.35);
+  }
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #eceef0;
+  --bg-panel: #f7f8f9;
+  --bg-sunk: #e2e5e8;
+  --bg-raise: #ffffff;
+  --hair: #d3d8dd;
+  --hair-strong: #b4bcc4;
+  --ink: #1d252b;
+  --ink-dim: #4a5660;
+  --ink-faint: #5a646e;
+  --warp: #1f7684;
+  --warp-dim: #9fc9d0;
+  --weft: #97640b;
+  --weft-dim: #e0c68e;
+  --alarm: #b23528;
+  --ok: #2b7a4d;
+  --z-inert: #dfe3e7;
+  --z-subliminal: #b9dde3;
+  --z-threshold: #e6dcb2;
+  --z-audible: #efd0a0;
+  --z-overdriven: #f0bdb6;
+  --z-uncalibrated: #cdd2d6;
+  --tier-measured: #2b7a4d;
+  --tier-derived: #97640b;
+  --tier-none: #b23528;
+  --focus: #1f7684;
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 6px 18px -12px rgba(0, 0, 0, 0.35);
+}
