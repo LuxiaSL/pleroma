@@ -90,7 +90,9 @@ jobs:
         env:
           G2_BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          if [ -n "$G2_BASE" ] && git cat-file -e "$G2_BASE^{commit}" 2>/dev/null; then
+          # A base with no merge base (a first push, or history replaced by a
+          # force-push) has nothing to measure against.
+          if [ -n "$G2_BASE" ] && git merge-base "$G2_BASE" HEAD > /dev/null 2>&1; then
             python -m tools.check_test_retention --base "$G2_BASE" --head HEAD
           else
             echo "::notice title=G2::no base commit to measure against (first push)"
